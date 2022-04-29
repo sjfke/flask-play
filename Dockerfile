@@ -7,8 +7,8 @@ ENV BUILDER_VERSION 1.0
 
 # TODO: Set labels used in OpenShift to describe the builder image
 LABEL io.k8s.name="Flask" \
-      io.k8s.description="Lorem Ipsum Flask Application for Docker" \
-      io.k8s.display-name="Lorem Ipsum" \
+      io.k8s.description="Sandox for Flask Application for Docker" \
+      io.k8s.display-name="Flask Sandbox" \
       io.k8s.version="0.1.0" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="Lorem Ipsum,0.1.0,Flask"
@@ -16,6 +16,8 @@ LABEL io.k8s.name="Flask" \
 ENV PORT=8080
 WORKDIR /usr/src/app
 
+# Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
+# $ pipenv run pip freeze > requirements.txt # generates requirements.txt
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
