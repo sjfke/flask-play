@@ -1,11 +1,14 @@
-# Build Flask Docker container and deploy to OpenShift
+# Build Flask Docker container and deploy using Docker
 
-## build instructions
+## Simple Build instructions
+```javascript
 $ cd C:\Users\geoff\git\docker-play
 $ docker build --squash -t json-test $PWD
 $ docker run --name crazy-dog -d -p 8081:8080 json-test
 $ docker logs -f crazy-dog
 $ docker rm --force crazy-dog
+```
+
 # https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
 $ docker image prune # clean up dangling images
 $ docker system prune 
@@ -40,6 +43,8 @@ URLS:
 * https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask
 * https://flask.palletsprojects.com/en/2.1.x/testing/
 * [Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
+* [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+* [MarkDown: Code Blocks](https://rdmd.readme.io/docs/code-blocks)
 
 This repository provides a simple Python web application implemented using the Flask web framework and executed using 
 ``gunicorn``. It is intended to be used to demonstrate deployment of Python web applications to OpenShift 4 using 
