@@ -1,57 +1,67 @@
 # Build Flask Docker container and deploy using Docker
 
-## Simple Build instructions
-```javascript
+## Overly Simple Build instructions
+```bash
 $ cd C:\Users\geoff\git\docker-play
 $ docker build --squash -t json-test $PWD
 $ docker run --name crazy-dog -d -p 8081:8080 json-test
 $ docker logs -f crazy-dog
 $ docker rm --force crazy-dog
 ```
-
-# https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+## Docker Image Maintenance
+```bash
 $ docker image prune # clean up dangling images
 $ docker system prune 
-# Once compose.yaml is created
+$ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no tags
+```
+* [DigitalOcean: How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
+
+## Docker Compose
+```bash
+# Once compose.yaml is created, see references (ii, iii)
 $ docker compose build
 $ docker compose up -d 
 $ docker compose down
-# needs git bash? need to check powershell
-bash$ $ docker rmi $(docker images -f 'dangling=true' -q) # clean up dangling images
-# different ways to use docker compose (down --rmi removes local untagged images)
 $ docker compose down --rmi local; docker compose build; docker compose up -d
 $ docker compose down --rmi local; docker compose up -d --build
 
-# Project uses 'pipenv' and Pipfile, Pipfile.lock, Docker is using requirements.txt
-$ pipenv run pip freeze > requirements.txt # generate requirements.txt
+# Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
+$ pipenv run pip freeze > requirements.txt # generates requirements.txt
+```
+* 1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)
+* 2. [Docker: Compose specification](https://docs.docker.com/compose/compose-file)
+* 3. [Docker: Compose specification - ports](https://docs.docker.com/compose/compose-file/#ports)
 
-URLS:
-* https://pypi.org/project/Flask/
-* https://pythonbasics.org/flask-http-methods/
-* https://flask.palletsprojects.com/en/2.0.x/quickstart/
-* https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask
-* https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask
-* https://jinja.palletsprojects.com/en/2.11.x/templates/
-* https://docs.docker.com/compose/
-* https://docs.docker.com/compose/compose-file
-* https://docs.docker.com/compose/compose-file/#ports
-* https://getbootstrap.com/docs/4.0/components/forms/
-* https://pyformat.info/
-* [Bootstrap: Custom button styles for actions in forms, dialogs](https://getbootstrap.com/docs/4.0/components/buttons/)
-* [Bootstrap: Reboot, a collection of element-specific CSS changes](https://getbootstrap.com/docs/4.0/content/reboot/)
-* https://mdbootstrap.com/snippets/jquery/mdbootstrap/2857435
-* https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask
-* https://flask.palletsprojects.com/en/2.1.x/testing/
-* [Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
+## Flask, Jinja and Python References
+
+* [*PyPi:* Flask is a lightweight WSGI web application framework](https://pypi.org/project/Flask/)
+* [*PythonBasics:* Flask HTTP methods, handle GET & POST requests](https://pythonbasics.org/flask-http-methods/)
+* [*PalletsProjects:* Flask Quickstart](https://flask.palletsprojects.com/en/2.1.x/quickstart/)
+* [*StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
+* [*StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
+* [*PalletsProjects:* Jinja 2.11.x Template Designer Documentation](https://jinja.palletsprojects.com/en/2.11.x/templates/)
+* [*PyFormat:* Using % and .format() for great good!](https://pyformat.info/)
+* [*DigitalOcean:* How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
+* [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.1.x/testing/)
+* [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
+
+## Bootstrap References
+* [*Bootstrap:* Bootstrap 4.0 Introduction](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+* [*Bootstrap:* Custom button styles for actions in forms, dialogs](https://getbootstrap.com/docs/4.0/components/buttons/)
+* [*Bootstrap:* Reboot, a collection of element-specific CSS changes](https://getbootstrap.com/docs/4.0/content/reboot/)
+* [*Bootsrap:* Forms](https://getbootstrap.com/docs/4.0/components/forms/)
+* [*MDB Snippets:* Interactive Table Example](https://mdbootstrap.com/snippets/jquery/mdbootstrap/2857435)
+
+## Markdown References
 * [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 * [MarkDown: Code Blocks](https://rdmd.readme.io/docs/code-blocks)
 
 This repository provides a simple Python web application implemented using the Flask web framework and executed using 
-``gunicorn``. It is intended to be used to demonstrate deployment of Python web applications to OpenShift 4 using 
-[Podman](https://podman.io/) whose command-line very similar to [Docker](https://docs.docker.com/get-started/overview/) 
-in fact the suggestion in the documentation is to ``$ alias docker=podman #`` for compatibility with Docker scripts.
+``gunicorn``. 
+It is intended to be used to demonstrate building and test of Python Flask web applications using [Docker](https://docs.docker.com/get-started/overview/) 
 
-However, there are some minor differences, so building the docker image is also demonstrated with [Docker for Windows](https://docs.docker.com/desktop/windows/install/) on
+
+Building the docker image is also demonstrated with [Docker for Windows](https://docs.docker.com/desktop/windows/install/) on
  *Windows 10 Home edition* where only ```WSL 2``` is available. With *Windows 10 Pro* you can choose to use a 
  [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
@@ -79,24 +89,11 @@ need to be satisfied for this to work are:
 
 The example is derived from [Getting Started with Flask](https://scotch.io/tutorials/getting-started-with-flask-a-python-microframework) but has 
 been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site 
-changed to provide [Lorem Ipsum](https://en.wikipedia.org/wiki/Lorem_ipsum) pages from [Lorem IPsum Generators - The 14 Best](https://digital.com/lorem-ipsum-generators/), 
-and `isalive`, `isready` probe pages added for OpenShift (Kubernetes).
-
-Suggestion, there are many other *Lorem Ipsum* themes on [Lorem IPsum Generators - The 14 Best](https://digital.com/lorem-ipsum-generators/), so try adding a few more examples to become more comfortable with Flask.
+changed to provide a sandbox for testing Flask
 
 Other useful references:
-
-* [RedHat: Getting Started With Python](https://www.openshift.com/blog/getting-started-python)
 * [The best Docker base image for your Python application (February 2021)](https://pythonspeed.com/articles/base-image-python-docker-images/)
 * [Python: Official Docker Images](https://hub.docker.com/_/python)
-* [OpenShiftDemos: os-sample-python](https://github.com/OpenShiftDemos/os-sample-python)
-* [Publish Container Images to Docker Hub / Image registry with Podman](https://computingforgeeks.com/how-to-publish-docker-image-to-docker-hub-with-podman/)
-
-``Fedora 33`` and ``Windows 10 Home Edition`` were used for this project. Fedora 32 deprecated `docker` in favour of `podman`, while these are command-line compatible 
-there are some minor differences, so both are illustrated. In [Fedora 35 docker](https://fedoramagazine.org/docker-and-fedora-35/) has been reintroduced.
-
-
-* [Transitioning from Docker to Podman](https://developers.redhat.com/blog/2020/11/19/transitioning-from-docker-to-podman/)
 * [Windows Subsystem for Linux Documentation](https://docs.microsoft.com/en-us/windows/wsl/)
 * [Docker on Hyper-V vs WSL 2](https://superuser.com/questions/1561465/docker-on-hyper-v-vs-wsl-2)
 * [Install Docker Desktop on Windows](https://docs.docker.com/desktop/windows/install/)
