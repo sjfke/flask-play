@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Question1{% endblock %}
+{% block head %}<h1>Question1 Page</h1>{% endblock %}
+{% block body %}
+
+<table class="table table-dark table-striped">
+    <tr>
+        <th>Option1</th>
+        <th>Option2</th>
+        <th>Option3</th>
+        <th>Noun</th>
+    </tr>
+    {% for item in data %}
+        <tr>
+            <td> {{ item.Opt1 }} </td>
+            <td> {{ item.Opt2 }} </td>
+            <td> {{ item.Opt3 }} </td>
+            <td> {{ item.Noun }} </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
+
+
