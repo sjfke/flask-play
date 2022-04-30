@@ -7,11 +7,11 @@ ENV BUILDER_VERSION 1.0
 
 # TODO: Set labels used in OpenShift to describe the builder image
 LABEL io.k8s.name="Flask" \
-      io.k8s.description="Sandox for Flask Application for Docker" \
+      io.k8s.description="Sandbox for Flask Application for Docker" \
       io.k8s.display-name="Flask Sandbox" \
       io.k8s.version="0.1.0" \
       io.openshift.expose-services="8080:http" \
-      io.openshift.tags="Lorem Ipsum,0.1.0,Flask"
+      io.openshift.tags="Sandbox,0.1.0,Flask"
 
 ENV PORT=8080
 WORKDIR /usr/src/app
