@@ -95,25 +95,19 @@ def form_example():
 # }
 @application.route('/json-example', methods=['POST'])
 def json_example():
-    request_data = request.get_json()
-
-    language = request_data['language']
-    framework = request_data['framework']
-
-    # two keys are needed because of the nested object
-    python_version = request_data['version_info']['python']
-
-    # an index is needed because of the array
-    example = request_data['examples'][0]
-
-    boolean_test = request_data['boolean_test']
-
-    return '''
-           The language value is: {}
-           The framework value is: {}
-           The Python version is: {}
-           The item at index 0 in the example list is: {}
-           The boolean value is: {}'''.format(language, framework, python_version, example, boolean_test)
+    data = request.get_json()
+    fake_data = {
+        "language": "Python",
+        "framework": "Flask",
+        "website": "Scotch",
+        "version_info": {
+            "python": "3.9.0",
+            "flask": "1.1.2"
+        },
+        "examples": ["query", "form", "json"],
+        "boolean_test": True
+    }
+    return render_template("json-example.html", data=data)
 
 
 @application.route('/api')

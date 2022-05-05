@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}JSON Post Example{% endblock %}
+{% block head %}<h1>JSON Post Example</h1>{% endblock %}
+{% block body %}
+<ul>
+    <li>The language value is: {{ data.language }} </li>
+    <li>The framework value is: {{ data.framework }} </li>
+    <li>The Python version is: {{ data.version_info.python }} </li>
+    <li>The item at index 0 in the example list is: {{ data.examples[0] }} </li>
+    <li>The boolean value is: {{ data.boolean_test }} </li>
+</ul>
+{% endblock %}
