@@ -81,33 +81,20 @@ def form_example():
 
 
 # GET requests will be blocked
-# JSON
-# {
-#     "language" : "Python",
-#     "framework" : "Flask",
-#     "website" : "Scotch",
-#     "version_info" : {
-#         "python" : "3.9.0",
-#         "flask" : "1.1.2"
-#     },
-#     "examples" : ["query", "form", "json"],
-#     "boolean_test" : true
-# }
 @application.route('/json-example', methods=['POST'])
 def json_example():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
     data = request.get_json()
-    fake_data = {
-        "language": "Python",
-        "framework": "Flask",
-        "website": "Scotch",
-        "version_info": {
-            "python": "3.9.0",
-            "flask": "1.1.2"
-        },
-        "examples": ["query", "form", "json"],
-        "boolean_test": True
+    rdata = {
+        "language": data['language'],
+        "framework": data['framework'],
+        "PythonVersion": data['version_info']['python'],
+        "Index0": data['examples'][0],
+        "BooleanValue": data['boolean_test']
     }
-    return render_template("json-example.html", data=data)
+    return jsonify(rdata), 200
 
 
 @application.route('/api')
