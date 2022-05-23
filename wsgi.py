@@ -97,6 +97,16 @@ def json_example():
     return jsonify(rdata), 200
 
 
+# GET requests will be blocked
+@application.route('/json-echo', methods=['POST'])
+def json_echo():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    data = request.get_json()
+    return jsonify(data), 200
+
+
 @application.route('/api')
 def runnable():
     r = requests.get('https://api.github.com/users/runnable')
