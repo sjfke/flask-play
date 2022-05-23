@@ -81,39 +81,20 @@ def form_example():
 
 
 # GET requests will be blocked
-# JSON
-# {
-#     "language" : "Python",
-#     "framework" : "Flask",
-#     "website" : "Scotch",
-#     "version_info" : {
-#         "python" : "3.9.0",
-#         "flask" : "1.1.2"
-#     },
-#     "examples" : ["query", "form", "json"],
-#     "boolean_test" : true
-# }
 @application.route('/json-example', methods=['POST'])
 def json_example():
-    request_data = request.get_json()
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
 
-    language = request_data['language']
-    framework = request_data['framework']
-
-    # two keys are needed because of the nested object
-    python_version = request_data['version_info']['python']
-
-    # an index is needed because of the array
-    example = request_data['examples'][0]
-
-    boolean_test = request_data['boolean_test']
-
-    return '''
-           The language value is: {}
-           The framework value is: {}
-           The Python version is: {}
-           The item at index 0 in the example list is: {}
-           The boolean value is: {}'''.format(language, framework, python_version, example, boolean_test)
+    data = request.get_json()
+    rdata = {
+        "language": data['language'],
+        "framework": data['framework'],
+        "PythonVersion": data['version_info']['python'],
+        "Index0": data['examples'][0],
+        "BooleanValue": data['boolean_test']
+    }
+    return jsonify(rdata), 200
 
 
 @application.route('/api')
