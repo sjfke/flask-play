@@ -41,15 +41,19 @@
     <div class="container">
         {% block body %}
         {% endblock %}
-    </div> <!-- /container -->
-    <div class="container">
-        <footer class="footer bg-primary">
-            <p class="text-secondary">Version: 0.1.0</p>
-            <p class="text-secondary">© <a class="text-secondary"
-                                           href="https://www.python.org/download/releases/2.0.1/license">Python Software
-                Foundation License (PSFL), Geoffrey Collis (sjfke)</a></p>
-        </footer>
     </div>
-</div> <!-- /container -->
+
+    <!--    https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom -->
+    <!--    https://getbootstrap.com/docs/4.0/utilities/flex/ -->
+    <footer class="d-flex justify-content-center mt-auto">
+        <div class="d-flex justify-content-between col-md-8 col-md-offset-2 mb-3 mt-5">
+
+            <p class="text-secondary">Version: 0.1.0</p>
+
+            <a class="text-secondary" href="https://www.python.org/download/releases/2.0.1/license">
+                © Python Software Foundation License (PSFL), Geoffrey Collis (sjfke)</a>
+        </div>
+
+    </footer>
 </body>
 </html>
