@@ -60,9 +60,11 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*Bootstrap:* Bootstrap 4.0 Introduction](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
 * [*Bootstrap:* Custom button styles for actions in forms, dialogs](https://getbootstrap.com/docs/4.0/components/buttons/)
 * [*Bootstrap:* Reboot, a collection of element-specific CSS changes](https://getbootstrap.com/docs/4.0/content/reboot/)
-* [*Bootsrap:* Forms](https://getbootstrap.com/docs/4.0/components/forms/)
+* [*Bootstrap:* Forms](https://getbootstrap.com/docs/4.0/components/forms/)
 * [*MDB Snippets:* Interactive Table Example](https://mdbootstrap.com/snippets/jquery/mdbootstrap/2857435)
 * [Free icons that match each other](https://icons8.com/icons)
+* [*Bootstrap:* Footer not at bottom](https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom)
+* [*Bootstrap:* Flex](https://getbootstrap.com/docs/4.0/utilities/flex/)
 
 ## Markdown References
 * [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
