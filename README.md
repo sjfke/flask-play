@@ -46,6 +46,7 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*PythonBasics:* Flask HTTP methods, handle GET & POST requests](https://pythonbasics.org/flask-http-methods/)
 * [*PalletsProjects:* Flask Quickstart](https://flask.palletsprojects.com/en/2.1.x/quickstart/)
 * [*TutorialsPoint:* Flask Tutorial](https://www.tutorialspoint.com/flask/flask_quick_guide.htm)
+* [*DelftStack*: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
 * [*StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
 * [*StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
 * [*PalletsProjects:* Jinja 2.11.x Template Designer Documentation](https://jinja.palletsprojects.com/en/2.11.x/templates/)
@@ -61,6 +62,7 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*Bootstrap:* Reboot, a collection of element-specific CSS changes](https://getbootstrap.com/docs/4.0/content/reboot/)
 * [*Bootsrap:* Forms](https://getbootstrap.com/docs/4.0/components/forms/)
 * [*MDB Snippets:* Interactive Table Example](https://mdbootstrap.com/snippets/jquery/mdbootstrap/2857435)
+* [Free icons that match each other](https://icons8.com/icons)
 
 ## Markdown References
 * [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
@@ -95,6 +97,7 @@ need to be satisfied for this to work are:
 * The WSGI application code file needs to be named ``wsgi.py``.
 * The WSGI application entry point within the code file needs to be named ``application``.
 * The ``gunicorn`` package must be listed in the ``requirements.txt`` file for ``pip``.
+* The *requirements.txt* file is generated using ``pipenv run pip freeze > requirements.txt``.
 
 The example is derived from [Getting Started with Flask](https://scotch.io/tutorials/getting-started-with-flask-a-python-microframework) but has 
 been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site 
@@ -110,9 +113,9 @@ Other useful references:
 
 ## Docker File
 
-A simple *Docker file* which uses a , ```python:3-alpine``` container, it first *pip installs* the required applications specified 
+A simple *Docker file* which uses a, ```python:3-alpine``` container, it first *pip installs* the required applications specified 
 in the *requirements.txt* file, copies the application files, and finally, sets up the environment and 
-starts *gunicorn*.
+starts *gunicorn*.  
 
 ```bash
 FROM python:3-alpine
