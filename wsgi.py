@@ -95,10 +95,8 @@ def json_echo():
 def json_form():
     if request.method == 'POST':
         data = request.form
-        # https://stackoverflow.com/questions/44600601/get-a-list-of-values-from-checkboxes-using-flask-through-python
-        return data
-        # data = request.get_json()
-        # return jsonify(data), 200
+        # return data # => returns identical JSON output
+        return jsonify(data), 200
 
     else:
         return render_template("jsonform.html")
