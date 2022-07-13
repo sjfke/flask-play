@@ -4,6 +4,7 @@ from flask import request
 from flask import jsonify
 
 import requests
+import os
 
 application = Flask(__name__, instance_relative_config=True)
 
@@ -81,23 +82,6 @@ def form_example():
 
 
 # GET requests will be blocked
-@application.route('/json-example', methods=['POST'])
-def json_example():
-    if not request.is_json:
-        return jsonify({"msg": "Missing JSON in request"}), 400
-
-    data = request.get_json()
-    rdata = {
-        "language": data['language'],
-        "framework": data['framework'],
-        "PythonVersion": data['version_info']['python'],
-        "Index0": data['examples'][0],
-        "BooleanValue": data['boolean_test']
-    }
-    return jsonify(rdata), 200
-
-
-# GET requests will be blocked
 @application.route('/json-echo', methods=['POST'])
 def json_echo():
     if not request.is_json:
@@ -105,6 +89,19 @@ def json_echo():
 
     data = request.get_json()
     return jsonify(data), 200
+
+
+@application.route('/json-form', methods=['GET', 'POST'])
+def json_form():
+    if request.method == 'POST':
+        data = request.form
+        # https://stackoverflow.com/questions/44600601/get-a-list-of-values-from-checkboxes-using-flask-through-python
+        return data
+        # data = request.get_json()
+        # return jsonify(data), 200
+
+    else:
+        return render_template("jsonform.html")
 
 
 @application.route('/api')
