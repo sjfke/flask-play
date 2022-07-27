@@ -57,14 +57,18 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
 
 ## Bootstrap References
-* [*Bootstrap:* Bootstrap 4.0 Introduction](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
-* [*Bootstrap:* Custom button styles for actions in forms, dialogs](https://getbootstrap.com/docs/4.0/components/buttons/)
-* [*Bootstrap:* Reboot, a collection of element-specific CSS changes](https://getbootstrap.com/docs/4.0/content/reboot/)
-* [*Bootstrap:* Forms](https://getbootstrap.com/docs/4.0/components/forms/)
-* [*MDB Snippets:* Interactive Table Example](https://mdbootstrap.com/snippets/jquery/mdbootstrap/2857435)
+* [*Bootstrap:* Bootstrap 5.0 Introduction](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
+* [*Bootstrap:* Bootstrap 5.0 Reboot](https://getbootstrap.com/docs/5.0/content/reboot/)
+* [*Bootstrap:* Bootstrap 5.0 Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
+* [*Bootstrap:* Bootstrap 5.0 Forms Checks and radios](https://getbootstrap.com/docs/5.0/forms/checks-radios/)
+* [*Bootstrap:* Bootstrap 5.0 Forms - Layout](https://getbootstrap.com/docs/5.0/forms/layout/)
+* [*Bootstrap:* Bootstrap 5.0 Flex](https://getbootstrap.com/docs/5.0/utilities/flex/)
+* [*W3Schools:* Bootstrap 5 Tutorial](https://www.w3schools.com/bootstrap5/index.php)
+* [*W3Schools:* Bootstrap 5 Containers](https://www.w3schools.com/bootstrap5/bootstrap_containers.php)
+* [*W3Schools:* Bootstrap 5 Grids](https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php)
+* [*W3Schools:* Bootstrap 5 Text/Typography](https://www.w3schools.com/bootstrap5/bootstrap_typography.php)
 * [Free icons that match each other](https://icons8.com/icons)
 * [*Bootstrap:* Footer not at bottom](https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom)
-* [*Bootstrap:* Flex](https://getbootstrap.com/docs/4.0/utilities/flex/)
 
 ## Markdown References
 * [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
