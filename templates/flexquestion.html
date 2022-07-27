@@ -1,6 +1,7 @@
-{% extends "flexbox.html" %}
+{% extends "base.html" %}
 {% block title %}QuestionFlex{% endblock %}
-{% block head %}<h1>QuestionFlex Page</h1>{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block heading %}<h1>QuestionFlex Page</h1>{% endblock %}
 {% block body %}
 <div class="d-flex flex-column bg-primary text-white">
     <div class="d-flex flex-row bg-primary text-black">

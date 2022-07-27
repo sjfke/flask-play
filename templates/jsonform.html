@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}JsonForm{% endblock %}
-{% block head %}<h1>JsonForm Page</h1>{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block heading %}<h1>JsonForm Page</h1>{% endblock %}
 {% block body %}
 <div class="container">
     <!--<form action="http://localhost:8081/json-form" target="_blank" method="post">-->
