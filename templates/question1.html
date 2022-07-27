@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Question1{% endblock %}
-{% block head %}<h1>Question1 Page</h1>{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block heading %}<h1>Question1 Page</h1>{% endblock %}
 {% block body %}
     <div class="container">
         <table class="table table-dark table-striped">
