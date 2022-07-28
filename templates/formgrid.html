@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}FormGrid{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block heading %}<h1>FormGrid</h1>{% endblock %}
+{% block body %}
+<div class="container">
+    <form action="/submission.html" method="post">
+        <div class="row">
+            <div class="col">
+                <input aria-label="First name" class="form-control" placeholder="First name" type="text">
+            </div>
+            <div class="col">
+                <input aria-label="Last name" class="form-control" placeholder="Last name" type="text">
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault" type="radio">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        Default radio
+                    </label>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-check">
+                    <input checked class="form-check-input" id="flexRadioDefault2" name="flexRadioDefault" type="radio">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        Default checked radio
+                    </label>
+                </div>
+            </div>
+        </div>
+            <div class="input-group">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" type="reset">Reset</button>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-info" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+    </form>
+
+</div>
+{% endblock %}
