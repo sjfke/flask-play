@@ -3,11 +3,15 @@
 {% block head %} {{ super() }} {% endblock %}
 {% block heading %}<h1>FormGrid</h1>{% endblock %}
 {% block body %}
-<div class="container">
     <form action="/submission.html" method="post">
-        <div class="row">
-            <div class="col">
-                <label for="IdRadio1L01" class="col-sm-2 col-form-label">Laptop</label>
+
+<div class="container px-4">
+        <div class="row g-2">
+            <div class="col-sm">
+            <div class="p-1 border">Laptop</div>
+            </div>
+            <div class="col-sm-10">
+                <div class="input-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name='NameRadioL01' id='IdRadio1L01' value="der">
                         <label class="form-check-label" for='IdRadio1L01'>der</label>
@@ -20,24 +24,23 @@
                         <input class="form-check-input" type="radio" name='NameRadioL01' id='IdRadio3L01' value="das">
                         <label class="form-check-label" for='IdRadio3L01'>das</label>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input type="text" readonly class="form-control-plaintext" id='IdNounL01' value="Laptop">
-                    </div>
+                    <span class="input-group-text" id="NameRadioL01">Laptop</span>
                 </div>
-
             </div>
         </div>
+</div>
 
-        <div class="d-flex justify-content-center">
-            <div class="btn-group" role="group" aria-label="Reset Submit">
-                <button class="btn btn-primary btn-sm" type="reset">Reset</button>
-                <button class="btn btn-info btn-sm" type="submit">Submit</button>
-            </div>
+<div class="d-flex justify-content-center">
+    <div class="btn-group" role="group" aria-label="Reset Submit">
+        <button class="btn btn-primary btn-sm" type="reset">Reset</button>
+        <button class="btn btn-info btn-sm" type="submit">Submit</button>
+    </div>
 
-        </div>
+</div>
+</div>
 </div>
 
 </form>
 
-</div>
+
 {% endblock %}
