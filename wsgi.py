@@ -46,6 +46,21 @@ def flexquestion():
 
     return render_template("flexquestion.html", data=data)
 
+
+@application.route('/formgrid')
+def formgrid():
+    data = [
+        {"Noun": "Laptop", "Ans": "der", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Laptops",
+         "Desc": "Laptop"},
+        {"Noun": "E-Mail", "Ans": "die", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "E-Mails",
+         "Desc": "EMail"},
+        {"Noun": "Handy", "Ans": "das", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Handys",
+         "Desc": "CellPhone"}
+    ]
+
+    return render_template("formgrid.html", data=data)
+
+
 @application.route('/dropdown')
 def dropdown():
     data = [
