@@ -61,8 +61,8 @@ def formgrid():
     return render_template("formgrid.html", data=data)
 
 
-@application.route('/dropdown')
-def dropdown():
+@application.route('/formgrid2')
+def formgrid2():
     data = [
         {"Noun": "Laptop", "Ans": "der", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Laptops",
          "Desc": "Laptop"},
@@ -72,7 +72,7 @@ def dropdown():
          "Desc": "CellPhone"}
     ]
 
-    return render_template("dropdown.html", data=data)
+    return render_template("formgrid2.html", data=data)
 
 
 @application.route('/radiobutton')
