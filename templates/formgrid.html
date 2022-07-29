@@ -3,44 +3,42 @@
 {% block head %} {{ super() }} {% endblock %}
 {% block heading %}<h1>FormGrid</h1>{% endblock %}
 {% block body %}
-    <form action="/submission.html" method="post">
+<form action="/submission.html" method="post">
 
-<div class="container px-4">
-        <div class="row g-2">
+    <div class="container px-4">
+        <div class="row gx-3">
             <div class="col-sm">
-            <div class="p-1 border">Laptop</div>
+                <div class="p-1 border">Laptop</div>
             </div>
             <div class="col-sm-10">
                 <div class="input-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL01' id='IdRadio1L01' value="der">
+                        <input class="form-check-input" id='IdRadio1L01' name='NameRadioL01' type="radio" value="der">
                         <label class="form-check-label" for='IdRadio1L01'>der</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL01' id='IdRadio2L01' value="die">
+                        <input class="form-check-input" id='IdRadio2L01' name='NameRadioL01' type="radio" value="die">
                         <label class="form-check-label" for='IdRadio2L01'>die</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL01' id='IdRadio3L01' value="das">
+                        <input class="form-check-input" id='IdRadio3L01' name='NameRadioL01' type="radio" value="das">
                         <label class="form-check-label" for='IdRadio3L01'>das</label>
                     </div>
                     <span class="input-group-text" id="NameRadioL01">Laptop</span>
                 </div>
             </div>
         </div>
-</div>
 
-<div class="d-flex justify-content-center">
-    <div class="btn-group" role="group" aria-label="Reset Submit">
-        <button class="btn btn-primary btn-sm" type="reset">Reset</button>
-        <button class="btn btn-info btn-sm" type="submit">Submit</button>
+        <div class="row gy-5">
+            <div class="col">
+                <div aria-label="Reset Submit" class="btn-group" role="group">
+                    <button class="btn btn-primary btn-sm" type="reset">Reset</button>
+                    <button class="btn btn-info btn-sm" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-</div>
-</div>
-</div>
-
 </form>
-
 
 {% endblock %}
