@@ -56,6 +56,15 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.1.x/testing/)
 * [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
 
+## Flask, MongoDB References
+* [*PythonBasics:* How to Set Up Flask with MongoDB](https://pythonbasics.org/flask-mongodb/)
+* [*PalletsProjects:* MongoDB with MongoEngine](https://flask.palletsprojects.com/en/2.1.x/patterns/mongoengine/)
+* [*DevTo*: How to spin MongoDB server with Docker and Docker Compose ](https://dev.to/sonyarianto/how-to-spin-mongodb-server-with-docker-and-docker-compose-2lef)
+* [*MongoDB*: MongoDB Basics](https://www.mongodb.com/basics)
+* [*DockerHub*: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
+* [*MongoDB*: Docker and MongoDB](https://www.mongodb.com/compatibility/docker)
+
+
 ## Bootstrap References
 * [*Bootstrap:* Bootstrap 5.0 Introduction](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 * [*Bootstrap:* Bootstrap 5.0 Reboot](https://getbootstrap.com/docs/5.0/content/reboot/)
