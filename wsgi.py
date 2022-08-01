@@ -47,15 +47,19 @@ def flexquestion():
     return render_template("flexquestion.html", data=data)
 
 
-@application.route('/formgrid')
+@application.route('/formgrid', methods=['GET', 'POST'])
 def formgrid():
-    data = [
-        {"Noun": "Laptop", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "Laptop"},
-        {"Noun": "E-Mail", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "EMail"},
-        {"Noun": "Handy", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "CellPhone"}
-    ]
-
-    return render_template("formgrid.html", data=data)
+    if request.method == 'POST':
+        answer = request.form
+        # return data # => returns identical JSON output
+        return jsonify(answer), 200
+    else:
+        data = [
+            {"Noun": "Laptop", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "Laptop"},
+            {"Noun": "E-Mail", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "EMail"},
+            {"Noun": "Handy", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "CellPhone"}
+        ]
+        return render_template("formgrid.html", data=data)
 
 
 @application.route('/formgrid2')
