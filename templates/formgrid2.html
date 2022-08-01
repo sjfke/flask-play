@@ -14,27 +14,27 @@
             <div class="col-sm-4">
                 <div class="input-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
-                        <label class="form-check-label" for='IdRadio1L{{ "{:02d}".format(loop.index) }}'>
+                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt1 }}</label>
 
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
-                        <label class="form-check-label" for='IdRadio2L{{ "{:02d}".format(loop.index) }}'>
+                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt2 }}</label>
 
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
-                        <label class="form-check-label" for='IdRadio3L{{ "{:02d}".format(loop.index) }}'>
+                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt3 }}</label>
 
                     </div>
-                    <span class="input-group-text" id="NameRadioL01">{{ item.Noun }}</span>
+                    <span class="input-group-text" id="name-radio-l01">{{ item.Noun }}</span>
                 </div>
             </div>
 
@@ -46,8 +46,8 @@
             </div>
             <div class="col-sm-3">
                 <input class="form-control form-control-sm"
-                       type="text" name='NameTextL{{ "{:02d}".format(loop.index) }}'
-                       id='IdTextL{{ "{:02d}".format(loop.index) }}' aria-label=".form-control-sm example">
+                       type="text" name='name-text-l{{ "{:02d}".format(loop.index) }}'
+                       id='id-text-l{{ "{:02d}".format(loop.index) }}' aria-label=".form-control-sm example">
             </div>
 
         </div>
