@@ -62,15 +62,19 @@ def formgrid():
         return render_template("formgrid.html", data=data)
 
 
-@application.route('/formgrid2')
+@application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():
-    data = [
-        {"Noun": "Laptop", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "Laptop"},
-        {"Noun": "E-Mail", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "EMail"},
-        {"Noun": "Handy", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "CellPhone"}
-    ]
-
-    return render_template("formgrid2.html", data=data)
+    if request.method == 'POST':
+        answer = request.form
+        # return data # => returns identical JSON output
+        return jsonify(answer), 200
+    else:
+        data = [
+            {"Noun": "Laptop", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "Laptop"},
+            {"Noun": "E-Mail", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "EMail"},
+            {"Noun": "Handy", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "CellPhone"}
+        ]
+        return render_template("formgrid2.html", data=data)
 
 
 @application.route('/radiobutton')

@@ -3,7 +3,7 @@
 {% block head %} {{ super() }} {% endblock %}
 {% block heading %}<h1>FormGrid</h1>{% endblock %}
 {% block body %}
-<form action="/submission.html" method="post">
+<form action="#" target="_blank" method="post">
 
     <div class="container px-4">
         {% for item in data %}
@@ -15,21 +15,21 @@
                 <div class="input-group">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                            id='IdRadio1L{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
+                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
                         <label class="form-check-label" for='IdRadio1L{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt1 }}</label>
 
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                            id='IdRadio2L{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
+                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
                         <label class="form-check-label" for='IdRadio2L{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt2 }}</label>
 
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name='NameRadioL{{ "{:02d}".format(loop.index) }}'
-                             id='IdRadio3L{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
+                               id='IdRadioL{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
                         <label class="form-check-label" for='IdRadio3L{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt3 }}</label>
 
@@ -38,7 +38,6 @@
                 </div>
             </div>
 
-            <!-- "Plural": "Laptops",-->
             <div class="col-sm-1">
                 <div class="p-1 border">Plural</div>
             </div>
@@ -46,7 +45,9 @@
                 <div class="p-1">die</div>
             </div>
             <div class="col-sm-3">
-                <input class="form-control form-control-sm" type="text" aria-label=".form-control-sm example">
+                <input class="form-control form-control-sm"
+                       type="text" name='NameTextL{{ "{:02d}".format(loop.index) }}'
+                       id='IdTextL{{ "{:02d}".format(loop.index) }}' aria-label=".form-control-sm example">
             </div>
 
         </div>
