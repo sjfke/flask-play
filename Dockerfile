@@ -1,9 +1,10 @@
 FROM python:3-alpine
-# TODO: Put the maintainer name in the image metadata
-MAINTAINER Sjfke (Geoff Collis) <gcollis@ymail.com>
-
+# Change User to perform privileged actions
+USER 0
 # TODO: Rename the builder environment variable to inform users about application you provide them
-ENV BUILDER_VERSION 1.0
+# ENV BUILDER_VERSION 1.0
+ENV UID=1001
+ENV PORT=8080
 
 # TODO: Set labels used in OpenShift to describe the builder image
 LABEL io.k8s.name="Flask" \
@@ -13,30 +14,28 @@ LABEL io.k8s.name="Flask" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="Sandbox,0.1.0,Flask"
 
-ENV PORT=8080
-WORKDIR /usr/src/app
+
 
 # Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
 # $ pipenv run pip freeze > requirements.txt # generates requirements.txt
+WORKDIR /tmp
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
 
 # TODO (optional): Copy the builder files into /opt/app-root
 # COPY ./<builder_folder>/ /opt/app-root/
+WORKDIR /usr/src/app
+
 COPY config.py ./
 COPY static/* ./static/
 COPY templates/* ./templates/
 COPY wsgi.py ./
 
-# TODO: Copy the S2I scripts to /usr/libexec/s2i, since openshift/base-centos7 image
-# sets io.openshift.s2i.scripts-url label that way, or update that label
-# COPY ./s2i/bin/ /usr/libexec/s2i
-
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
 # RUN chown -R 1001:1001 /opt/app-root
 
 # This default user is created in the openshift/base-centos7 image
-USER 1001
+USER ${UID}
 
 # TODO: Set the default port for applications built using this image
 EXPOSE ${PORT}
