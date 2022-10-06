@@ -1,12 +1,13 @@
+import requests
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask import request
-from flask import jsonify
-
-import requests
-import os
+from flask_pymongo import PyMongo
 
 application = Flask(__name__, instance_relative_config=True)
+application.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(application)
 
 
 @application.route('/')
