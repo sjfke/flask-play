@@ -3,11 +3,16 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
+
+# Needs externalizing and clean-up.
+# https://pymongo.readthedocs.io/en/stable/examples/authentication.html
+uri = "mongodb://root:example@mongo:27017"
+client = MongoClient(uri)
 
 application = Flask(__name__, instance_relative_config=True)
-application.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
-mongo = PyMongo(application)
+# https://flask.palletsprojects.com/en/2.0.x/config/
+application.config['TESTING'] = True
 
 
 @application.route('/')
@@ -131,6 +136,19 @@ def json_form():
 
     else:
         return render_template("jsonform.html")
+
+
+# flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
+@application.route('/mongo')
+def mongo():
+    db = client.flask
+    # answer = db.list_collection_names()
+    collection = db.quizzes
+    answer = collection.find_one({}, {'_id': 0})
+    # answer = collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    # answer = collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
+    #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    return jsonify(answer), 200
 
 
 @application.route('/api')
