@@ -5,14 +5,13 @@ from flask import render_template
 from flask import request
 from pymongo import MongoClient
 
-# Needs externalizing and clean-up.
-# https://pymongo.readthedocs.io/en/stable/examples/authentication.html
-uri = "mongodb://root:example@mongo:27017"
-client = MongoClient(uri)
-
 application = Flask(__name__, instance_relative_config=True)
-# https://flask.palletsprojects.com/en/2.0.x/config/
+# flask config: https://flask.palletsprojects.com/en/2.2.x/config/
 application.config['TESTING'] = True
+
+# clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
+application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
+client = MongoClient(application.config["MONGO_URI"])
 
 
 @application.route('/')
