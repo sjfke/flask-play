@@ -1,8 +1,10 @@
+import uuid
 import requests
 from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
+from markupsafe import escape
 from pymongo import MongoClient
 
 application = Flask(__name__, instance_relative_config=True)
@@ -148,6 +150,36 @@ def mongo():
     # answer = collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
     #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
     return jsonify(answer), 200
+
+
+@application.route('/user/<username>')
+def show_user_profile(username):
+    return f'User {escape(username)}'
+
+
+# @application.route('/questions/<uuid:quid>')
+# def show_question_id(quid):
+#     # returns 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+#     # QID-05db84d8-27ac-4067-9daa-d743ff56929b
+#     # i.e. questions/05db84d8-27ac-4067-9daa-d743ff56929b
+#     _quid = escape(quid)
+#     try:
+#         uuid.UUID(str(_quid))
+#         return f'Quid {_quid}'
+#     except ValueError:
+#         return f'Invalid {escape(quid)}'
+#
+
+@application.route('/questions/<quid>')
+def show_question_id(quid):
+    # any/uuid return 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+    # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
+    _quid = escape(quid)
+    try:
+        uuid.UUID(str(_quid))
+        return f'Valid uuid{": " + _quid}'
+    except ValueError:
+        return f'Invalid uuid{escape(": " + quid)}'
 
 
 @application.route('/api')
