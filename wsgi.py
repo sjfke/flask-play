@@ -13,7 +13,8 @@ application.config['TESTING'] = True
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
-client = MongoClient(application.config["MONGO_URI"])
+_client = MongoClient(application.config["MONGO_URI"])
+_db = _client.flask
 
 
 @application.route('/')
@@ -142,14 +143,14 @@ def json_form():
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
 @application.route('/mongo')
 def mongo():
-    db = client.flask
-    # answer = db.list_collection_names()
-    collection = db.quizzes
-    answer = collection.find_one({}, {'_id': 0})
-    # answer = collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    # answer = collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
+    # db = client.flask
+    # _answer = _db.list_collection_names()
+    _collection = _db.quizzes
+    _answer = _collection.find_one({}, {'_id': 0})
+    # _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    # _answer = _collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
     #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    return jsonify(answer), 200
+    return jsonify(_answer), 200
 
 
 @application.route('/user/<username>')
@@ -157,22 +158,10 @@ def show_user_profile(username):
     return f'User {escape(username)}'
 
 
-# @application.route('/questions/<uuid:quid>')
-# def show_question_id(quid):
-#     # returns 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
-#     # QID-05db84d8-27ac-4067-9daa-d743ff56929b
-#     # i.e. questions/05db84d8-27ac-4067-9daa-d743ff56929b
-#     _quid = escape(quid)
-#     try:
-#         uuid.UUID(str(_quid))
-#         return f'Quid {_quid}'
-#     except ValueError:
-#         return f'Invalid {escape(quid)}'
-#
-
 @application.route('/questions/<quid>')
 def show_question_id(quid):
     # any/uuid return 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
     # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
     _quid = escape(quid)
     try:
@@ -180,6 +169,29 @@ def show_question_id(quid):
         return f'Valid uuid{": " + _quid}'
     except ValueError:
         return f'Invalid uuid{escape(": " + quid)}'
+
+
+@application.route('/quiz/<cif>/<quiz_id>')
+def return_quiz_data(cif, quiz_id):
+    # any/uuid return 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
+    # /quiz: CIF=919ae5a5-34e4-4b88-979a-5187d46d1617 / QZID=74751363-3db2-4a82-b764-09de11b65cd6
+    # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
+    # db.quizzes.find({"qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"},{_id:0,data:1})
+    _cif = escape(cif)
+    _quiz_id = escape(quiz_id)
+    try:
+        uuid.UUID(str(_cif))
+        uuid.UUID(str(_quiz_id))
+
+        # TODO: perform CIF and QZID check
+        _quiz = 'QIZ-' + _quiz_id
+        _collection = _db.quizzes
+        _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+        return jsonify(_answer), 200
+    except ValueError:
+        # TODO: return JSON 404
+        return f'Invalid uuid{escape(": " + cif + ", " +  quiz_id)}'
 
 
 @application.route('/api')
