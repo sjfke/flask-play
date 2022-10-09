@@ -172,26 +172,54 @@ def show_question_id(quid):
 
 
 @application.route('/quiz/<cif>/<quiz_id>')
-def return_quiz_data(cif, quiz_id):
-    # any/uuid return 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+def return_cif_quiz_data(cif, quiz_id):
     # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
     # /quiz: CIF=919ae5a5-34e4-4b88-979a-5187d46d1617 / QZID=74751363-3db2-4a82-b764-09de11b65cd6
     # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
     # db.quizzes.find({"qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"},{_id:0,data:1})
     _cif = escape(cif)
     _quiz_id = escape(quiz_id)
+
+    # TODO: Why this is an internal server error, raises ValueError?
     try:
         uuid.UUID(str(_cif))
         uuid.UUID(str(_quiz_id))
+    except ValueError as _value_error_message:
+        _json_error = {'message': _value_error_message, 'code': 404, 'cif': _cif, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+    except:
+        _json_error = {'message': 'unknown', 'code': 404, 'cif': _cif, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
 
-        # TODO: perform CIF and QZID check
-        _quiz = 'QIZ-' + _quiz_id
-        _collection = _db.quizzes
-        _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-        return jsonify(_answer), 200
-    except ValueError:
-        # TODO: return JSON 404
-        return f'Invalid uuid{escape(": " + cif + ", " +  quiz_id)}'
+    # TODO: perform CIF and QZID check
+    _quiz = 'QIZ-' + _quiz_id
+    _collection = _db.quizzes
+    _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    return jsonify(_answer), 200
+
+
+@application.route('/quiz/<quiz_id>')
+def return_quiz_data(quiz_id):
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
+    # /quiz: QZID=74751363-3db2-4a82-b764-09de11b65cd6
+    # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
+    # db.quizzes.find({"qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"},{_id:0,data:1})
+    _quiz_id = escape(quiz_id)
+
+    # TODO: Why this is an internal server error, raises ValueError?
+    try:
+        uuid.UUID(str(_quiz_id))
+    except ValueError as _value_error_message:
+        _json_error = {'message': _value_error_message, 'code': 404, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+    except:
+        _json_error = {'message': 'unknown', 'code': 404, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+
+    _quiz = 'QIZ-' + _quiz_id
+    _collection = _db.quizzes
+    _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    return jsonify(_answer), 200
 
 
 @application.route('/api')
@@ -201,12 +229,12 @@ def runnable():
 
 
 @application.route('/isready')
-def isready():
+def is_ready():
     return 'isReady'
 
 
 @application.route('/isalive')
-def isalive():
+def is_alive():
     return 'isAlive'
 
 
