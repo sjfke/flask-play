@@ -1,8 +1,10 @@
+import uuid
 import requests
 from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
+from markupsafe import escape
 from pymongo import MongoClient
 
 application = Flask(__name__, instance_relative_config=True)
@@ -11,7 +13,8 @@ application.config['TESTING'] = True
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
-client = MongoClient(application.config["MONGO_URI"])
+_client = MongoClient(application.config["MONGO_URI"])
+_db = _client.flask
 
 
 @application.route('/')
@@ -140,14 +143,83 @@ def json_form():
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
 @application.route('/mongo')
 def mongo():
-    db = client.flask
-    # answer = db.list_collection_names()
-    collection = db.quizzes
-    answer = collection.find_one({}, {'_id': 0})
-    # answer = collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    # answer = collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
+    # db = client.flask
+    # _answer = _db.list_collection_names()
+    _collection = _db.quizzes
+    _answer = _collection.find_one({}, {'_id': 0})
+    # _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    # _answer = _collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
     #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    return jsonify(answer), 200
+    return jsonify(_answer), 200
+
+
+@application.route('/user/<username>')
+def show_user_profile(username):
+    return f'User {escape(username)}'
+
+
+@application.route('/questions/<quid>')
+def show_question_id(quid):
+    # any/uuid return 404 if uuid is invalid # https://www.geeksforgeeks.org/python-404-error-handling-in-flask/
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
+    # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
+    _quid = escape(quid)
+    try:
+        uuid.UUID(str(_quid))
+        return f'Valid uuid{": " + _quid}'
+    except ValueError:
+        return f'Invalid uuid{escape(": " + quid)}'
+
+
+@application.route('/quiz/<cif>/<quiz_id>')
+def return_cif_qzid_data(cif, quiz_id):
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
+    # /quiz: CIF=919ae5a5-34e4-4b88-979a-5187d46d1617 / QZID=74751363-3db2-4a82-b764-09de11b65cd6
+    # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
+    # db.quizzes.find({"cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617","qzid":"QIZ-74751363-3db2-4a82-b764-09de11b65cd6"},{_id:0,data:1})
+    _cif_id = escape(cif)
+    _quiz_id = escape(quiz_id)
+
+    # TODO: Why this is an internal server error, raises ValueError?
+    try:
+        uuid.UUID(str(_cif_id))
+        uuid.UUID(str(_quiz_id))
+    except ValueError as _value_error_message:
+        _json_error = {'message': _value_error_message, 'code': 404, 'cif': _cif_id, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+    except:
+        _json_error = {'message': 'unknown', 'code': 404, 'cif': _cif_id, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+
+    _cif = 'CIF-' + _cif_id
+    _quiz = 'QIZ-' + _quiz_id
+    _collection = _db.quizzes
+    _answer = _collection.find_one({'cif': _cif, 'qzid': _quiz}, {'_id': 0, 'data': 1})
+    return jsonify(_answer), 200
+
+
+@application.route('/quiz/<quiz_id>')
+def return_qzid_data(quiz_id):
+    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
+    # /quiz: QZID=74751363-3db2-4a82-b764-09de11b65cd6
+    # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
+    # db.quizzes.find({"qzid":"QIZ-74751363-3db2-4a82-b764-09de11b65cd6"},{_id:0,data:1})
+    _quiz_id = escape(quiz_id)
+
+    # TODO: Why this is an internal server error, raises ValueError?
+    try:
+        uuid.UUID(str(_quiz_id))
+    except ValueError as _value_error_message:
+        _json_error = {'message': _value_error_message, 'code': 404, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+    except:
+        _json_error = {'message': 'unknown', 'code': 404, 'qzid': _quiz_id}
+        return jsonify(_json_error), 404
+
+    _quiz = 'QIZ-' + _quiz_id
+    _collection = _db.quizzes
+    _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    return jsonify(_answer), 200
 
 
 @application.route('/api')
@@ -157,12 +229,12 @@ def runnable():
 
 
 @application.route('/isready')
-def isready():
+def is_ready():
     return 'isReady'
 
 
 @application.route('/isalive')
-def isalive():
+def is_alive():
     return 'isAlive'
 
 
