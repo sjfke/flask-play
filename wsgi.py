@@ -7,6 +7,29 @@ from flask import request
 from markupsafe import escape
 from pymongo import MongoClient
 
+
+def is_valid_uuid4(value):
+    """
+    Check if value is a UUID version 4 string
+
+    :param value: to be checked, e.g. '74751363-3db2-4a82-b764-09de11b65cd6'
+    :type value: str
+
+    :rtype: Boolean
+    :return: True or False
+    """
+
+    try:
+        _rv = uuid.UUID(str(value))
+
+        if _rv.version == 4:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
+
+
 application = Flask(__name__, instance_relative_config=True)
 # flask config: https://flask.palletsprojects.com/en/2.2.x/config/
 application.config['TESTING'] = True
@@ -181,6 +204,7 @@ def return_cif_qzid_data(cif, quiz_id):
     _quiz_id = escape(quiz_id)
 
     # TODO: Why this is an internal server error, raises ValueError?
+    # see https://flask.palletsprojects.com/en/2.2.x/errorhandling/#custom-error-pages using 'abort(404)'
     try:
         uuid.UUID(str(_cif_id))
         uuid.UUID(str(_quiz_id))
@@ -200,20 +224,10 @@ def return_cif_qzid_data(cif, quiz_id):
 
 @application.route('/quiz/<quiz_id>')
 def return_qzid_data(quiz_id):
-    # flask error handling: https://flask.palletsprojects.com/en/2.2.x/errorhandling/
-    # /quiz: QZID=74751363-3db2-4a82-b764-09de11b65cd6
-    # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
-    # db.quizzes.find({"qzid":"QIZ-74751363-3db2-4a82-b764-09de11b65cd6"},{_id:0,data:1})
     _quiz_id = escape(quiz_id)
 
-    # TODO: Why this is an internal server error, raises ValueError?
-    try:
-        uuid.UUID(str(_quiz_id))
-    except ValueError as _value_error_message:
-        _json_error = {'message': _value_error_message, 'code': 404, 'qzid': _quiz_id}
-        return jsonify(_json_error), 404
-    except:
-        _json_error = {'message': 'unknown', 'code': 404, 'qzid': _quiz_id}
+    if not is_valid_uuid4(_quiz_id):
+        _json_error = {'message': 'invalid quiz_id', 'code': 404, 'value': _quiz_id}
         return jsonify(_json_error), 404
 
     _quiz = 'QIZ-' + _quiz_id
