@@ -128,16 +128,19 @@ def formgrid2():
 
 @application.route('/radiobutton')
 def radiobutton():
-    data = [
-        {"Noun": "Laptop", "Ans": "der", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Laptops",
-         "Desc": "Laptop"},
-        {"Noun": "E-Mail", "Ans": "die", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "E-Mails",
-         "Desc": "EMail"},
-        {"Noun": "Handy", "Ans": "das", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Handys",
-         "Desc": "CellPhone"}
-    ]
+    # "name": "quizA"
+    # _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
+    # "name": "quizB"
+    _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
+    # "name": "quizC"
+    # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
 
-    return render_template("radiobutton.html", data=data)
+    _collection = _db.quizzes
+    # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+    _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    # return jsonify(_dict), 200
+
+    return render_template("radiobutton.html", data=_dict["data"])  # need data array
 
 
 # allow both GET and POST requests
