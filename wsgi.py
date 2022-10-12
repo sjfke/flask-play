@@ -112,12 +112,18 @@ def formgrid2():
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        data = [
-            {"Noun": "Laptop", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "Laptop"},
-            {"Noun": "E-Mail", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "EMail"},
-            {"Noun": "Handy", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Desc": "CellPhone"}
-        ]
-        return render_template("formgrid2.html", data=data)
+        # "name": "quizA"
+        # _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
+        # "name": "quizB"
+        _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
+        # "name": "quizC"
+        # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+
+        _collection = _db.quizzes
+        # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+        _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+        # return jsonify(_dict), 200
+        return render_template("formgrid2.html", data=_dict["data"])  # need data array
 
 
 @application.route('/radiobutton')
