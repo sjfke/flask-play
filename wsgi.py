@@ -1,7 +1,7 @@
 import uuid
+
 import requests
 from flask import Flask
-from flask import json
 from flask import jsonify
 from flask import render_template
 from flask import request
