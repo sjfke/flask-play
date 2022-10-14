@@ -59,8 +59,9 @@ def question1():
     _collection = _db.quizzes
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-    # return jsonify(_dict), 200
-    return render_template("question1.html", data=_dict["data"])  # need data array
+    if _dict:
+        return render_template("question1.html", data=_dict["data"])  # need data array
+    return jsonify(_dict), 200
 
 
 @application.route('/data')
@@ -81,8 +82,9 @@ def flexquestion():
     _collection = _db.quizzes
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-    # return jsonify(_dict), 200
-    return render_template("flexquestion.html", data=_dict["data"])  # need data array
+    if _dict:
+        return render_template("flexquestion.html", data=_dict["data"])  # need data array
+    return jsonify(_dict), 200
 
 
 @application.route('/formgrid', methods=['GET', 'POST'])
@@ -102,8 +104,9 @@ def formgrid():
         _collection = _db.quizzes
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-        # return jsonify(_dict), 200
-        return render_template("formgrid.html", data=_dict["data"])  # need data array
+        if _dict:
+            return render_template("formgrid.html", data=_dict["data"])  # need data array
+        return jsonify(_dict), 200
 
 
 @application.route('/formgrid2', methods=['GET', 'POST'])
@@ -123,8 +126,9 @@ def formgrid2():
         _collection = _db.quizzes
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-        # return jsonify(_dict), 200
-        return render_template("formgrid2.html", data=_dict["data"])  # need data array
+        if _dict:
+            return render_template("formgrid2.html", data=_dict["data"])  # need data array
+        return jsonify(_dict), 200
 
 
 @application.route('/radiobutton')
@@ -139,9 +143,9 @@ def radiobutton():
     _collection = _db.quizzes
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
-    # return jsonify(_dict), 200
-
-    return render_template("radiobutton.html", data=_dict["data"])  # need data array
+    if _dict:
+        return render_template("radiobutton.html", data=_dict["data"])  # need data array
+    return jsonify(_dict), 200
 
 
 # allow both GET and POST requests
