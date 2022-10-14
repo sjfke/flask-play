@@ -37,8 +37,9 @@ application.config['TESTING'] = True
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
+application.config["MONGO_DB"] = "flask"
 _client = MongoClient(application.config["MONGO_URI"])
-_db = _client.flask
+_db = _client[application.config["MONGO_DB"]]
 
 
 @application.route('/')
@@ -190,8 +191,8 @@ def mongo():
     # db = client.flask
     # _answer = _db.list_collection_names()
     _collection = _db.quizzes
-    _answer = _collection.find_one({}, {'_id': 0})
-    # _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    # _answer = _collection.find_one({}, {'_id': 0})
+    _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
     # _answer = _collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
     #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
     return jsonify(_answer), 200
