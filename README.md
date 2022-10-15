@@ -44,8 +44,9 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 
 * [*PyPi:* Flask is a lightweight WSGI web application framework](https://pypi.org/project/Flask/)
 * [*PythonBasics:* Flask HTTP methods, handle GET & POST requests](https://pythonbasics.org/flask-http-methods/)
-* [*PalletsProjects:* Flask Quickstart](https://flask.palletsprojects.com/en/2.1.x/quickstart/)
+* [*PalletsProjects:* Flask Quickstart](https://flask.palletsprojects.com/en/2.2.x/quickstart/)
 * [*TutorialsPoint:* Flask Tutorial](https://www.tutorialspoint.com/flask/flask_quick_guide.htm)
+* [*PalletProjects: API covers all the interfaces of Flask](https://flask.palletsprojects.com/en/2.2.x/api/)
 * [*DelftStack*: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
 * [*StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
 * [*StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
