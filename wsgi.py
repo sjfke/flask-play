@@ -109,6 +109,34 @@ def formgrid():
         return jsonify(_dict), 200
 
 
+@application.route('/quiz', methods=['GET', 'POST'])
+def get_quiz_form():
+    if request.method == 'POST':
+        _answer = request.form
+        if _answer:
+            return jsonify(_answer), 200
+        return jsonify(_answer), 404
+
+    else:
+        _quiz_id = None
+        try:
+            _quiz_id = request.args.get('id', '')  # (key, default, type)
+        except KeyError:
+            f'Invalid key: need quiz "id"'
+
+        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
+        # _quiz_id = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86", "name": "quizB"
+        # _quiz_id = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6", "name": "quizC"
+
+        _collection = _db.quizzes
+        # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+        _dict = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'data': 1})
+
+        if _dict:
+            return render_template("quiz.html", data=_dict["data"])
+        return jsonify(_dict), 200
+
+
 @application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():
     if request.method == 'POST':
