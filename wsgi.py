@@ -190,7 +190,7 @@ def json_form():
 
 
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
-@application.route('/mongo')
+@application.route('/api/mongo')
 def mongo():
     # db = client.flask
     # _answer = _db.list_collection_names()
@@ -202,14 +202,21 @@ def mongo():
     return jsonify(_answer), 200
 
 
-@application.route('/user/<username>')
+# @application.route('/api/user/<username>/')
+# redirects to URL with trailing '/', search engines will index twice
+# https://flask.palletsprojects.com/en/2.1.x/quickstart/#unique-urls-redirection-behavior
+@application.route('/api/user/<username>')
 def show_user_profile(username):
     return f'User {escape(username)}'
 
 
-@application.route('/questions/<cif>/<quid>')
-def show_cif_quid(cif, quid):
-    # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
+# Needs trailing '/' to accept because URL is not unique
+@application.route('/api/question/<cif>/<quid>/')
+def get_cif_quid_json(cif, quid):
+    # "cif": "CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+    # "quid": "QID-05db84d8-27ac-4067-9daa-d743ff56929b",
+    # "name": "questionC",
+
     _cif_id = escape(cif)
     if not is_valid_uuid4(_cif_id):
         _json_error = {'message': 'invalid cif', 'code': 404, 'value': _cif_id}
@@ -226,8 +233,8 @@ def show_cif_quid(cif, quid):
     return jsonify(_answer), 200
 
 
-@application.route('/questions/<quid>')
-def show_quid(quid):
+@application.route('/api/question/<quid>')
+def get_quid_json(quid):
     # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
     _quid = escape(quid)
 
@@ -241,8 +248,9 @@ def show_quid(quid):
     return jsonify(_answer), 200
 
 
-@application.route('/quiz/<cif>/<quiz_id>')
-def return_cif_qzid_data(cif, quiz_id):
+# Needs trailing '/' to accept because URL is not unique
+@application.route('/api/quiz/<cif>/<quiz_id>/')
+def get_cif_qzid_json(cif, quiz_id):
     # /quiz: CIF=919ae5a5-34e4-4b88-979a-5187d46d1617 / QZID=74751363-3db2-4a82-b764-09de11b65cd6
     # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
     # db.quizzes.find({"cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617","qzid":"QIZ-74751363-3db2-4a82-b764-09de11b65cd6"},{_id:0,data:1})
@@ -263,8 +271,8 @@ def return_cif_qzid_data(cif, quiz_id):
     return jsonify(_answer), 200
 
 
-@application.route('/quiz/<quiz_id>')
-def return_qzid_data(quiz_id):
+@application.route('/api/quiz/<quiz_id>')
+def get_qzid_json(quiz_id):
     _quiz_id = escape(quiz_id)
 
     if not is_valid_uuid4(_quiz_id):
@@ -277,7 +285,7 @@ def return_qzid_data(quiz_id):
     return jsonify(_answer), 200
 
 
-@application.route('/api')
+@application.route('/api/runnable')
 def runnable():
     r = requests.get('https://api.github.com/users/runnable')
     return jsonify(r.json())
