@@ -218,15 +218,31 @@ def json_form():
 
 
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
-@application.route('/api/mongo')
-def mongo():
-    # db = client.flask
-    # _answer = _db.list_collection_names()
+# https://pymongo.readthedocs.io/en/stable/api/pymongo/cursor.html
+# https://www.mongodb.com/docs/manual/tutorial/query-documents/
+@application.route('/api/questions')
+def get_questions():
+    _collection = _db.questions
+    _answer = []
+    for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1}):
+        _answer.append(doc)
+
+    return jsonify(_answer), 200
+
+
+@application.route('/api/quizzes')
+def get_quizzes():
     _collection = _db.quizzes
-    # _answer = _collection.find_one({}, {'_id': 0})
-    _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    # _answer = _collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
-    #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    _answer = []
+    for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'qzid': 1, 'quid': 1, 'name': 1}):
+        _answer.append(doc)
+
+    return jsonify(_answer), 200
+
+
+@application.route('/api/mongo')
+def get_mongodb_collections():
+    _answer = _db.list_collection_names()
     return jsonify(_answer), 200
 
 
