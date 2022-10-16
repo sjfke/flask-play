@@ -113,8 +113,37 @@ def formgrid():
 def get_quiz_form():
     if request.method == 'POST':
         _answer = request.form
-        if _answer:
-            return jsonify(_answer), 200
+        _result = {}  # _answer is immutable so need another Dictionary
+
+        # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
+        #   "name-radio-l01":"der",
+        #   "name-radio-l02":"der",
+        #   "name-radio-l03":"das",
+        #   "quid":"42cb197a-d10f-47e6-99bb-a814d4ca95da",
+        #   "qzid":"3021178c-c430-4285-bed2-114dfe4db9df"
+        #  }
+
+        # Check UUID values, and build 'data' array for responses
+        for _key in _answer.keys():
+            if _key == 'cif':
+                if is_valid_uuid4(escape(_answer['cif'])):
+                    _result['cif'] = "CIF-{0}".format(escape(_answer['cif']))
+            if _key == 'quid':
+                if is_valid_uuid4(escape(_answer['quid'])):
+                    _result['quid'] = "QID-{0}".format(escape(_answer['quid']))
+            if _key == 'qzid':
+                if is_valid_uuid4(escape(_answer['qzid'])):
+                    _result['qzid'] = "QIZ-{0}".format(escape(_answer['qzid']))
+            if _key.startswith('name-radio-l'):
+                if 'data' not in _result:
+                    _result['data'] = []
+                _result['data'].append(escape(_answer[_key]))
+
+        if _result:
+            return jsonify(_result), 200
+
+        # if _answer:
+        #     return jsonify(_answer), 200
         return jsonify(_answer), 404
 
     else:
@@ -123,6 +152,9 @@ def get_quiz_form():
             _quiz_id = request.args.get('id', '')  # (key, default, type)
         except KeyError:
             f'Invalid key: need quiz "id"'
+
+        if _quiz_id.startswith('qiz-'):
+            _quiz_id = _quiz_id.replace('qiz', 'QIZ', 1)
 
         # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
         # _quiz_id = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86", "name": "quizB"
