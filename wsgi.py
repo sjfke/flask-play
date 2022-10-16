@@ -109,6 +109,34 @@ def formgrid():
         return jsonify(_dict), 200
 
 
+@application.route('/quiz', methods=['GET', 'POST'])
+def get_quiz_form():
+    if request.method == 'POST':
+        _answer = request.form
+        if _answer:
+            return jsonify(_answer), 200
+        return jsonify(_answer), 404
+
+    else:
+        _quiz_id = None
+        try:
+            _quiz_id = request.args.get('id', '')  # (key, default, type)
+        except KeyError:
+            f'Invalid key: need quiz "id"'
+
+        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
+        # _quiz_id = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86", "name": "quizB"
+        # _quiz_id = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6", "name": "quizC"
+
+        _collection = _db.quizzes
+        # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+        _dict = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'data': 1})
+
+        if _dict:
+            return render_template("quiz.html", data=_dict["data"])
+        return jsonify(_dict), 200
+
+
 @application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():
     if request.method == 'POST':
@@ -190,15 +218,31 @@ def json_form():
 
 
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
-@application.route('/api/mongo')
-def mongo():
-    # db = client.flask
-    # _answer = _db.list_collection_names()
+# https://pymongo.readthedocs.io/en/stable/api/pymongo/cursor.html
+# https://www.mongodb.com/docs/manual/tutorial/query-documents/
+@application.route('/api/questions')
+def get_questions():
+    _collection = _db.questions
+    _answer = []
+    for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1}):
+        _answer.append(doc)
+
+    return jsonify(_answer), 200
+
+
+@application.route('/api/quizzes')
+def get_quizzes():
     _collection = _db.quizzes
-    # _answer = _collection.find_one({}, {'_id': 0})
-    _answer = _collection.find_one({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
-    # _answer = _collection.find_one({'data': {'$elemMatch': {"Noun": "Bleistift"}}},
-    #                              {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1})
+    _answer = []
+    for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'qzid': 1, 'quid': 1, 'name': 1}):
+        _answer.append(doc)
+
+    return jsonify(_answer), 200
+
+
+@application.route('/api/mongo')
+def get_mongodb_collections():
+    _answer = _db.list_collection_names()
     return jsonify(_answer), 200
 
 
