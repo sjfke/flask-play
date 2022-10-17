@@ -145,25 +145,35 @@ def get_quiz_form():
         return jsonify(_answer), 404
 
     else:
+        _qzid = None
         _quiz_id = None
         try:
             _quiz_id = request.args.get('id', '')  # (key, default, type)
         except KeyError:
             f'Invalid key: need quiz "id"'
 
+        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
         if _quiz_id.startswith('qiz-'):
             _quiz_id = _quiz_id.replace('qiz', 'QIZ', 1)
 
-        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
-        # _quiz_id = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86", "name": "quizB"
-        # _quiz_id = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6", "name": "quizC"
+        _qzid = _quiz_id.replace('QIZ-', '')
 
         _collection = _db.quizzes
+
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+        # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,data:1})
         _dict = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'data': 1})
 
+        # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
+        _uuids = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        # strip prefix, so pure UUID sent/received on GET/POST
+        _uuids['cif'] = _uuids['cif'].replace('CIF-', '')
+        _uuids['quid'] = _uuids['quid'].replace('QID-', '')
+        _uuids['qzid'] = _uuids['qzid'].replace('QIZ-', '')
+
         if _dict:
-            return render_template("quiz.html", data=_dict["data"])
+            return render_template("quiz.html", data=_dict["data"], uuids=_uuids)
+
         return jsonify(_dict), 200
 
 
