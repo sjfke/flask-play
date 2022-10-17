@@ -13,19 +13,19 @@
             <div class="col-sm-10">
                 <div class="input-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt1 }}</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt2 }}</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt3 }}</label>

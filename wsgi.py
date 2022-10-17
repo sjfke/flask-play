@@ -116,9 +116,9 @@ def get_quiz_form():
         _result = {}  # _answer is immutable so need another Dictionary
 
         # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
-        #   "name-radio-l01":"der",
-        #   "name-radio-l02":"der",
-        #   "name-radio-l03":"das",
+        #   "name-radio-E-Mail":"die"
+        #   "name-radio-Handy":"das"
+        #   "name-radio-Laptop":"der"
         #   "quid":"42cb197a-d10f-47e6-99bb-a814d4ca95da",
         #   "qzid":"3021178c-c430-4285-bed2-114dfe4db9df"
         #  }
@@ -134,14 +134,12 @@ def get_quiz_form():
             if _key == 'qzid':
                 if is_valid_uuid4(escape(_answer['qzid'])):
                     _result['qzid'] = "QIZ-{0}".format(escape(_answer['qzid']))
-            if _key.startswith('name-radio-l'):
-                if 'data' not in _result:
-                    _result['data'] = []
-                _result['data'].append(escape(_answer[_key]))
+            if _key.startswith('name-radio-'):
+                _key_name = _key.replace('name-radio-', '')
+                _result[_key_name] = escape(_answer[_key])
 
         if _result:
             return jsonify(_result), 200
-
         # if _answer:
         #     return jsonify(_answer), 200
         return jsonify(_answer), 404
