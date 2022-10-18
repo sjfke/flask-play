@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block heading %}<h4>{{ uuids.name }}: good luck...</h4>{% endblock %}
+{% block heading %}<h4>{{ meta_data.name }}: good luck...</h4>{% endblock %}
 {% block body %}
 <form action="#" target="_blank" method="post">
     <div class="container px-4">
@@ -45,9 +45,9 @@
             </div>
         </div>
     </div>
-    <input type="hidden" id="cif" name="cif" value={{ uuids.cif }}>
-    <input type="hidden" id="quid" name="quid" value={{ uuids.quid }}>
-    <input type="hidden" id="qzid" name="qzid" value={{ uuids.qzid }}>
+    <input type="hidden" id="cif" name="cif" value={{ meta_data.cif }}>
+    <input type="hidden" id="quid" name="quid" value={{ meta_data.quid }}>
+    <input type="hidden" id="qzid" name="qzid" value={{ meta_data.qzid }}>
 </form>
 
 {% endblock %}

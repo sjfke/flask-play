@@ -165,17 +165,28 @@ def get_quiz_form():
         _dict = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'data': 1})
 
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
-        _uuids = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        _meta_data = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
         # strip prefix, so pure UUID sent/received on GET/POST
-        _uuids['cif'] = _uuids['cif'].replace('CIF-', '')
-        _uuids['quid'] = _uuids['quid'].replace('QID-', '')
-        _uuids['qzid'] = _uuids['qzid'].replace('QIZ-', '')
+        _meta_data['cif'] = _meta_data['cif'].replace('CIF-', '')
+        _meta_data['quid'] = _meta_data['quid'].replace('QID-', '')
+        _meta_data['qzid'] = _meta_data['qzid'].replace('QIZ-', '')
 
         if _dict:
-            return render_template("quiz.html", data=_dict["data"], uuids=_uuids)
+            return render_template("quiz.html", data=_dict["data"], meta_data=_meta_data)
 
         return jsonify(_dict), 200
 
+        # MongoDB query to look up answer, need to iterate over returned data, find_one() works.
+        # {
+        #   "E-Mail":"das",
+        #   "Handy":"das",
+        #   "Laptop":"das",
+        #   "cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+        #   "quid":"QID-42cb197a-d10f-47e6-99bb-a814d4ca95da",
+        #   "qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
+        # }
+        # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
+        # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
 
 @application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():
