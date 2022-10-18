@@ -113,7 +113,7 @@ def formgrid():
 def get_quiz_form():
     if request.method == 'POST':
         _answer = request.form
-        _result = {}  # _answer is immutable so need another Dictionary
+        _request = {}  # _answer is immutable so need another Dictionary
 
         # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
         #   "name-radio-E-Mail":"die"
@@ -127,21 +127,35 @@ def get_quiz_form():
         for _key in _answer.keys():
             if _key == 'cif':
                 if is_valid_uuid4(escape(_answer['cif'])):
-                    _result['cif'] = "CIF-{0}".format(escape(_answer['cif']))
+                    _request['cif'] = "CIF-{0}".format(escape(_answer['cif']))
             if _key == 'quid':
                 if is_valid_uuid4(escape(_answer['quid'])):
-                    _result['quid'] = "QID-{0}".format(escape(_answer['quid']))
+                    _request['quid'] = "QID-{0}".format(escape(_answer['quid']))
             if _key == 'qzid':
                 if is_valid_uuid4(escape(_answer['qzid'])):
-                    _result['qzid'] = "QIZ-{0}".format(escape(_answer['qzid']))
+                    _request['qzid'] = "QIZ-{0}".format(escape(_answer['qzid']))
             if _key.startswith('name-radio-'):
                 _key_name = _key.replace('name-radio-', '')
-                _result[_key_name] = escape(_answer[_key])
+                _request[_key_name] = escape(_answer[_key])
 
-        if _result:
-            return jsonify(_result), 200
-        # if _answer:
-        #     return jsonify(_answer), 200
+        if _request:
+            return jsonify(_request), 200
+            # if _answer:
+            #     return jsonify(_answer), 200
+
+            # MongoDB query to look up answer, need to iterate over returned data, find_one() works.
+            # {
+            #   "E-Mail":"das",
+            #   "Handy":"das",
+            #   "Laptop":"das",
+            #   "cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+            #   "quid":"QID-42cb197a-d10f-47e6-99bb-a814d4ca95da",
+            #   "qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
+            # }
+            # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
+            # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
+            # _dict = _db.questions.find_one({'quid': _request['quid']}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1, 'data': {'Noun': 1, 'Ans': 1}})
+
         return jsonify(_answer), 404
 
     else:
@@ -176,17 +190,6 @@ def get_quiz_form():
 
         return jsonify(_dict), 200
 
-        # MongoDB query to look up answer, need to iterate over returned data, find_one() works.
-        # {
-        #   "E-Mail":"das",
-        #   "Handy":"das",
-        #   "Laptop":"das",
-        #   "cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
-        #   "quid":"QID-42cb197a-d10f-47e6-99bb-a814d4ca95da",
-        #   "qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-        # }
-        # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
-        # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
 
 @application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():
