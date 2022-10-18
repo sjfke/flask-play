@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block heading %}<h2>Good Luck...</h2>{% endblock %}
+{% block heading %}<h4>{{ meta_data.name }}: good luck...</h4>{% endblock %}
 {% block body %}
 <form action="#" target="_blank" method="post">
     <div class="container px-4">
@@ -13,19 +13,19 @@
             <div class="col-sm-10">
                 <div class="input-group">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt1 }}</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt2 }}</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name='name-radio-l{{ "{:02d}".format(loop.index) }}'
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt3 }}</label>
@@ -45,9 +45,9 @@
             </div>
         </div>
     </div>
-    <input type="hidden" id="cif" name="cif" value="919ae5a5-34e4-4b88-979a-5187d46d1617">
-    <input type="hidden" id="quid" name="quid" value="42cb197a-d10f-47e6-99bb-a814d4ca95da">
-    <input type="hidden" id="qzid" name="qzid" value="3021178c-c430-4285-bed2-114dfe4db9df">
+    <input type="hidden" id="cif" name="cif" value={{ meta_data.cif }}>
+    <input type="hidden" id="quid" name="quid" value={{ meta_data.quid }}>
+    <input type="hidden" id="qzid" name="qzid" value={{ meta_data.qzid }}>
 </form>
 
 {% endblock %}

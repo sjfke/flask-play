@@ -116,9 +116,9 @@ def get_quiz_form():
         _result = {}  # _answer is immutable so need another Dictionary
 
         # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
-        #   "name-radio-l01":"der",
-        #   "name-radio-l02":"der",
-        #   "name-radio-l03":"das",
+        #   "name-radio-E-Mail":"die"
+        #   "name-radio-Handy":"das"
+        #   "name-radio-Laptop":"der"
         #   "quid":"42cb197a-d10f-47e6-99bb-a814d4ca95da",
         #   "qzid":"3021178c-c430-4285-bed2-114dfe4db9df"
         #  }
@@ -134,40 +134,59 @@ def get_quiz_form():
             if _key == 'qzid':
                 if is_valid_uuid4(escape(_answer['qzid'])):
                     _result['qzid'] = "QIZ-{0}".format(escape(_answer['qzid']))
-            if _key.startswith('name-radio-l'):
-                if 'data' not in _result:
-                    _result['data'] = []
-                _result['data'].append(escape(_answer[_key]))
+            if _key.startswith('name-radio-'):
+                _key_name = _key.replace('name-radio-', '')
+                _result[_key_name] = escape(_answer[_key])
 
         if _result:
             return jsonify(_result), 200
-
         # if _answer:
         #     return jsonify(_answer), 200
         return jsonify(_answer), 404
 
     else:
+        _qzid = None
         _quiz_id = None
         try:
             _quiz_id = request.args.get('id', '')  # (key, default, type)
         except KeyError:
             f'Invalid key: need quiz "id"'
 
+        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
         if _quiz_id.startswith('qiz-'):
             _quiz_id = _quiz_id.replace('qiz', 'QIZ', 1)
 
-        # _quiz_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
-        # _quiz_id = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86", "name": "quizB"
-        # _quiz_id = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6", "name": "quizC"
+        _qzid = _quiz_id.replace('QIZ-', '')
 
         _collection = _db.quizzes
+
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
+        # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,data:1})
         _dict = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'data': 1})
 
+        # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
+        _meta_data = _collection.find_one({'qzid': _quiz_id}, {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        # strip prefix, so pure UUID sent/received on GET/POST
+        _meta_data['cif'] = _meta_data['cif'].replace('CIF-', '')
+        _meta_data['quid'] = _meta_data['quid'].replace('QID-', '')
+        _meta_data['qzid'] = _meta_data['qzid'].replace('QIZ-', '')
+
         if _dict:
-            return render_template("quiz.html", data=_dict["data"])
+            return render_template("quiz.html", data=_dict["data"], meta_data=_meta_data)
+
         return jsonify(_dict), 200
 
+        # MongoDB query to look up answer, need to iterate over returned data, find_one() works.
+        # {
+        #   "E-Mail":"das",
+        #   "Handy":"das",
+        #   "Laptop":"das",
+        #   "cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+        #   "quid":"QID-42cb197a-d10f-47e6-99bb-a814d4ca95da",
+        #   "qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
+        # }
+        # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
+        # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
 
 @application.route('/formgrid2', methods=['GET', 'POST'])
 def formgrid2():

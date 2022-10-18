@@ -88,8 +88,9 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*Bootstrap:* Footer not at bottom](https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom)
 
 ## Markdown References
-* [Markdown: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-* [MarkDown: Code Blocks](https://rdmd.readme.io/docs/code-blocks)
+* [GitHub: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+* [MarkdownGuide: Cheat Sheet](https://www.markdownguide.org/cheat-sheet)
+* [Readme.IO: Code Blocks](https://rdmd.readme.io/docs/code-blocks)
 
 This repository provides a simple Python web application implemented using the Flask web framework and executed using 
 ``gunicorn``. It is intended to be used to demonstrate building and test of Python Flask web applications using [Docker](https://docs.docker.com/get-started/overview/) 
