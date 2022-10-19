@@ -124,7 +124,7 @@ def quiz_form():
         #  }
 
         # Check UUID values, and build 'data' array for responses
-        for _key in _request.keys():
+        for _key in _request:
             if _key == 'cif':
                 if is_valid_uuid4(escape(_request['cif'])):
                     _request_values['cif'] = "CIF-{0}".format(escape(_request['cif']))
@@ -139,7 +139,7 @@ def quiz_form():
                 _request_values[_key_name] = escape(_request[_key])
 
         if _request_values:
-            return jsonify(_request_values), 200
+            # return jsonify(_request_values), 200
             # if _request:
             #     return jsonify(_request), 200
 
@@ -154,7 +154,27 @@ def quiz_form():
             # }
             # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
             # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
-            # _dict = _db.questions.find_one({'quid': _request_values['quid']}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1, 'data': {'Noun': 1, 'Ans': 1}})
+
+            _question = _db.questions.find_one({'quid': _request_values['quid']},
+                                               {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1, 'data': 1})
+
+            # Add additional fields to capture response
+            for _x in _question['data']:
+                _x['Pass'] = 'x'
+                _x['Choice'] = None
+
+            # Loop over _question (should be _quiz) and check the answers
+            # TODO: use _quiz and populate with 'Ans' from _question
+            # TODO: convert this to be _quiz (not _question)
+            for _x in _question['data']:
+                if _x['Noun'] in _request_values:
+                    _x['Choice'] = _request_values[_x['Noun']]
+                    if _request_values[_x['Noun']] == _x['Ans']:
+                        _x['Pass'] = 'y'
+                    else:
+                        _x['Pass'] = 'n'
+
+            return jsonify(_question), 200
 
         return jsonify(_request), 404
 
@@ -178,7 +198,8 @@ def quiz_form():
         _dict = _collection.find_one({'qzid': _request_values_id}, {'_id': 0, 'data': 1})
 
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
-        _meta_data = _collection.find_one({'qzid': _request_values_id}, {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        _meta_data = _collection.find_one({'qzid': _request_values_id},
+                                          {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
         # strip prefix, so pure UUID sent/received on GET/POST
         _meta_data['cif'] = _meta_data['cif'].replace('CIF-', '')
         _meta_data['quid'] = _meta_data['quid'].replace('QID-', '')
