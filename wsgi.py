@@ -155,9 +155,47 @@ def quiz_form():
             # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
             # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
 
+            # TODO: _question can probably go!
             _question = _db.questions.find_one({'quid': _request_values['quid']},
                                                {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1, 'data': 1})
 
+            _question_ans = _db.questions.find_one({'quid': _request_values['quid']},
+                                                   {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1,
+                                                    'data': {'Noun': 1, 'Ans': 1, 'Plural': 1}})
+            _quiz = _db.quizzes.find_one({'qzid': _request_values['qzid']},
+                                         {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1, 'data': 1})
+
+            # Build key ('Noun') lookup tables
+            _dict_ans = {}
+            _dict_plural = {}
+            for _x in _question_ans['data']:
+                _dict_ans[_x['Noun']] = _x['Ans']
+                _dict_plural[_x['Noun']] = _x['Plural']
+
+            # Add extra fields to _quiz with default values
+            for _x in _quiz['data']:
+                _x['Ans'] = None
+                _x['Pass'] = 'x'
+                _x['Choice'] = None
+
+            # Populate _quiz extra fiedls 'Ans' and 'Plural' with correct values
+            for _x in _quiz['data']:
+                if _x['Noun'] in _dict_ans:
+                    _x['Ans'] = _dict_ans[_x['Noun']]
+                if _x['Noun'] in _dict_plural:
+                    _x['Plural'] = _dict_plural[_x['Noun']]
+
+            for _x in _quiz['data']:
+                if _x['Noun'] in _request_values:
+                    _x['Choice'] = _request_values[_x['Noun']]
+                    if _request_values[_x['Noun']] == _x['Ans']:
+                        _x['Pass'] = 'y'
+                    else:
+                        _x['Pass'] = 'n'
+
+            return jsonify(_quiz), 200
+
+            # TODO: remove this cruft....
             # Add additional fields to capture response
             for _x in _question['data']:
                 _x['Pass'] = 'x'
