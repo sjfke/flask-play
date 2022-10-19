@@ -110,7 +110,7 @@ def formgrid():
 
 
 @application.route('/quiz', methods=['GET', 'POST'])
-def quiz_form():
+def quiz_nouns_form():
     if request.method == 'POST':
         _request = request.form
         _request_values = {}  # _request is immutable so need another Dictionary
@@ -143,38 +143,48 @@ def quiz_form():
             # if _request:
             #     return jsonify(_request), 200
 
-            # MongoDB query to look up answer, need to iterate over returned data, find_one() works.
-            # {
-            #   "E-Mail":"das",
-            #   "Handy":"das",
-            #   "Laptop":"das",
-            #   "cif":"CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
-            #   "quid":"QID-42cb197a-d10f-47e6-99bb-a814d4ca95da",
-            #   "qzid":"QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-            # }
-            # db.questions.find({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
-            # db.questions.find_one({quid: 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da'},{_id:0,cif:1,quid:1,name:1,data:1})
+            # Extract 'Ans' and 'Plural' for each 'Noun' from 'quid'
+            _question_ans = _db.questions.find_one({'quid': _request_values['quid']},
+                                                   {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1,
+                                                    'data': {'Noun': 1, 'Ans': 1, 'Plural': 1}})
 
-            _question = _db.questions.find_one({'quid': _request_values['quid']},
-                                               {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1, 'data': 1})
+            # Lookup tables (keyed on 'Noun') from _question_ans
+            _dict_ans = {}
+            _dict_plural = {}
 
-            # Add additional fields to capture response
-            for _x in _question['data']:
-                _x['Pass'] = 'x'
+            # _dict_ans: {'Laptop': 'der', 'E-Mail': 'die', 'Handy': 'das'}
+            # _dict_plural: {'Laptop': 'Laptops', 'E-Mail': 'E-Mails', 'Handy': 'Handys'}
+            for _x in _question_ans['data']:
+                _dict_ans[_x['Noun']] = _x['Ans']
+                _dict_plural[_x['Noun']] = _x['Plural']
+
+            # Extract _quiz ('qzid') corresponding to _request_values['gzid']
+            _quiz = _db.quizzes.find_one({'qzid': _request_values['qzid']},
+                                         {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1, 'data': 1})
+
+            # Add extra fields to _quiz with default values
+            for _x in _quiz['data']:
+                _x['Ans'] = None
+                _x['Correct'] = 'x'
                 _x['Choice'] = None
 
-            # Loop over _question (should be _quiz) and check the answers
-            # TODO: use _quiz and populate with 'Ans' from _question
-            # TODO: convert this to be _quiz (not _question)
-            for _x in _question['data']:
+            # Populate _quiz extra fields 'Ans' and 'Plural' with correct values
+            for _x in _quiz['data']:
+                if _x['Noun'] in _dict_ans:
+                    _x['Ans'] = _dict_ans[_x['Noun']]
+                if _x['Noun'] in _dict_plural:
+                    _x['Plural'] = _dict_plural[_x['Noun']]
+
+            # Perform check of _request_values against (augmented) _quiz, populate 'Choice' and 'Correct'
+            for _x in _quiz['data']:
                 if _x['Noun'] in _request_values:
                     _x['Choice'] = _request_values[_x['Noun']]
-                    if _request_values[_x['Noun']] == _x['Ans']:
-                        _x['Pass'] = 'y'
-                    else:
-                        _x['Pass'] = 'n'
+                    _x['Correct'] = 'n'
 
-            return jsonify(_question), 200
+                    if _request_values[_x['Noun']] == _x['Ans']:
+                        _x['Correct'] = 'y'
+
+            return jsonify(_quiz), 200
 
         return jsonify(_request), 404
 
@@ -206,7 +216,7 @@ def quiz_form():
         _meta_data['qzid'] = _meta_data['qzid'].replace('QIZ-', '')
 
         if _dict:
-            return render_template("quiz.html", data=_dict["data"], meta_data=_meta_data)
+            return render_template("quiz-nouns.html", data=_dict["data"], meta_data=_meta_data)
 
         return jsonify(_dict), 200
 
