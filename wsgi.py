@@ -220,6 +220,7 @@ def quiz_nouns_form():
         _meta_data['qzid'] = _meta_data['qzid'].replace('QIZ-', '')
 
         if _dict:
+            return render_template("nouns-quiz.html", data=_dict["data"], meta_data=_meta_data)
             return render_template("quiz-nouns.html", data=_dict["data"], meta_data=_meta_data)
 
         return jsonify(_dict), 200

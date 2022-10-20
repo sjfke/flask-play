@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block heading %}<h4>{{ meta_data.name }}: good luck...</h4>{% endblock %}
+{% block body %}
+<form action="#" target="_blank" method="post">
+    <div class="container px-4">
+        {% for item in data %}
+        <div class="row gx-3">
+            <div class="col-sm-10">
+                <div class="input-group">
+                    <div class="form-check form-check-inline">
+                        <span class="input-group-text" id='id-group-text-label-{{ "{:02d}".format(loop.index) }}'>{{ item.Label }}</span>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
+                            {{ item.Opt1 }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt2 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
+                            {{ item.Opt2 }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name='name-radio-{{ item.Noun }}'
+                               id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt3 }}">
+                        <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
+                            {{ item.Opt3 }}</label>
+                    </div>
+                    <div class="form-check form-check-inline" id='id-text-noun-{{ "{:02d}".format(loop.index) }}'><b>{{ item.Noun }}</b></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="row gy-5">
+            <div class="col">
+                <div aria-label="Reset Submit" class="btn-group" role="group">
+                    <button class="btn btn-primary btn-sm" type="reset">Reset</button>
+                    <button class="btn btn-info btn-sm" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="cif" name="cif" value={{ meta_data.cif }}>
+    <input type="hidden" id="quid" name="quid" value={{ meta_data.quid }}>
+    <input type="hidden" id="qzid" name="qzid" value={{ meta_data.qzid }}>
+</form>
+
+{% endblock %}
