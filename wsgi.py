@@ -2,6 +2,7 @@ import uuid
 
 import requests
 from flask import Flask
+from flask import abort
 from flask import jsonify
 from flask import render_template
 from flask import request
@@ -194,7 +195,7 @@ def quiz_nouns_form():
         try:
             _request_values_id = request.args.get('id', '')  # (key, default, type)
         except KeyError:
-            f'Invalid key: need quiz "id"'
+            abort(400)
 
         # _request_values_id = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df", "name": "quizA"
         if _request_values_id.startswith('qiz-'):
@@ -210,6 +211,9 @@ def quiz_nouns_form():
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
         _meta_data = _collection.find_one({'qzid': _request_values_id},
                                           {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        if _meta_data is None:
+            abort(400)
+
         # strip prefix, so pure UUID sent/received on GET/POST
         _meta_data['cif'] = _meta_data['cif'].replace('CIF-', '')
         _meta_data['quid'] = _meta_data['quid'].replace('QID-', '')
