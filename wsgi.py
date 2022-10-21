@@ -111,20 +111,11 @@ def formgrid():
 
 
 @application.route('/quiz', methods=['GET', 'POST'])
-def quiz_nouns_form():
+def nouns_quiz():
     if request.method == 'POST':
         _request = request.form
         # return jsonify(_request), 200
-
-        _request_values = {}  # _request is immutable so need another Dictionary
-
-        # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
-        #   "name-radio-E-Mail":"die"
-        #   "name-radio-Handy":"das"
-        #   "name-radio-Laptop":"der"
-        #   "quid":"42cb197a-d10f-47e6-99bb-a814d4ca95da",
-        #   "qzid":"3021178c-c430-4285-bed2-114dfe4db9df"
-        #  }
+        _request_values = {}  # sanitize _request in another Dictionary (_request immutable)
 
         # Check UUID values, and build 'data' array for responses
         for _key in _request:
@@ -216,7 +207,6 @@ def quiz_nouns_form():
 
         if _dict:
             return render_template("nouns-quiz.html", data=_dict["data"], meta_data=_meta_data)
-            return render_template("quiz-nouns.html", data=_dict["data"], meta_data=_meta_data)
 
         return jsonify(_dict), 200
 
