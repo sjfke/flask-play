@@ -114,6 +114,8 @@ def formgrid():
 def quiz_nouns_form():
     if request.method == 'POST':
         _request = request.form
+        # return jsonify(_request), 200
+
         _request_values = {}  # _request is immutable so need another Dictionary
 
         # { "cif":"919ae5a5-34e4-4b88-979a-5187d46d1617",
@@ -140,24 +142,15 @@ def quiz_nouns_form():
                 _request_values[_key_name] = escape(_request[_key])
 
         if _request_values:
-            # return jsonify(_request_values), 200
+            # return jsonify(_request_values), 200 # sanitized (cooked :-))
             # if _request:
-            #     return jsonify(_request), 200
+            #     return jsonify(_request), 200    # raw
 
             # Extract 'Ans' and 'Plural' for each 'Noun' from 'quid'
             _question_ans = _db.questions.find_one({'quid': _request_values['quid']},
                                                    {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1,
-                                                    'data': {'Noun': 1, 'Ans': 1, 'Plural': 1}})
-
-            # Lookup tables (keyed on 'Noun') from _question_ans
-            _dict_ans = {}
-            _dict_plural = {}
-
-            # _dict_ans: {'Laptop': 'der', 'E-Mail': 'die', 'Handy': 'das'}
-            # _dict_plural: {'Laptop': 'Laptops', 'E-Mail': 'E-Mails', 'Handy': 'Handys'}
-            for _x in _question_ans['data']:
-                _dict_ans[_x['Noun']] = _x['Ans']
-                _dict_plural[_x['Noun']] = _x['Plural']
+                                                    'data': {'Label': 1, 'Noun': 1, 'Ans': 1, 'Plural': 1}})
+            _question_ans_data = _question_ans['data']
 
             # Extract _quiz ('qzid') corresponding to _request_values['gzid']
             _quiz = _db.quizzes.find_one({'qzid': _request_values['qzid']},
@@ -168,22 +161,24 @@ def quiz_nouns_form():
                 _x['Ans'] = None
                 _x['Correct'] = 'x'
                 _x['Choice'] = None
+                _x['Plural'] = None
 
-            # Populate _quiz extra fields 'Ans' and 'Plural' with correct values
+            # Populate _quiz 'Ans', 'Plural' with _question 'Ans', 'Plural'
             for _x in _quiz['data']:
-                if _x['Noun'] in _dict_ans:
-                    _x['Ans'] = _dict_ans[_x['Noun']]
-                if _x['Noun'] in _dict_plural:
-                    _x['Plural'] = _dict_plural[_x['Noun']]
+                for _y in _question_ans_data:
+                    if _x['Label'] == _y['Label']:
+                        _x['Ans'] = _y['Ans']
+                        _x['Plural'] = _y['Plural']
 
-            # Perform check of _request_values against (augmented) _quiz, populate 'Choice' and 'Correct'
-            for _x in _quiz['data']:
-                if _x['Noun'] in _request_values:
-                    _x['Choice'] = _request_values[_x['Noun']]
-                    _x['Correct'] = 'n'
-
-                    if _request_values[_x['Noun']] == _x['Ans']:
-                        _x['Correct'] = 'y'
+            # Check Ans (answer), 'Plural' check no done
+            # Loop over sanitized POST response (_request_values) and update _quiz 'Choice', 'Correct'
+            for _key, _value in _request_values.items():
+                for _y in _quiz['data']:
+                    if _key == _y['Label']:
+                        _y['Choice'] = _value
+                        _y['Correct'] = 'n'
+                        if _value == _y['Ans']:
+                            _y['Correct'] = 'y'
 
             return jsonify(_quiz), 200
 
