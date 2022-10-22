@@ -13,7 +13,6 @@
                     <div class="form-check form-check-inline">
                         <span class="input-group-text" id='id-group-text-label-{{ "{:02d}".format(loop.index) }}'>{{ item.Label }}</span>
                     </div>
-                    <div class="form-check form-check-inline" id='id-text-noun-{{ "{:02d}".format(loop.index) }}'><b>{{ item.Ans }}</b></div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name='name-radio-{{ item.Label }}'
                                id='id-radio-l{{ "{:02d}".format(loop.index) }}' value="{{ item.Opt1 }}"
@@ -44,6 +43,7 @@
                         <label class="form-check-label" for='id-radio-l{{ "{:02d}".format(loop.index) }}'>
                             {{ item.Opt3 }}</label>
                     </div>
+                    <div class="form-check form-check-inline" id='id-text-noun-{{ "{:02d}".format(loop.index) }}'><b>{{ item.Ans }}</b></div>
                     <div class="form-check form-check-inline" id='id-text-noun-{{ "{:02d}".format(loop.index) }}'><b>{{ item.Noun }}</b></div>
                     <div class="form-check form-check-inline" id='id-text-desc-{{ "{:02d}".format(loop.index) }}'><i>{{ item.Desc }}</i></div>
                 </div>
