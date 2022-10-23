@@ -171,7 +171,30 @@ def nouns_quiz():
                         if _value == _y['Ans']:
                             _y['Correct'] = 'y'
 
-            return jsonify(_quiz), 200
+            # return jsonify(_quiz), 200
+
+            # _quiz = {
+            #  "cif": "CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+            #  "quid": "QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c",
+            #  "qzid": "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86",
+            #  "name": "quizB",
+            #  "data": [
+            #    {"Ans": "die", "Choice": "der", "Correct": "n", "Desc": "Stamp", "Label": "Q01", "Noun": "Briefemarke",
+            #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Briefmarken"},
+            #    {"Ans": "die", "Choice": "die", "Correct": "y", "Desc": "Bill, Invoice", "Label": "Q02",
+            #     "Noun": "Rechnung", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Rechnungen"},
+            #    {"Ans": "das", "Choice": "das", "Correct": "y", "Desc": "Telephone", "Label": "Q03", "Noun": "Telefon",
+            #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Telefone"},
+            #    {"Ans": "das", "Choice": "die", "Correct": "n", "Desc": "Form", "Label": "Q04", "Noun": "Forumlar",
+            #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Formulare"},
+            #    {"Ans": "der", "Choice": "die", "Correct": "n", "Desc": "Printer", "Label": "Q05", "Noun": "Drucker",
+            #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Drucker"}
+            #  ]
+            # }
+            _meta_data = {'name': _quiz['name'], 'cif': _quiz['cif'].replace('CIF-', ''),
+                          'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', '')}
+
+            return render_template("nouns-result.html", data=_quiz["data"], meta_data=_meta_data)
 
         return jsonify(_request), 404
 
