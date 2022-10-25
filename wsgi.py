@@ -216,10 +216,13 @@ def nouns_quiz():
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,data:1})
         _dict = _collection.find_one({'qzid': _request_values_id}, {'_id': 0, 'data': 1})
+        # return jsonify(_dict), 200
 
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,cif:1,qzid:1,quid:1,name:1})
         _meta_data = _collection.find_one({'qzid': _request_values_id},
                                           {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1})
+        # return jsonify(_meta_data), 200
+
         if _meta_data is None:
             abort(400)
 
@@ -227,6 +230,7 @@ def nouns_quiz():
         _meta_data['cif'] = _meta_data['cif'].replace('CIF-', '')
         _meta_data['quid'] = _meta_data['quid'].replace('QID-', '')
         _meta_data['qzid'] = _meta_data['qzid'].replace('QIZ-', '')
+        # return jsonify(_meta_data), 200
 
         if _dict:
             return render_template("nouns-quiz.html", data=_dict["data"], meta_data=_meta_data)
