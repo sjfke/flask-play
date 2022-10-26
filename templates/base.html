@@ -41,17 +41,22 @@
                 Flask</a></li>
         </ul>
     </nav>
-    {% block heading %}
-    {% endblock %}
-    {% block body %}
-    {% endblock %}
+    <main>
+        <!--https://getbootstrap.com/docs/5.0/components/card/-->
+        <div class="card bg-primary">
+            <div class="card-body bg-primary">
+                {% block card_title %}
+                {% endblock %}
+                {% block card_body %}
+                {% endblock %}
+            </div>
+        </div>
+    </main>
 
-    <!--    https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom -->
-    <!--
-        https://www.w3schools.com/bootstrap5/bootstrap_flex.php
-        https://getbootstrap.com/docs/5.1/getting-started/introduction/
-        https://getbootstrap.com/docs/5.1/utilities/flex/
-    -->
+    <!--https://www.w3schools.com/bootstrap5/bootstrap_flex.php-->
+    <!--https://getbootstrap.com/docs/5.1/getting-started/introduction/&ndash;&gt;-->
+    <!--https://getbootstrap.com/docs/5.1/utilities/flex/&ndash;&gt;-->
+
     <footer class="d-flex justify-content-center mt-auto">
         <div class="d-flex justify-content-between col-md-8 col-md-offset-2 mb-3 mt-5">
 
