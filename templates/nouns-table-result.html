@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Testing table output{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block card_title %}<h4>Testing table output</h4>{% endblock %}
+{% block card_body %}
+<!-- https://bootstrap.themes.guide/hootstrap/ -->
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Label</th>
+      <th scope="col">Opt1</th>
+      <th scope="col">Opt2</th>
+      <th scope="col">Opt3</th>
+      <th scope="col">Noun</th>
+      <th scope="col">Plural</th>
+      <th scope="col">Desc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Q01</th>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12" height="12">&nbsp;der</td>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill" width="12" height="12">&nbsp;die</td>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle" width="12" height="12">&nbsp;das</td>
+      <td>Laptop</td>
+      <td>Laptops</td>
+      <td>Laptop</td>
+    </tr>
+    <tr>
+      <th scope="row">Q02</th>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/check-circle-fill.svg') }}" alt="CheckCircleFill" width="12" height="12">&nbsp;der</td>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12" height="12">&nbsp;die</td>
+      <td><img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12" height="12">&nbsp;das</td>
+      <td>E-Mail</td>
+      <td>E-Mails</td>
+      <td>EMail</td>
+    </tr>
+  </tbody>
+  <tr>
+    <th scope="row">Q03</th>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/square.svg') }}" alt="Square" width="12" height="12">&nbsp;der</td>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/square-fill.svg') }}" alt="git SquareFill" width="12" height="12">&nbsp;die</td>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/check2-square.svg') }}" alt="Check2Square" width="12" height="12">&nbsp;das</td>
+    <td>Handy</td>
+    <td>Handys</td>
+    <td>CellPhone</td>
+  </tr>
+  <tr>
+    <th scope="row">Q04</th>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/square.svg') }}" alt="Square" width="12" height="12">&nbsp;der</td>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/check-square-fill.svg') }}" alt="CheckSquareFill" width="12" height="12">&nbsp;die</td>
+    <td><img src="{{ url_for('static', filename='bootstrap-icons/square.svg') }}" alt="Square" width="12" height="12">&nbsp;das</td>
+    <td>Briefemarke</td>
+    <td>Briefmarken</td>
+    <td>Stamp</td>
+  </tr>
+</table>
+
+{% endblock %}
