@@ -110,6 +110,11 @@ def formgrid():
         return jsonify(_dict), 200
 
 
+@application.route('/nouns-table-result')
+def nouns_table_result():
+    return render_template("nouns-table-result.html")
+
+
 @application.route('/quiz', methods=['GET', 'POST'])
 def nouns_quiz():
     if request.method == 'POST':
