@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Quiz{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block heading %}<h4>{{ meta_data.name }}: good luck...</h4>{% endblock %}
-{% block body %}
+{% block card_title %}<h4>{{ meta_data.name }}: good luck...</h4>{% endblock %}
+{% block card_body %}
 <form action="#" target="_blank" method="post">
     <div class="container bg-primary px-4">
         {% for item in data %}

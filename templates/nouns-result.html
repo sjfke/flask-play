@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Result{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block heading %}<h4>{{ meta_data.name }}: your result...</h4>{% endblock %}
-{% block body %}
+{% block card_title %}<h4>{{ meta_data.name }}: your result...</h4>{% endblock %}
+{% block card_body %}
 <!-- https://bootstrap.themes.guide/hootstrap/ -->
 <form action="#" target="_blank" method="post">
     <div class="container px-4">
