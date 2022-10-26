@@ -437,11 +437,15 @@ def runnable():
 
 
 @application.route('/isready')
+@application.route('/isReady')
+@application.route('/IsReady')
 def is_ready():
     return 'isReady'
 
 
 @application.route('/isalive')
+@application.route('/isAlive')
+@application.route('/IsAlive')
 def is_alive():
     return 'isAlive'
 
