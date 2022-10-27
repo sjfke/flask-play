@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Testing table output{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block card_title %}<h4>Testing table output</h4>{% endblock %}
+{% block card_title %}<h4>{{ meta_data.name }}: your result...</h4>{% endblock %}
 {% block card_body %}
 <!-- https://bootstrap.themes.guide/hootstrap/ -->
 <!-- https://getbootstrap.com/docs/5.2/content/tables/ -->
+<!-- https://getbootstrap.com/docs/5.2/utilities/sizing/ -->
+<!-- https://getbootstrap.com/docs/5.2/utilities/position/ -->
 <!-- https://icons.getbootstrap.com/ -->
 
 <div class="table-responsive">
-    <table class="table table-sm table-hover">
+    <table class="w-75 table table-sm table-hover">
         <thead>
         <tr>
             <th scope="col"></th>
@@ -42,7 +44,7 @@
                 <td>
                     {% if item.Correct is eq 'y' and item.Opt2 is eq item.Ans %}
                     <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
-                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                         width="12" height="12">&nbsp;{{ item.Opt2 }}
                     {% elif item.Opt2 is eq item.Choice %}
                     <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
                          width="12" height="12">&nbsp;{{ item.Opt2 }}
@@ -54,7 +56,7 @@
                 <td>
                     {% if item.Correct is eq 'y' and item.Opt3 is eq item.Ans %}
                     <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
-                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                         width="12" height="12">&nbsp;{{ item.Opt3 }}
                     {% elif item.Opt3 is eq item.Choice %}
                     <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
                          width="12" height="12">&nbsp;{{ item.Opt3 }}
