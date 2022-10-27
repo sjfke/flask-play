@@ -51,11 +51,11 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*DelftStack*: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
 * [*StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
 * [*StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
-* [*PalletsProjects:* Jinja 2.11.x Template Designer Documentation](https://jinja.palletsprojects.com/en/2.11.x/templates/)
+* [*PalletsProjects:* Jinja 3.0.x Template Designer Documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
 * [*PyFormat:* Using % and .format() for great good!](https://pyformat.info/)
 * [*DigitalOcean:* How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
 * [*LearnWithJason:* How to Convert HTML Form Field Values to a JSON Object](https://www.learnwithjason.dev/blog/get-form-values-as-json)
-* [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.1.x/testing/)
+* [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.2.x/testing/)
 * [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
 
 ## Flask, MongoDB References
