@@ -15,55 +15,57 @@
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
-            <th scope="col">Noun</th>
-            <th scope="col">Plural</th>
-            <th scope="col">Desc</th>
+            <th scope="col">Answer</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
         <tbody>
         {% for item in data %}
-        <tr>
-            <th scope="row">Q01</th>
-            <td>
-                {% if item.Correct is eq 'y' and item.Opt1 is eq item.Ans %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
-                     width="12" height="12">&nbsp;{{ item.Opt1 }}
-                {% elif item.Opt1 is eq item.Choice %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
-                     width="12" height="12">&nbsp;{{ item.Opt1 }}
-                {% else %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
-                     height="12">&nbsp;{{ item.Opt1 }}
-                {% endif %}
-            </td>
-            <td>
-                {% if item.Correct is eq 'y' and item.Opt2 is eq item.Ans %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
-                     width="12" height="12">&nbsp;{{ item.Opt1 }}
-                {% elif item.Opt2 is eq item.Choice %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
-                     width="12" height="12">&nbsp;{{ item.Opt2 }}
-                {% else %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
-                     height="12">&nbsp;{{ item.Opt2 }}
-                {% endif %}
-            </td>
-            <td>
-                {% if item.Correct is eq 'y' and item.Opt3 is eq item.Ans %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
-                     width="12" height="12">&nbsp;{{ item.Opt1 }}
-                {% elif item.Opt3 is eq item.Choice %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
-                     width="12" height="12">&nbsp;{{ item.Opt3 }}
-                {% else %}
-                <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
-                     height="12">&nbsp;{{ item.Opt3 }}
-                {% endif %}
-            </td>
-            <td>{{ item.Noun }}</td>
-            <td>{{ item.Plural }}</td>
-            <td>{{ item.Desc }}</td>
-        </tr>
+            {% if item.Correct is eq 'y' %}
+            <tr class="table-success">
+            {% else %}
+            <tr>
+            {% endif %}
+                <th scope="row">{{ item.Label }}</th>
+                <td>
+                    {% if item.Correct is eq 'y' and item.Opt1 is eq item.Ans %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
+                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                    {% elif item.Opt1 is eq item.Choice %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
+                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                    {% else %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
+                         height="12">&nbsp;{{ item.Opt1 }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.Correct is eq 'y' and item.Opt2 is eq item.Ans %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
+                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                    {% elif item.Opt2 is eq item.Choice %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
+                         width="12" height="12">&nbsp;{{ item.Opt2 }}
+                    {% else %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
+                         height="12">&nbsp;{{ item.Opt2 }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.Correct is eq 'y' and item.Opt3 is eq item.Ans %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/check2-circle.svg') }}" alt="Check2Circle"
+                         width="12" height="12">&nbsp;{{ item.Opt1 }}
+                    {% elif item.Opt3 is eq item.Choice %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle-fill.svg') }}" alt="CircleFill"
+                         width="12" height="12">&nbsp;{{ item.Opt3 }}
+                    {% else %}
+                    <img src="{{ url_for('static', filename='bootstrap-icons/circle.svg') }}" alt="Circle" width="12"
+                         height="12">&nbsp;{{ item.Opt3 }}
+                    {% endif %}
+                </td>
+                <td><i>{{ item.Ans }}&nbsp;{{ item.Noun }}</i></td>
+                <td><i>{{ item.Desc }}</i></td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
