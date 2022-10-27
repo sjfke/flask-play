@@ -27,7 +27,7 @@ db.questions.insertOne({
     "quid": "QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c",
 	"name": "questionB",
     "data": [
-		{"Label": "Q01", "Noun":"Briefemarke", "Ans":"die", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Briefmarken", "Desc":"Stamp"},
+		{"Label": "Q01", "Noun":"Briefmarke", "Ans":"die", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Briefmarken", "Desc":"Stamp"},
 		{"Label": "Q02", "Noun":"Rechnung", "Ans":"die", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Rechnungen", "Desc":"Bill, Invoice"},
 		{"Label": "Q03", "Noun":"Telefon", "Ans":"das", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Telefone", "Desc":"Telephone"},
 		{"Label": "Q04", "Noun":"Forumlar", "Ans":"das", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Formulare", "Desc":"Form"},
@@ -76,7 +76,7 @@ db.quizzes.insertOne({
     "qzid": "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86",
 	"name": "quizB",
     "data": [
-		{"Label": "Q01", "Noun":"Briefemarke", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Briefmarken", "Desc":"Stamp"},
+		{"Label": "Q01", "Noun":"Briefmarke", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Briefmarken", "Desc":"Stamp"},
 		{"Label": "Q02", "Noun":"Rechnung", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Rechnungen", "Desc":"Bill, Invoice"},
 		{"Label": "Q03", "Noun":"Telefon", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Telefone", "Desc":"Telephone"},
 		{"Label": "Q04", "Noun":"Forumlar", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Formulare", "Desc":"Form"},

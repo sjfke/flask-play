@@ -27,8 +27,8 @@ RUN pip install --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
 WORKDIR /usr/src/app
 
 COPY config.py ./
-COPY static/* ./static/
-COPY templates/* ./templates/
+COPY static/ ./static/
+COPY templates/ ./templates/
 COPY wsgi.py ./
 
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001

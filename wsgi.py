@@ -110,6 +110,11 @@ def formgrid():
         return jsonify(_dict), 200
 
 
+@application.route('/nouns-table-result')
+def nouns_table_result():
+    return render_template("nouns-table-result.html")
+
+
 @application.route('/quiz', methods=['GET', 'POST'])
 def nouns_quiz():
     if request.method == 'POST':
@@ -194,6 +199,7 @@ def nouns_quiz():
             _meta_data = {'name': _quiz['name'], 'cif': _quiz['cif'].replace('CIF-', ''),
                           'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', '')}
 
+            return render_template("nouns-table-result.html", data=_quiz["data"], meta_data=_meta_data)
             return render_template("nouns-result.html", data=_quiz["data"], meta_data=_meta_data)
 
         return jsonify(_request), 404
@@ -437,11 +443,15 @@ def runnable():
 
 
 @application.route('/isready')
+@application.route('/isReady')
+@application.route('/IsReady')
 def is_ready():
     return 'isReady'
 
 
 @application.route('/isalive')
+@application.route('/isAlive')
+@application.route('/IsAlive')
 def is_alive():
     return 'isAlive'
 
