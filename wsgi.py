@@ -176,6 +176,19 @@ def nouns_quiz():
                         if _value == _y['Ans']:
                             _y['Correct'] = 'y'
 
+            # Score totals added to _meta_data
+            _correct_ans = 0
+            _incorrect_ans = 0
+            _unanswered = 0
+
+            for _x in _quiz['data']:
+                if _x["Correct"] == "y":
+                    _correct_ans += 1
+                elif _x["Correct"] == "n":
+                    _incorrect_ans += 1
+                else:
+                    _unanswered += 1
+
             # return jsonify(_quiz), 200
 
             # _quiz = {
@@ -184,21 +197,24 @@ def nouns_quiz():
             #  "qzid": "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86",
             #  "name": "quizB",
             #  "data": [
-            #    {"Ans": "die", "Choice": "der", "Correct": "n", "Desc": "Stamp", "Label": "Q01", "Noun": "Briefemarke",
+            #    {"Ans": "die", "Choice": "der", "Correct": "n", "Desc": "Stamp", "Label": "Q01", "Noun": "Briefmarke",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Briefmarken"},
             #    {"Ans": "die", "Choice": "die", "Correct": "y", "Desc": "Bill, Invoice", "Label": "Q02",
             #     "Noun": "Rechnung", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Rechnungen"},
             #    {"Ans": "das", "Choice": "das", "Correct": "y", "Desc": "Telephone", "Label": "Q03", "Noun": "Telefon",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Telefone"},
-            #    {"Ans": "das", "Choice": "die", "Correct": "n", "Desc": "Form", "Label": "Q04", "Noun": "Forumlar",
+            #    {"Ans": "das", "Choice": "die", "Correct": "n", "Desc": "Form", "Label": "Q04", "Noun": "Formular",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Formulare"},
             #    {"Ans": "der", "Choice": "die", "Correct": "n", "Desc": "Printer", "Label": "Q05", "Noun": "Drucker",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Drucker"}
             #  ]
             # }
             _meta_data = {'name': _quiz['name'], 'cif': _quiz['cif'].replace('CIF-', ''),
-                          'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', '')}
+                          'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', ''),
+                          'correct': _correct_ans, 'incorrect': _incorrect_ans, 'unanswered': _unanswered}
 
+            # return jsonify(_meta_data), 200
+            # return jsonify(_data), 200
             return render_template("nouns-result.html", data=_quiz["data"], meta_data=_meta_data)
 
         return jsonify(_request), 404
