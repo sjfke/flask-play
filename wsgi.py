@@ -200,7 +200,7 @@ def nouns_quiz():
                           'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', '')}
 
             return render_template("nouns-table-result.html", data=_quiz["data"], meta_data=_meta_data)
-            return render_template("nouns-result.html", data=_quiz["data"], meta_data=_meta_data)
+            return render_template("nouns-form-result.html", data=_quiz["data"], meta_data=_meta_data)
 
         return jsonify(_request), 404
 
