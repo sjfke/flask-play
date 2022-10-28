@@ -184,13 +184,13 @@ def nouns_quiz():
             #  "qzid": "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86",
             #  "name": "quizB",
             #  "data": [
-            #    {"Ans": "die", "Choice": "der", "Correct": "n", "Desc": "Stamp", "Label": "Q01", "Noun": "Briefemarke",
+            #    {"Ans": "die", "Choice": "der", "Correct": "n", "Desc": "Stamp", "Label": "Q01", "Noun": "Briefmarke",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Briefmarken"},
             #    {"Ans": "die", "Choice": "die", "Correct": "y", "Desc": "Bill, Invoice", "Label": "Q02",
             #     "Noun": "Rechnung", "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Rechnungen"},
             #    {"Ans": "das", "Choice": "das", "Correct": "y", "Desc": "Telephone", "Label": "Q03", "Noun": "Telefon",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Telefone"},
-            #    {"Ans": "das", "Choice": "die", "Correct": "n", "Desc": "Form", "Label": "Q04", "Noun": "Forumlar",
+            #    {"Ans": "das", "Choice": "die", "Correct": "n", "Desc": "Form", "Label": "Q04", "Noun": "Formular",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Formulare"},
             #    {"Ans": "der", "Choice": "die", "Correct": "n", "Desc": "Printer", "Label": "Q05", "Noun": "Drucker",
             #     "Opt1": "der", "Opt2": "die", "Opt3": "das", "Plural": "Drucker"}
