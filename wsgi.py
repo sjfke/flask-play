@@ -176,6 +176,19 @@ def nouns_quiz():
                         if _value == _y['Ans']:
                             _y['Correct'] = 'y'
 
+            # Score totals added to _meta_data
+            _correct_ans = 0
+            _incorrect_ans = 0
+            _unanswered = 0
+
+            for _x in _quiz['data']:
+                if _x["Correct"] == "y":
+                    _correct_ans += 1
+                elif _x["Correct"] == "n":
+                    _incorrect_ans += 1
+                else:
+                    _unanswered += 1
+
             # return jsonify(_quiz), 200
 
             # _quiz = {
@@ -197,8 +210,11 @@ def nouns_quiz():
             #  ]
             # }
             _meta_data = {'name': _quiz['name'], 'cif': _quiz['cif'].replace('CIF-', ''),
-                          'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', '')}
+                          'quid': _quiz['quid'].replace('QID-', ''), 'qzid': _quiz['qzid'].replace('QIZ-', ''),
+                          'correct': _correct_ans, 'incorrect': _incorrect_ans, 'unanswered': _unanswered}
 
+            # return jsonify(_meta_data), 200
+            # return jsonify(_data), 200
             return render_template("nouns-result.html", data=_quiz["data"], meta_data=_meta_data)
 
         return jsonify(_request), 404

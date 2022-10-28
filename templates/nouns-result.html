@@ -1,7 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Testing table output{% endblock %}
+{% block title %}{{ meta_data.name }} Results{% endblock %}
 {% block head %} {{ super() }} {% endblock %}
-{% block card_title %}<h4>{{ meta_data.name }}: your result...</h4>{% endblock %}
+{% block card_title %}
+<h4>{{ meta_data.name }}</h4>
+<ul>
+    <li>QIZ-{{ meta_data.qzid }}</li>
+    {% if meta_data.unanswered is gt 0 %}
+    <li>Correct: {{ meta_data.correct }}; Incorrect: {{ meta_data.incorrect }}; Unanswered: {{ meta_data.unanswered }}</li>
+    {% else %}
+    <li>Correct: {{ meta_data.correct }}; Incorrect: {{ meta_data.incorrect }}</li>
+    {% endif %}
+</ul>
+{% endblock %}
 {% block card_body %}
 <!-- https://bootstrap.themes.guide/hootstrap/ -->
 <!-- https://getbootstrap.com/docs/5.2/content/tables/ -->
