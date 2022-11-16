@@ -1,12 +1,13 @@
 # Build and Run a Flask Docker container
 
 Building the docker image uses [Docker for Windows](https://docs.docker.com/desktop/windows/install/) on
- *Windows 10 Home edition* where only ```WSL 2``` is available. 
+*Windows 10 Home edition* where only ```WSL 2``` is available.
 
-With *Windows 10 Pro* you can choose to use a 
- [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
+With *Windows 10 Pro* you can choose to use a
+[Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
 ## Overly Simple Build instructions
+
 ```bash
 $ cd C:\Users\geoff\git\docker-play
 $ docker build --squash -t json-test $PWD
@@ -14,7 +15,9 @@ $ docker run --name crazy-dog -d -p 8081:8080 json-test
 $ docker logs -f crazy-dog
 $ docker rm --force crazy-dog
 ```
+
 ## Docker Compose
+
 ```bash
 # Once compose.yaml is created, see references (ii, iii)
 $ docker compose build
@@ -28,16 +31,19 @@ $ docker compose down --rmi local; docker compose up -d --build
 # Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
 $ pipenv run pip freeze > requirements.txt # generates requirements.txt
 ```
-* 1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)
-* 2. [Docker: Compose specification](https://docs.docker.com/compose/compose-file)
-* 3. [Docker: Compose specification - ports](https://docs.docker.com/compose/compose-file/#ports)
+
+1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)
+2. [Docker: Compose specification](https://docs.docker.com/compose/compose-file)
+3. [Docker: Compose specification - ports](https://docs.docker.com/compose/compose-file/#ports)
 
 ## Docker Image Maintenance
+
 ```bash
 $ docker image prune # clean up dangling images
 $ docker system prune 
 $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no tags
 ```
+
 * [DigitalOcean: How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
 
 ## Flask, Jinja and Python References
@@ -49,28 +55,38 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*PalletsProjects:* API covers all the interfaces of Flask](https://flask.palletsprojects.com/en/2.2.x/api/)
 * [*PalletsProjects:* Handling Application Errors](https://flask.palletsprojects.com/en/2.2.x/errorhandling/)
 * [*DelftStack*: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
-* [*StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
-* [*StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
-* [*PalletsProjects:* Jinja 3.0.x Template Designer Documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
+* [*
+  StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
+* [*
+  StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
+* [*
+  PalletsProjects:* Jinja 3.0.x Template Designer Documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
 * [*PyFormat:* Using % and .format() for great good!](https://pyformat.info/)
-* [*DigitalOcean:* How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
-* [*LearnWithJason:* How to Convert HTML Form Field Values to a JSON Object](https://www.learnwithjason.dev/blog/get-form-values-as-json)
+* [*
+  DigitalOcean:* How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
+* [*
+  LearnWithJason:* How to Convert HTML Form Field Values to a JSON Object](https://www.learnwithjason.dev/blog/get-form-values-as-json)
 * [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.2.x/testing/)
 * [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
 
 ## Flask, MongoDB References
+
 * [*PythonBasics:* How to Set Up Flask with MongoDB](https://pythonbasics.org/flask-mongodb/)
 * [*PalletsProjects:* MongoDB with MongoEngine](https://flask.palletsprojects.com/en/2.1.x/patterns/mongoengine/)
-* [*DevTo*: How to spin MongoDB server with Docker and Docker Compose ](https://dev.to/sonyarianto/how-to-spin-mongodb-server-with-docker-and-docker-compose-2lef)
+* [*
+  DevTo*: How to spin MongoDB server with Docker and Docker Compose ](https://dev.to/sonyarianto/how-to-spin-mongodb-server-with-docker-and-docker-compose-2lef)
 * [*MongoDB*: MongoDB Basics](https://www.mongodb.com/basics)
-* [*DockerHub*: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
+* [*
+  DockerHub*: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
 * [*MongoDB*: Docker and MongoDB](https://www.mongodb.com/compatibility/docker)
 
-
 ## Bootstrap References
+
+* [*Bootstrap:* Migrating to v5](https://getbootstrap.com/docs/5.0/migration/)
 * [*Bootstrap:* Bootstrap 5.2 Introduction](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
 * [*Bootstrap:* Bootstrap 5.2 Reboot](https://getbootstrap.com/docs/5.2/content/reboot/)
 * [*Bootstrap:* Bootstrap 5.2 Grid system](https://getbootstrap.com/docs/5.2/layout/grid/)
+* [*CSSTricks:* A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 * [*Bootstrap:* Bootstrap 5.2 Forms](https://getbootstrap.com/docs/5.2/forms/overview/)
 * [*Bootstrap:* Bootstrap 5.2 Forms - Layout](https://getbootstrap.com/docs/5.2/forms/layout/)
 * [*Bootstrap:* Bootstrap 5.2 Form controls](https://getbootstrap.com/docs/5.2/forms/form-control/)
@@ -90,17 +106,18 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [*Bootstrap:* Footer not at bottom](https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom)
 
 ## Markdown References
+
 * [GitHub: Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 * [MarkdownGuide: Cheat Sheet](https://www.markdownguide.org/cheat-sheet)
 * [Readme.IO: Code Blocks](https://rdmd.readme.io/docs/code-blocks)
 
-This repository provides a simple Python web application implemented using the Flask web framework and executed using 
-``gunicorn``. It is intended to be used to demonstrate building and test of Python Flask web applications using [Docker](https://docs.docker.com/get-started/overview/) 
-
+This repository provides a simple Python web application implemented using the Flask web framework and executed using
+``gunicorn``. It is intended to be used to demonstrate building and test of Python Flask web applications
+using [Docker](https://docs.docker.com/get-started/overview/)
 
 Building the docker image uses [Docker for Windows](https://docs.docker.com/desktop/windows/install/) on
- *Windows 10 Home edition* where only ```WSL 2``` is available. With *Windows 10 Pro* you can choose to use a 
- [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
+*Windows 10 Home edition* where only ```WSL 2``` is available. With *Windows 10 Pro* you can choose to use a
+[Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
 Application's Key files:
 
@@ -117,7 +134,7 @@ None of the bootstrap themes are enabled be default, edit ``templates/base.html`
 
 ## Implementation Notes
 
-This sample Python application deploys a WSGI application using the ``gunicorn`` WSGI server. The requirements which 
+This sample Python application deploys a WSGI application using the ``gunicorn`` WSGI server. The requirements which
 need to be satisfied for this to work are:
 
 * The WSGI application code file needs to be named ``wsgi.py``.
@@ -125,23 +142,26 @@ need to be satisfied for this to work are:
 * The ``gunicorn`` package must be listed in the ``requirements.txt`` file for ``pip``.
 * The *requirements.txt* file is generated using ``pipenv run pip freeze > requirements.txt``.
 
-The example is derived from [Getting Started with Flask](https://scotch.io/tutorials/getting-started-with-flask-a-python-microframework) but has 
-been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site 
+The example is derived
+from [Getting Started with Flask](https://scotch.io/tutorials/getting-started-with-flask-a-python-microframework) but
+has
+been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work
+with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site
 changed to provide a sandbox for testing Flask
 
 Other useful references:
+
 * [The best Docker base image for your Python application (February 2021)](https://pythonspeed.com/articles/base-image-python-docker-images/)
 * [Python: Official Docker Images](https://hub.docker.com/_/python)
 * [Windows Subsystem for Linux Documentation](https://docs.microsoft.com/en-us/windows/wsl/)
 * [Docker on Hyper-V vs WSL 2](https://superuser.com/questions/1561465/docker-on-hyper-v-vs-wsl-2)
 * [Install Docker Desktop on Windows](https://docs.docker.com/desktop/windows/install/)
- 
 
 ## Docker File
 
-A simple *Docker file* which uses a, ```python:3-alpine``` container, it first *pip installs* the required applications specified 
-in the *requirements.txt* file, copies the application files, and finally, sets up the environment and 
-starts *gunicorn*.  
+A simple *Docker file* which using, ```python:3-alpine``` container, first it *pip installs* the required applications
+specified in the *requirements.txt* file, copies the application files to the container, and finally, sets up the 
+environment and starts *gunicorn*.
 
 ```bash
 FROM python:3-alpine
