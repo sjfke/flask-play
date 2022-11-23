@@ -5,9 +5,14 @@
 {% block card_body %}
 <div class="container">
     {% if session.username %}
-        Hi {{ session.username }} <a class="btn btn-dark" href="/logout">logout</a>
+        <ul>
+            <li>Username: {{ session.username }} </li>
+            <li>CIF: {{ session.cif }} </li>
+            <li>Theme: {{ session.theme }} </li>
+            <li><a class="btn btn-dark" href="/logout">logout</a></li>
+        </ul>
     {% else %}
-        Please login <a class="btn btn-dark" href="/login">login</a>
+        Please <a class="btn btn-dark" href="/login">login</a>
     {% endif %}
 
     <hr class="border border-danger border-3 opacity-75">

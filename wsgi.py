@@ -112,6 +112,9 @@ def login():
         data = request.form
         # return jsonify(data), 200
         session['username'] = request.form['username']
+        session['cif'] = '919ae5a5-34e4-4b88-979a-5187d46d1617'
+        session['theme'] = 'hootstrap'  # 'tequila', 'herbie'
+        # return session
         return redirect(url_for('index'))
     else:
         return render_template("login.html")
