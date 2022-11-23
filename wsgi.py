@@ -37,9 +37,13 @@ def is_valid_uuid4(value):
 application = Flask(__name__, instance_relative_config=True)
 # flask config: https://flask.palletsprojects.com/en/2.2.x/config/
 application.config['TESTING'] = True
+
+# Enable encrypted session (cookies) so can map user login to CIF, CIF-919ae5a5-34e4-4b88-979a-5187d46d1617
+# Login/password authentication will be via flask-alchemy to MariaDB which will map to CIF
+# CIF is required to get list of Questions, Quizzes and Results
 #  python -c 'import secrets; print(secrets.token_hex())'
 application.config['SECRET_KEY'] = '87ef122423ce0f61e47bddb08e44b347c5cf1fd6a85f7a34162369f4ac4ef999'
-application.secret_key = application.config['SECRET_KEY']
+application.config['SESSION_COOKIE_NAME'] = 'flask-play'
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
@@ -103,6 +107,7 @@ def flask_config():
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
+    # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
     if request.method == 'POST':
         data = request.form
         # return jsonify(data), 200
