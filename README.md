@@ -48,62 +48,56 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 
 ## Flask, Jinja and Python References
 
-* [*PyPi:* Flask is a lightweight WSGI web application framework](https://pypi.org/project/Flask/)
-* [*PythonBasics:* Flask HTTP methods, handle GET & POST requests](https://pythonbasics.org/flask-http-methods/)
-* [*PalletsProjects:* Flask Quickstart](https://flask.palletsprojects.com/en/2.2.x/quickstart/)
-* [*TutorialsPoint:* Flask Tutorial](https://www.tutorialspoint.com/flask/flask_quick_guide.htm)
-* [*PalletsProjects:* API covers all the interfaces of Flask](https://flask.palletsprojects.com/en/2.2.x/api/)
-* [*PalletsProjects:* Handling Application Errors](https://flask.palletsprojects.com/en/2.2.x/errorhandling/)
-* [*DelftStack*: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
-* [*
-  StackOverflow:* How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
-* [*
-  StackOverflow:* How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
-* [*
-  PalletsProjects:* Jinja 3.0.x Template Designer Documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
-* [*PyFormat:* Using % and .format() for great good!](https://pyformat.info/)
-* [*
-  DigitalOcean:* How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
-* [*
-  LearnWithJason:* How to Convert HTML Form Field Values to a JSON Object](https://www.learnwithjason.dev/blog/get-form-values-as-json)
-* [*PalletsProjects:* Testing Flask Applications](https://flask.palletsprojects.com/en/2.2.x/testing/)
-* [*ReadTheDocs*: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
+* [PyPi: Flask is a lightweight WSGI web application framework](https://pypi.org/project/Flask/)
+* [PythonBasics: Flask HTTP methods, handle GET & POST requests](https://pythonbasics.org/flask-http-methods/)
+* [PalletsProjects: Flask Quickstart](https://flask.palletsprojects.com/en/2.2.x/quickstart/)
+* [TutorialsPoint: Flask Tutorial](https://www.tutorialspoint.com/flask/flask_quick_guide.htm)
+* [PalletsProjects: API covers all the interfaces of Flask](https://flask.palletsprojects.com/en/2.2.x/api/)
+* [PalletsProjects: Handling Application Errors](https://flask.palletsprojects.com/en/2.2.x/errorhandling/)
+* [DelftStack: Flask Request Form](https://www.delftstack.com/howto/python-flask/flask-request-form/)
+* [StackOverflow: How to get json data from another website in Flask?](https://stackoverflow.com/questions/33473803/how-to-get-json-data-from-another-website-in-flask)
+* [StackOverflow: How to pass data to html page using flask?](https://stackoverflow.com/questions/51669102/how-to-pass-data-to-html-page-using-flask)
+* [PalletsProjects: Jinja 3.0.x Template Designer Documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/)
+* [PyFormat: Using % and .format() for great good!](https://pyformat.info/)
+* [DigitalOcean: How To Process Incoming Request Data in Flask](https://www.digitalocean.com/community/tutorials/processing-incoming-request-data-in-flask)
+* [LearnWithJason: How to Convert HTML Form Field Values to a JSON Object](https://www.learnwithjason.dev/blog/get-form-values-as-json)
+* [PalletsProjects: Testing Flask Applications](https://flask.palletsprojects.com/en/2.2.x/testing/)
+* [ReadTheDocs: Basic Usage of Pipenv](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
 
 ## Flask, MongoDB References
 
-* [*PythonBasics:* How to Set Up Flask with MongoDB](https://pythonbasics.org/flask-mongodb/)
-* [*PalletsProjects:* MongoDB with MongoEngine](https://flask.palletsprojects.com/en/2.1.x/patterns/mongoengine/)
-* [*
-  DevTo*: How to spin MongoDB server with Docker and Docker Compose ](https://dev.to/sonyarianto/how-to-spin-mongodb-server-with-docker-and-docker-compose-2lef)
-* [*MongoDB*: MongoDB Basics](https://www.mongodb.com/basics)
-* [*
-  DockerHub*: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
-* [*MongoDB*: Docker and MongoDB](https://www.mongodb.com/compatibility/docker)
+* [PythonBasics: How to Set Up Flask with MongoDB](https://pythonbasics.org/flask-mongodb/)
+* [PalletsProjects: MongoDB with MongoEngine](https://flask.palletsprojects.com/en/2.1.x/patterns/mongoengine/)
+* [DevTo: How to spin MongoDB server with Docker and Docker Compose ](https://dev.to/sonyarianto/how-to-spin-mongodb-server-with-docker-and-docker-compose-2lef)
+* [MongoDB: MongoDB Basics](https://www.mongodb.com/basics)
+* [DockerHub: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
+* [MongoDB: Docker and MongoDB](https://www.mongodb.com/compatibility/docker)
 
 ## Bootstrap References
 
-* [*Bootstrap:* Migrating to v5](https://getbootstrap.com/docs/5.0/migration/)
-* [*Bootstrap:* Bootstrap 5.2 Introduction](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
-* [*Bootstrap:* Bootstrap 5.2 Reboot](https://getbootstrap.com/docs/5.2/content/reboot/)
-* [*Bootstrap:* Bootstrap 5.2 Grid system](https://getbootstrap.com/docs/5.2/layout/grid/)
+* [GetBootstrap: Migrating to v5](https://getbootstrap.com/docs/5.0/migration/)
+* [GetBootstrap: Bootstrap 5.2 Introduction](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
+* [GetBootstrap: Bootstrap 5.2 Reboot](https://getbootstrap.com/docs/5.2/content/reboot/)
+* [GetBootstrap: Bootstrap 5.2 Grid system](https://getbootstrap.com/docs/5.2/layout/grid/)
 * [*CSSTricks:* A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
-* [*Bootstrap:* Bootstrap 5.2 Forms](https://getbootstrap.com/docs/5.2/forms/overview/)
-* [*Bootstrap:* Bootstrap 5.2 Forms - Layout](https://getbootstrap.com/docs/5.2/forms/layout/)
-* [*Bootstrap:* Bootstrap 5.2 Form controls](https://getbootstrap.com/docs/5.2/forms/form-control/)
-* [*Bootstrap:* Bootstrap 5.2 Forms Checks and radios](https://getbootstrap.com/docs/5.2/forms/checks-radios/)
-* [*Bootstrap:* Bootstrap 5.2 Buttons](https://getbootstrap.com/docs/5.2/components/buttons/)
-* [*Bootstrap:* Bootstrap 5.2 Button Group](https://getbootstrap.com/docs/5.2/components/button-group/)
-* [*Bootstrap:* Bootstrap 5.2 Input group](https://getbootstrap.com/docs/5.2/forms/input-group/)
-* [*Bootstrap:* Bootstrap 5.2 Gutters](https://getbootstrap.com/docs/5.2/layout/gutters/)
-* [*Bootstrap:* Bootstrap 5.2 Spacing](https://getbootstrap.com/docs/5.2/utilities/spacing/)
-* [*Bootstrap:* Bootstrap 5.2 Flex](https://getbootstrap.com/docs/5.2/utilities/flex/)
-* [*W3Schools:* Bootstrap 5 Text/Typography](https://www.w3schools.com/bootstrap5/bootstrap_typography.php)
-* [*Bootstrap:* Bootstrap 5.2 ](https://getbootstrap.com/docs/5.2/components/list-group/)
-* [*W3Schools:* Bootstrap 5 Tutorial](https://www.w3schools.com/bootstrap5/index.php)
-* [*W3Schools:* Bootstrap 5 Containers](https://www.w3schools.com/bootstrap5/bootstrap_containers.php)
-* [*W3Schools:* Bootstrap 5 Grids](https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php)
-* [Free icons that match each other](https://icons8.com/icons)
-* [*Bootstrap:* Footer not at bottom](https://stackoverflow.com/questions/51480958/bootstrap-4-footer-not-at-bottom)
+* [GetBootstrap: Bootstrap 5.2 Forms](https://getbootstrap.com/docs/5.2/forms/overview/)
+* [GetBootstrap: Bootstrap 5.2 Forms - Layout](https://getbootstrap.com/docs/5.2/forms/layout/)
+* [GetBootstrap: Bootstrap 5.2 Form controls](https://getbootstrap.com/docs/5.2/forms/form-control/)
+* [GetBootstrap: Bootstrap 5.2 Forms Checks and radios](https://getbootstrap.com/docs/5.2/forms/checks-radios/)
+* [GetBootstrap: Bootstrap 5.2 Buttons](https://getbootstrap.com/docs/5.2/components/buttons/)
+* [GetBootstrap: Bootstrap 5.2 Button Group](https://getbootstrap.com/docs/5.2/components/button-group/)
+* [GetBootstrap: Bootstrap 5.2 Input group](https://getbootstrap.com/docs/5.2/forms/input-group/)
+* [GetBootstrap: Bootstrap 5.2 Gutters](https://getbootstrap.com/docs/5.2/layout/gutters/)
+* [GetBootstrap: Bootstrap 5.2 Spacing](https://getbootstrap.com/docs/5.2/utilities/spacing/)
+* [GetBootstrap: Bootstrap 5.2 Flex](https://getbootstrap.com/docs/5.2/utilities/flex/)
+* [W3Schools: Bootstrap 5 Text/Typography](https://www.w3schools.com/bootstrap5/bootstrap_typography.php)
+* [GetBootstrap: Bootstrap 5.2 ](https://getbootstrap.com/docs/5.2/components/list-group/)
+* [W3Schools: Bootstrap 5 Tutorial](https://www.w3schools.com/bootstrap5/index.php)
+* [W3Schools: Bootstrap 5 Containers](https://www.w3schools.com/bootstrap5/bootstrap_containers.php)
+* [W3Schools: Bootstrap 5 Grids](https://www.w3schools.com/bootstrap5/bootstrap_grid_basic.php)
+* [Icons8: Free icons that match each other](https://icons8.com/icons)
+* [Pixabay: Stunning free images & royalty free stock](https://pixabay.com/)
+
 
 ## Markdown References
 
@@ -144,10 +138,9 @@ need to be satisfied for this to work are:
 
 The example is derived
 from [Getting Started with Flask](https://scotch.io/tutorials/getting-started-with-flask-a-python-microframework) but
-has
-been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work
-with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site
-changed to provide a sandbox for testing Flask
+has been modified to use [BootStrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/), work
+with [Green Unicorn - WSGI sever](https://docs.gunicorn.org/en/stable/), the content of the web-site changed to 
+provide a sandbox for testing Flask
 
 Other useful references:
 

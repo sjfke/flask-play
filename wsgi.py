@@ -1,11 +1,13 @@
 import uuid
 
 import requests
-from flask import Flask
+from flask import Flask, url_for
 from flask import abort
 from flask import jsonify
+from flask import redirect
 from flask import render_template
 from flask import request
+from flask import session
 from markupsafe import escape
 from pymongo import MongoClient
 
@@ -36,6 +38,13 @@ application = Flask(__name__, instance_relative_config=True)
 # flask config: https://flask.palletsprojects.com/en/2.2.x/config/
 application.config['TESTING'] = True
 
+# Enable encrypted session (cookies) so can map user login to CIF, CIF-919ae5a5-34e4-4b88-979a-5187d46d1617
+# Login/password authentication will be via flask-alchemy to MariaDB which will map to CIF
+# CIF is required to get list of Questions, Quizzes and Results
+#  python -c 'import secrets; print(secrets.token_hex())'
+application.config['SECRET_KEY'] = '87ef122423ce0f61e47bddb08e44b347c5cf1fd6a85f7a34162369f4ac4ef999'
+application.config['SESSION_COOKIE_NAME'] = 'flask-play'
+
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
 application.config["MONGO_DB"] = "flask"
@@ -46,6 +55,75 @@ _db = _client[application.config["MONGO_DB"]]
 @application.route('/')
 def index():
     return render_template("index.html")
+
+
+@application.route('/flask-config')
+def flask_config():
+    """
+    Manually maintained list of Flask configuration values
+
+    :rtype: str
+    :return: Flask Configuration or None
+    """
+    _flask_config = {
+        "Builtin": {
+            "DEBUG": application.config["DEBUG"],
+            "PROPAGATE_EXCEPTIONS": application.config["PROPAGATE_EXCEPTIONS"],
+            "TRAP_HTTP_EXCEPTIONS": application.config["TRAP_HTTP_EXCEPTIONS"],
+            "TRAP_BAD_REQUEST_ERRORS": application.config["TRAP_BAD_REQUEST_ERRORS"],
+            "SECRET_KEY": application.config["SECRET_KEY"],
+            "SESSION_COOKIE_NAME": application.config["SESSION_COOKIE_NAME"],
+            "SESSION_COOKIE_DOMAIN": application.config["SESSION_COOKIE_DOMAIN"],
+            "SESSION_COOKIE_PATH": application.config["SESSION_COOKIE_PATH"],
+            "SESSION_COOKIE_HTTPONLY": application.config["SESSION_COOKIE_HTTPONLY"],
+            "SESSION_COOKIE_SECURE": application.config["SESSION_COOKIE_SECURE"],
+            "SESSION_COOKIE_SAMESITE": application.config["SESSION_COOKIE_SAMESITE"],
+            "TESTING": application.config["TESTING"],
+            "USE_X_SENDFILE": application.config["USE_X_SENDFILE"],
+            "SEND_FILE_MAX_AGE_DEFAULT": application.config["SEND_FILE_MAX_AGE_DEFAULT"],
+            "SERVER_NAME": application.config["SERVER_NAME"],
+            "APPLICATION_ROOT": application.config["APPLICATION_ROOT"],
+            "PREFERRED_URL_SCHEME": application.config["PREFERRED_URL_SCHEME"],
+            "MAX_CONTENT_LENGTH": application.config["MAX_CONTENT_LENGTH"],
+            "TEMPLATES_AUTO_RELOAD": application.config["TEMPLATES_AUTO_RELOAD"],
+            "EXPLAIN_TEMPLATE_LOADING": application.config["EXPLAIN_TEMPLATE_LOADING"],
+            "MAX_COOKIE_SIZE": application.config["MAX_COOKIE_SIZE"]
+        },
+        "Deprecated": {
+            "ENV": application.config["ENV"],
+            "JSON_AS_ASCII": application.config["JSON_AS_ASCII"],
+            "JSON_SORT_KEYS": application.config["JSON_SORT_KEYS"],
+            "JSONIFY_MIMETYPE": application.config["JSONIFY_MIMETYPE"],
+            "JSONIFY_PRETTYPRINT_REGULAR": application.config["JSONIFY_PRETTYPRINT_REGULAR"]
+        },
+        "Application": {
+            "MONGO_URI": application.config["MONGO_URI"],
+            "MONGO_DB": application.config["MONGO_DB"]
+        },
+        "Description": "Manually maintained list of Flask configuration values"
+    }
+    return jsonify(_flask_config), 200
+
+
+@application.route('/login', methods=['GET', 'POST'])
+def login():
+    # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
+    if request.method == 'POST':
+        data = request.form
+        # return jsonify(data), 200
+        session['username'] = request.form['username']
+        session['cif'] = '919ae5a5-34e4-4b88-979a-5187d46d1617'
+        session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
+        return redirect(url_for('index'))
+    else:
+        return render_template("login.html")
+
+
+@application.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 @application.route('/question1')
