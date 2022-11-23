@@ -4,10 +4,10 @@
 {% block card_title %}<h1>Standard Ipsum</h1>{% endblock %}
 {% block card_body %}
 <div class="container">
-    {% if session.name %}
-    You are Registered {{ session.name }} <a class="btn btn-dark" href="/logout">logout</a>
+    {% if session.username %}
+        Hi {{ session.username }} <a class="btn btn-dark" href="/logout">logout</a>
     {% else %}
-    You are not Registered <a class="btn btn-dark" href="/login">login</a>
+        Please login <a class="btn btn-dark" href="/login">login</a>
     {% endif %}
 
     <hr class="border border-danger border-3 opacity-75">

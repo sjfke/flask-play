@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Session Login{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block card_title %}<h1>Session Login</h1>{% endblock %}
+{% block card_body %}
+<div class="container">
+    <!--<form action="http://localhost:8081/json-form" target="_blank" method="post">-->
+    <form action="#" target="_blank" method="post">
+        <div class="form-group">
+
+            <div class="form-row">
+                <fieldset>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username"/>
+                </fieldset>
+            </div>
+
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+
+{% endblock %}

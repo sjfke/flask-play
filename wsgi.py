@@ -104,14 +104,12 @@ def flask_config():
 @application.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        data = request.form
+        # return jsonify(data), 200
         session['username'] = request.form['username']
         return redirect(url_for('index'))
-    return '''
-        <form method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    '''
+    else:
+        return render_template("login.html")
 
 
 @application.route('/logout')
