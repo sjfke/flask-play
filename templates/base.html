@@ -11,14 +11,22 @@
 
     <!-- https://bootstrap.themes.guide/#themes -->
     <!-- https://stackoverflow.com/questions/25034812/use-a-css-stylesheet-on-a-jinja2-template/25034903 -->
+    {% if session.theme is eq 'fresca' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='fresca-theme.min.css') }}"/>
+    {% elif session.theme is eq 'herbie' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='herbie.theme.min.css') }}"/>
+    {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='hootstrap.theme.min.css') }}"/>
+    {% endif %}
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='blue-voltage-theme.min.css') }}"/> -->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='boldstrap-theme.min.css') }}"/> -->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-purple-theme.min.css') }}"/> -->
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='darkster.theme.min.css') }}"/> -->
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='fresca-theme.min.css') }}"/> -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='hootstrap.theme.min.css') }}"/>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='signal-theme.min.css') }}"/> -->
+
     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='tequila.theme.min.css') }}"/> -->
+
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='signal-theme.min.css') }}"/> -->
+
     <!-- <link href="/static/favicon.ico" rel="icon" type="image/x-icon" /> -->
     {% endblock %}
 </head>
