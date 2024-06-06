@@ -72,6 +72,8 @@ $ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no 
 * [MongoDB: MongoDB Basics](https://www.mongodb.com/basics)
 * [DockerHub: MongoDB document databases provide high availability and easy scalability](https://hub.docker.com/_/mongo/)
 * [MongoDB: Docker and MongoDB](https://www.mongodb.com/compatibility/docker)
+* [dockerhub: dbgate/dbgate](https://hub.docker.com/r/dbgate/dbgate/)
+* [Securing Mongo Express web administrative interfaces](https://www.helpnetsecurity.com/2019/04/26/securing-mongo-express-web-administrative-interfaces/)
 
 ## Bootstrap References
 
