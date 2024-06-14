@@ -27,6 +27,9 @@ services:
     volumes:
       - dbgate-data:/root/.dbgate
     environment:
+      BASIC_AUTH: true
+      LOGINS: admin
+      LOGIN_PASSWORD_admin: admin
       CONNECTIONS: con1
       LABEL_con1: MongoDB
       URL_con1: mongodb://root:example@mongo:27017/
