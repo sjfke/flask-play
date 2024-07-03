@@ -6,10 +6,41 @@ Building the docker image uses [Docker for Windows](https://docs.docker.com/desk
 With *Windows 10 Pro* you can choose to use a
 [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
-## Overly Simple Build instructions
+## Podman Build Instructions
+
+```shell
+# define variables
+PS C:\Users\sjfke> $name = "crazy-frog"
+PS C:\Users\sjfke> $image = "localhost/flask-play"
+
+# build image
+PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
+PS C:\Users\sjfke> podman image ls $image
+
+# run, test, delete container
+PS C:\Users\sjfke> podman run --name $name -p 8080:8080 -d $image
+PS C:\Users\sjfke> podman exec -it $name sh
+PS C:\Users\sjfke> podman kube generate $name -f .\flask-pod.yaml # generate pod manifest
+PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> podman rm --force $name
+
+# run, test, delete container using podman play kube
+PS C:\Users\sjfke> podman play kube --start .\flask-pod.yaml
+PS C:\Users\sjfke> $container = "$name-pod-$name"
+PS C:\Users\sjfke> podman exec -it $container bash
+PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> podman play kube --down .\flask-pod.yaml
+
+# development, test (wash repeat cycle)
+PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
+PS C:\Users\sjfke> podman play kube --replace .\flask-pod.yaml
+PS C:\Users\sjfke> start http://localhost:8080
+```
+
+## Docker Build instructions
 
 ```bash
-$ cd C:\Users\geoff\git\docker-play
+$ cd C:\Users\sjfke\GitHub\flask-play
 $ docker build --squash -t json-test $PWD
 $ docker run --name crazy-dog -d -p 8081:8080 json-test
 $ docker logs -f crazy-dog
