@@ -9,58 +9,71 @@ With *Windows 10 Pro* you can choose to use a
 ## Podman Build Instructions
 
 ```shell
-# define variables
+# Define variables
 PS C:\Users\sjfke> $name = "crazy-frog"
 PS C:\Users\sjfke> $image = "localhost/flask-play"
 
-# build image
+# Build image
 PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
 PS C:\Users\sjfke> podman image ls $image
 
-# run, test, delete container
+# Run, test, delete container
 PS C:\Users\sjfke> podman run --name $name -p 8080:8080 -d $image
+PS C:\Users\sjfke> podman logs $name
 PS C:\Users\sjfke> podman exec -it $name sh
 PS C:\Users\sjfke> podman kube generate $name -f .\flask-pod.yaml # generate pod manifest
 PS C:\Users\sjfke> start http://localhost:8080
 PS C:\Users\sjfke> podman rm --force $name
 
-# run, test, delete container using podman play kube
+# Run, test, delete container using podman play kube
 PS C:\Users\sjfke> podman play kube --start .\flask-pod.yaml
 PS C:\Users\sjfke> $container = "$name-pod-$name"
 PS C:\Users\sjfke> podman exec -it $container bash
 PS C:\Users\sjfke> start http://localhost:8080
 PS C:\Users\sjfke> podman play kube --down .\flask-pod.yaml
 
-# development, test (wash repeat cycle)
+# Development, test (wash repeat cycle)
 PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
 PS C:\Users\sjfke> podman play kube --replace .\flask-pod.yaml
 PS C:\Users\sjfke> start http://localhost:8080
+
+# Image Maintenance
+PS C:\Users\sjfke> podman image prune
 ```
 
 ## Docker Build instructions
 
-```bash
-$ cd C:\Users\sjfke\GitHub\flask-play
-$ docker build --squash -t json-test $PWD
-$ docker run --name crazy-dog -d -p 8081:8080 json-test
-$ docker logs -f crazy-dog
-$ docker rm --force crazy-dog
+```shell
+# Define variables
+PS C:\Users\sjfke> $name = "crazy-frog"
+PS C:\Users\sjfke> $image = "localhost/flask-play"
+
+# Build image
+PS C:\Users\sjfke> docker build --squash -t $image -f .\Dockerfile $PWD
+PS C:\Users\sjfke> docker image ls $image
+
+# Run, test, delete container
+PS C:\Users\sjfke> docker run --name $name -p 8080:8080 -d $image
+PS C:\Users\sjfke> docker exec -it $name sh
+PS C:\Users\sjfke> docker logs $name
+PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> docker rm --force $name
 ```
 
 ## Docker Compose
 
-```bash
+```shell
 # Once compose.yaml is created, see references (ii, iii)
-$ docker compose build
-$ docker compose up -d 
-$ docker compose down
+PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d # builds flask-play-web image
+PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:3000           # admin/admin
+PS C:\Users\sjfke> docker compose -f .\compose.yaml down 
 
-# Either of the following is more compact
-$ docker compose down --rmi local; docker compose build; docker compose up -d
-$ docker compose down --rmi local; docker compose up -d --build
-
-# Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
-$ pipenv run pip freeze > requirements.txt # generates requirements.txt
+# Development, test (wash repeat cycle)
+PS C:\Users\sjfke> docker compose -f .\compose.yaml down web
+PS C:\Users\sjfke> docker compose build web
+PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d web
+PS C:\Users\sjfke> start http://localhost:8080
 ```
 
 1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)
@@ -70,9 +83,10 @@ $ pipenv run pip freeze > requirements.txt # generates requirements.txt
 ## Docker Image Maintenance
 
 ```bash
-$ docker image prune # clean up dangling images
-$ docker system prune 
-$ docker rmi $(docker images -f 'dangling=true' -q) # bash only, images with no tags
+PS C:\Users\sjfke> docker image prune # clean up dangling images
+PS C:\Users\sjfke> docker system prune 
+PS C:\Users\sjfke> docker rmi $(docker images -f 'dangling=true' -q)       # UNIX, images with no tags
+PS C:\Users\sjfke> $d = docker images -f 'dangling=true' -q; docker rmi $d # Powershell, images with no tags
 ```
 
 * [DigitalOcean: How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
