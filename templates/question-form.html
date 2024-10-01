@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
-{% from 'bootstrap5/form.html' import render_form_row %}
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 
 {% block content %}
 <h2>Render a question form with render_form</h2>
-<!--<pre>
-    email = StringField('Email Address', validators=[DataRequired(), Email(), Length(8, 40)])
-    remember = BooleanField('Remember me')
-    accept_tos = BooleanField('I accept the TOS', validators=[InputRequired()])
-    readonlyField = StringField("Readonly field", validators=[ReadOnly()])
-    disabledField = StringField("Disabled field", validators=[Disabled()])
+<pre>
+_choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
+_noun = 'laptop'
+_description = 'Laptop'
+_question = '1'
+
+class QuestionForm(FlaskForm):
+    select = SelectField(choices=[('', '')] + _choices, validators=[DataRequired()])
+    question = StringField("Question", default=_question, validators=[ReadOnly()])
+    noun = StringField("Noun", default=_noun, validators=[ReadOnly()])
+    description = StringField("Description", default=_description, validators=[ReadOnly()])
     submit = SubmitField()
-    delete = SubmitField()
-    cancel = SubmitField()
-</pre>-->
+</pre>
 
 <form method="post" action="{{ action }}" >
     {{ form.csrf_token() }}
-    {{ render_form_row([form.email]) }}
-    {{ render_form_row([form.accept_tos]) }}
-    {{ render_form_row([form.readonlyField]) }}
+    {{ render_form_row([form.question, form.select, form.noun, form.description]) }}
     {{ render_form_row([form.submit], button_size='sm', button_map={'submit': 'success'}) }}
 </form>
 

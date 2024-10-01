@@ -231,11 +231,15 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField()
 
 
+_choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
+_noun = 'laptop'
+_description = 'Laptop'
+_question = '1'
 class QuestionForm(FlaskForm):
-    email = StringField('Email Address', validators=[DataRequired(), Email(), Length(8, 40)])
-    remember = BooleanField('Remember me')
-    accept_tos = BooleanField('I accept the TOS', validators=[InputRequired()])
-    readonlyField = StringField("Readonly field", default='Read Only', validators=[ReadOnly()])
+    select = SelectField(choices=[('', '')] + _choices, validators=[DataRequired()])
+    question = StringField("Question", default=_question, validators=[ReadOnly()])
+    noun = StringField("Noun", default=_noun, validators=[ReadOnly()])
+    description = StringField("Description", default=_description, validators=[ReadOnly()])
     submit = SubmitField()
 
 
@@ -457,7 +461,16 @@ def question_form():
     #     "Plural": "Laptops",
     #     "Desc": "Laptop"
     # },
-    return render_template('question-form.html', form=_form, action='/question-form', method='post')
+    _data = {
+         "Noun": "Laptop",
+         "Ans": "der",
+         "Opt1": "der",
+         "Opt2": "die",
+         "Opt3": "das",
+         "Plural": "Laptops",
+         "Desc": "Laptop"
+    }
+    return render_template('question-form.html', form=_form, action='/question-form', method='post', data=_data)
 
 
 @application.route('/question-table')
