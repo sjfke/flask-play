@@ -2,24 +2,19 @@
 {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 
 {% block content %}
-<h2>Render a question form with render_form</h2>
-<pre>
-_choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
-_noun = 'laptop'
-_description = 'Laptop'
-_question = '1'
+<h2>Render a question form with render_form_row</h2>
 
-class QuestionForm(FlaskForm):
-    select = SelectField(choices=[('', '')] + _choices, validators=[DataRequired()])
-    question = StringField("Question", default=_question, validators=[ReadOnly()])
-    noun = StringField("Noun", default=_noun, validators=[ReadOnly()])
-    description = StringField("Description", default=_description, validators=[ReadOnly()])
-    submit = SubmitField()
-</pre>
-
+{% set count = 1 %}
+max is {{ max }}
 <form method="post" action="{{ action }}" >
     {{ form.csrf_token() }}
-    {{ render_form_row([form.question, form.select, form.noun, form.description]) }}
+    {% if count <= max %}
+        {{ render_form_row([form.question0, form.select0, form.noun0, form.description0]) }}
+    {% endif %}
+    {% set count = count + 1 %}
+    {{ render_form_row([form.question1, form.select1, form.noun1, form.description1]) }}
+    {% set count = count + 1 %}
+    {{ render_form_row([form.question2, form.select2, form.noun2, form.description2]) }}
     {{ render_form_row([form.submit], button_size='sm', button_map={'submit': 'success'}) }}
 </form>
 

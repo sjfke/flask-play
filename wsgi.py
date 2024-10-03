@@ -64,7 +64,7 @@ application.config['BOOTSTRAP_TABLE_EDIT_TITLE'] = 'Update'
 application.config['BOOTSTRAP_TABLE_DELETE_TITLE'] = 'Remove'
 application.config['BOOTSTRAP_TABLE_NEW_TITLE'] = 'Create'
 
-application.config['WTF_CSRF_SECRET_KEY'] = 'bb5951a47f9442b8a3077f44f6a9b202'  # Defaults to session SECRET_KEY
+# application.config['WTF_CSRF_SECRET_KEY'] = 'bb5951a47f9442b8a3077f44f6a9b202'  # Defaults to session SECRET_KEY
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
@@ -230,17 +230,6 @@ class RegistrationForm(FlaskForm):
     accept_tos = BooleanField('I accept the TOS', validators=[InputRequired()])
     submit = SubmitField()
 
-
-_choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
-_noun = 'laptop'
-_description = 'Laptop'
-_question = '1'
-class QuestionForm(FlaskForm):
-    select = SelectField(choices=[('', '')] + _choices, validators=[DataRequired()])
-    question = StringField("Question", default=_question, validators=[ReadOnly()])
-    noun = StringField("Noun", default=_noun, validators=[ReadOnly()])
-    description = StringField("Description", default=_description, validators=[ReadOnly()])
-    submit = SubmitField()
 
 
 @application.route('/')
@@ -442,6 +431,28 @@ def logout():
 
 @application.route('/question-form', methods=['GET', 'POST'])
 def question_form():
+
+    _choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
+    _noun = ['Maus', 'Computer', 'Stift']
+    _description = ['Mouse', 'Computer', 'Pencil']
+    _question = ['Q01', 'Q02', 'Q03']
+    _max = 1
+
+    class QuestionForm(FlaskForm):
+        select0 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        question0 = StringField("Question", default=_question[0], validators=[ReadOnly()])
+        noun0 = StringField("Noun", default=_noun[0], validators=[ReadOnly()])
+        description0 = StringField("Description", default=_description[0], validators=[ReadOnly()])
+        select1 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        question1 = StringField("Question", default=_question[1], validators=[ReadOnly()])
+        noun1 = StringField("Noun", default=_noun[1], validators=[ReadOnly()])
+        description1 = StringField("Description", default=_description[1], validators=[ReadOnly()])
+        select2 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        question2 = StringField("Question", default=_question[2], validators=[ReadOnly()])
+        noun2 = StringField("Noun", default=_noun[2], validators=[ReadOnly()])
+        description2 = StringField("Description", default=_description[2], validators=[ReadOnly()])
+        submit = SubmitField()
+
     _form = QuestionForm()
     if _form.validate_on_submit():
         data = request.form
@@ -461,16 +472,7 @@ def question_form():
     #     "Plural": "Laptops",
     #     "Desc": "Laptop"
     # },
-    _data = {
-         "Noun": "Laptop",
-         "Ans": "der",
-         "Opt1": "der",
-         "Opt2": "die",
-         "Opt3": "das",
-         "Plural": "Laptops",
-         "Desc": "Laptop"
-    }
-    return render_template('question-form.html', form=_form, action='/question-form', method='post', data=_data)
+    return render_template('question-form.html', form=_form, action='/question-form', method='post', max=_max)
 
 
 @application.route('/question-table')
