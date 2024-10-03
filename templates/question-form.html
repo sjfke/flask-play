@@ -4,17 +4,17 @@
 {% block content %}
 <h2>Render a question form with render_form_row</h2>
 
-{% set count = 1 %}
-max is {{ max }}
 <form method="post" action="{{ action }}" >
     {{ form.csrf_token() }}
-    {% if count <= max %}
-        {{ render_form_row([form.question0, form.select0, form.noun0, form.description0]) }}
-    {% endif %}
-    {% set count = count + 1 %}
+    {{ render_form_row([form.question0, form.select0, form.noun0, form.description0]) }}
     {{ render_form_row([form.question1, form.select1, form.noun1, form.description1]) }}
-    {% set count = count + 1 %}
-    {{ render_form_row([form.question2, form.select2, form.noun2, form.description2]) }}
+    {% if form.question2 is defined %}
+        {{ render_form_row([form.question2, form.select2, form.noun2, form.description2]) }}
+    {% endif %}
+    {% if form.question3 is defined %}
+        {{ render_form_row([form.question3, form.select3, form.noun3, form.description3]) }}
+    {% endif %}
+
     {{ render_form_row([form.submit], button_size='sm', button_map={'submit': 'success'}) }}
 </form>
 

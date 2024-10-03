@@ -433,9 +433,9 @@ def logout():
 def question_form():
 
     _choices = [('der', 'der'), ('die', 'die'), ('das', 'das')]
-    _noun = ['Maus', 'Computer', 'Stift']
-    _description = ['Mouse', 'Computer', 'Pencil']
-    _question = ['Q01', 'Q02', 'Q03']
+    _noun = ['Maus', 'Computer', 'Stift', 'Kalendar']
+    _description = ['Mouse', 'Computer', 'Pencil', 'Calendar']
+    _question = ['Q01', 'Q02', 'Q03', 'Q04']
     _max = 1
 
     class QuestionForm(FlaskForm):
@@ -447,10 +447,10 @@ def question_form():
         question1 = StringField("Question", default=_question[1], validators=[ReadOnly()])
         noun1 = StringField("Noun", default=_noun[1], validators=[ReadOnly()])
         description1 = StringField("Description", default=_description[1], validators=[ReadOnly()])
-        select2 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
-        question2 = StringField("Question", default=_question[2], validators=[ReadOnly()])
-        noun2 = StringField("Noun", default=_noun[2], validators=[ReadOnly()])
-        description2 = StringField("Description", default=_description[2], validators=[ReadOnly()])
+        select3 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        question3 = StringField("Question", default=_question[3], validators=[ReadOnly()])
+        noun3 = StringField("Noun", default=_noun[3], validators=[ReadOnly()])
+        description3 = StringField("Description", default=_description[3], validators=[ReadOnly()])
         submit = SubmitField()
 
     _form = QuestionForm()
