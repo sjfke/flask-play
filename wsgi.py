@@ -454,6 +454,9 @@ def question_form():
         submit = SubmitField()
 
     _form = QuestionForm()
+#    QuestionForm.submit = property(lambda self: SubmitField()) failed attempt to add property dynamically
+
+
     if _form.validate_on_submit():
         data = request.form
         return jsonify(data), 200
