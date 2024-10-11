@@ -439,18 +439,18 @@ def question_form():
     _max = 1
 
     class QuestionForm(FlaskForm):
-        select0 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
-        question0 = StringField("Question", default=_question[0], validators=[ReadOnly()])
+        sel0 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        q0 = StringField("Question", default=_question[0], validators=[ReadOnly()])
         noun0 = StringField("Noun", default=_noun[0], validators=[ReadOnly()])
-        description0 = StringField("Description", default=_description[0], validators=[ReadOnly()])
-        select1 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
-        question1 = StringField("Question", default=_question[1], validators=[ReadOnly()])
+        descr0 = StringField("Description", default=_description[0], validators=[ReadOnly()])
+        sel1 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        q1 = StringField("Question", default=_question[1], validators=[ReadOnly()])
         noun1 = StringField("Noun", default=_noun[1], validators=[ReadOnly()])
-        description1 = StringField("Description", default=_description[1], validators=[ReadOnly()])
-        select3 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
-        question3 = StringField("Question", default=_question[3], validators=[ReadOnly()])
+        descr1 = StringField("Description", default=_description[1], validators=[ReadOnly()])
+        sel3 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        q3 = StringField("Question", default=_question[3], validators=[ReadOnly()])
         noun3 = StringField("Noun", default=_noun[3], validators=[ReadOnly()])
-        description3 = StringField("Description", default=_description[3], validators=[ReadOnly()])
+        descr3 = StringField("Description", default=_description[3], validators=[ReadOnly()])
         submit = SubmitField()
 
     _form = QuestionForm()

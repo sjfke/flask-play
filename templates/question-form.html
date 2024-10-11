@@ -2,20 +2,22 @@
 {% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
 
 {% block content %}
-<h2>Render a question form with render_form_row</h2>
+<h2>Render a Question form with render_form_row</h2>
 
 <form method="post" action="{{ action }}" >
     {{ form.csrf_token() }}
-    {{ render_form_row([form.question0, form.select0, form.noun0, form.description0], form_type='inline', col_map={'question0': 'col-sm-1', 'select0': 'col-sm-1'}) }}
-    {{ render_form_row([form.question1, form.select1, form.noun1, form.description1], form_type='inline', col_map={'question1': 'col-sm-1', 'select1': 'col-sm-1'}) }}
-    {% if form.question2 is defined %}
-        {{ render_form_row([form.question2, form.select2, form.noun2, form.description2], form_type='inline', col_map={'question2': 'col-sm-1', 'select2': 'col-sm-1'}) }}
+    {{ render_form_row([form.q0, form.sel0, form.noun0, form.descr0], form_type='inline', col_map={'q0': 'col-sm-1', 'sel0': 'col-sm-1'}) }}
+    {{ render_form_row([form.q1, form.sel1, form.noun1, form.descr1], form_type='inline', col_map={'q1': 'col-sm-1', 'sel1': 'col-sm-1'}) }}
+    {% if form.q2 is defined %}
+        {{ render_form_row([form.q2, form.sel2, form.noun2, form.descr2], form_type='inline', col_map={'q2': 'col-sm-1', 'sel2': 'col-sm-1'}) }}
     {% endif %}
-    {% if form.question3 is defined %}
-        {{ render_form_row([form.question3, form.select3, form.noun3, form.description3], form_type='inline', col_map={'question3': 'col-sm-1', 'select3': 'col-sm-1'}) }}
+    {% if form.q3 is defined %}
+        {{ render_form_row([form.q3, form.sel3, form.noun3, form.descr3], form_type='inline', col_map={'q3': 'col-sm-1', 'sel3': 'col-sm-1'}) }}
     {% endif %}
 
-    {{ render_form_row([form.submit], button_size='sm', button_map={'submit': 'success'}) }}
+    {{ render_field(form.submit, button_size='sm', button_map={'submit': 'success'}) }}
+    <input class="btn btn-primary btn-sm" type="reset" value="Reset">
+
 </form>
 
 {% endblock content %}
