@@ -36,6 +36,10 @@ def is_valid_uuid4(value):
 
 
 application = Flask(__name__, instance_relative_config=True)
+# https://jinja.palletsprojects.com/en/3.1.x/api/
+application.jinja_options['trim_blocks'] = True
+application.jinja_options['lstrip_blocks'] = True
+application.jinja_options['autoescape'] = True
 
 # python -c 'import uuid; print(uuid.uuid4().hex)'
 # python -c 'import secrets; print(secrets.token_hex())'
@@ -388,7 +392,11 @@ def flask_config():
         else:
             _flask_cfg[key] = str(value)
 
-    _flask_config = {'Flask': _flask_cfg, 'Bootstrap': _bootstrap_cfg, 'WTF': _wtf_cfg, 'Database': _database_cfg}
+    _jinja_cfg = {}
+    for key, value in application.jinja_options.items():
+        _jinja_cfg[key] = str(value)
+
+    _flask_config = {'Flask': _flask_cfg, 'Bootstrap': _bootstrap_cfg, 'WTF': _wtf_cfg, 'Database': _database_cfg, 'Jinja': _jinja_cfg}
 
     return jsonify(_flask_config), 200
 
