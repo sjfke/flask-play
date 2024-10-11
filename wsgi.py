@@ -455,6 +455,10 @@ def question_form():
         q1 = StringField("Question", default=_question[1], validators=[ReadOnly()])
         noun1 = StringField("Noun", default=_noun[1], validators=[ReadOnly()])
         descr1 = StringField("Description", default=_description[1], validators=[ReadOnly()])
+        sel2 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
+        q2 = StringField("Question", default=_question[2], validators=[ReadOnly()])
+        noun2 = StringField("Noun", default=_noun[2], validators=[ReadOnly()])
+        descr2 = StringField("Description", default=_description[2], validators=[ReadOnly()])
         sel3 = SelectField('Choice',choices=[('', '')] + _choices, validators=[DataRequired()])
         q3 = StringField("Question", default=_question[3], validators=[ReadOnly()])
         noun3 = StringField("Noun", default=_noun[3], validators=[ReadOnly()])
@@ -462,6 +466,7 @@ def question_form():
         submit = SubmitField()
 
     _form = QuestionForm()
+    # _form.q2 = None
 #    QuestionForm.submit = property(lambda self: SubmitField()) failed attempt to add property dynamically
 
 
