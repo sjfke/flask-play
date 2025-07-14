@@ -4,35 +4,63 @@
 {% block content %}
 <h2>Render a Question form with render_form_row</h2>
 
-<form method="post" action="{{ action }}" >
+<form method="post" action="{{ action }}">
     {{ form.csrf_token() }}
-    {{ render_form_row([form.q00, form.sel00, form.noun00, form.descr00], form_type='inline', col_map={'q00': 'col-sm-1', 'sel00': 'col-sm-1'}) }}
-    {{ render_form_row([form.q01, form.sel01, form.noun01, form.descr01], form_type='inline', col_map={'q01': 'col-sm-1', 'sel01': 'col-sm-1'}) if form.q01 is defined and form.q01 is not none }}
-    {{ render_form_row([form.q02, form.sel02, form.noun02, form.descr02], form_type='inline', col_map={'q02': 'col-sm-1', 'sel02': 'col-sm-1'}) if form.q02 is defined and form.q02 is not none }}
-    {{ render_form_row([form.q03, form.sel03, form.noun03, form.descr03], form_type='inline', col_map={'q03': 'col-sm-1', 'sel03': 'col-sm-1'}) if form.q03 is defined and form.q03 is not none }}
-    {{ render_form_row([form.q04, form.sel04, form.noun04, form.descr04], form_type='inline', col_map={'q04': 'col-sm-1', 'sel04': 'col-sm-1'}) if form.q04 is defined and form.q04 is not none }}
-    {{ render_form_row([form.q05, form.sel05, form.noun05, form.descr05], form_type='inline', col_map={'q05': 'col-sm-1', 'sel05': 'col-sm-1'}) if form.q05 is defined and form.q05 is not none }}
-    {{ render_form_row([form.q06, form.sel06, form.noun06, form.descr06], form_type='inline', col_map={'q06': 'col-sm-1', 'sel06': 'col-sm-1'}) if form.q06 is defined and form.q06 is not none }}
-    {{ render_form_row([form.q07, form.sel07, form.noun07, form.descr07], form_type='inline', col_map={'q07': 'col-sm-1', 'sel07': 'col-sm-1'}) if form.q07 is defined and form.q07 is not none }}
-    {{ render_form_row([form.q08, form.sel08, form.noun08, form.descr08], form_type='inline', col_map={'q08': 'col-sm-1', 'sel08': 'col-sm-1'}) if form.q08 is defined and form.q08 is not none }}
-    {{ render_form_row([form.q09, form.sel09, form.noun09, form.descr09], form_type='inline', col_map={'q09': 'col-sm-1', 'sel09': 'col-sm-1'}) if form.q09 is defined and form.q09 is not none }}
-    {{ render_form_row([form.q10, form.sel10, form.noun10, form.descr10], form_type='inline', col_map={'q10': 'col-sm-1', 'sel10': 'col-sm-1'}) if form.q10 is defined and form.q10 is not none }}
-    {{ render_form_row([form.q11, form.sel11, form.noun11, form.descr11], form_type='inline', col_map={'q11': 'col-sm-1', 'sel11': 'col-sm-1'}) if form.q11 is defined and form.q11 is not none }}
-    {{ render_form_row([form.q12, form.sel12, form.noun12, form.descr12], form_type='inline', col_map={'q12': 'col-sm-1', 'sel12': 'col-sm-1'}) if form.q12 is defined and form.q12 is not none }}
-    {{ render_form_row([form.q13, form.sel13, form.noun13, form.descr13], form_type='inline', col_map={'q13': 'col-sm-1', 'sel13': 'col-sm-1'}) if form.q13 is defined and form.q13 is not none }}
-    {{ render_form_row([form.q14, form.sel14, form.noun14, form.descr14], form_type='inline', col_map={'q14': 'col-sm-1', 'sel14': 'col-sm-1'}) if form.q14 is defined and form.q14 is not none }}
-    {{ render_form_row([form.q15, form.sel06, form.noun15, form.descr15], form_type='inline', col_map={'q15': 'col-sm-1', 'sel15': 'col-sm-1'}) if form.q15 is defined and form.q15 is not none }}
-    {{ render_form_row([form.q16, form.sel16, form.noun16, form.descr16], form_type='inline', col_map={'q16': 'col-sm-1', 'sel16': 'col-sm-1'}) if form.q16 is defined and form.q16 is not none }}
-    {{ render_form_row([form.q17, form.sel17, form.noun17, form.descr17], form_type='inline', col_map={'q17': 'col-sm-1', 'sel17': 'col-sm-1'}) if form.q17 is defined and form.q17 is not none }}
-    {{ render_form_row([form.q18, form.sel18, form.noun18, form.descr18], form_type='inline', col_map={'q18': 'col-sm-1', 'sel18': 'col-sm-1'}) if form.q18 is defined and form.q18 is not none }}
-    {{ render_form_row([form.q19, form.sel19, form.noun19, form.descr19], form_type='inline', col_map={'q19': 'col-sm-1', 'sel19': 'col-sm-1'}) if form.q19 is defined and form.q19 is not none }}
-    {{ render_form_row([form.q20, form.sel20, form.noun20, form.descr20], form_type='inline', col_map={'q20': 'col-sm-1', 'sel20': 'col-sm-1'}) if form.q20 is defined and form.q20 is not none }}
-    {{ render_form_row([form.q21, form.sel21, form.noun21, form.descr21], form_type='inline', col_map={'q21': 'col-sm-1', 'sel21': 'col-sm-1'}) if form.q21 is defined and form.q21 is not none }}
-    {{ render_form_row([form.q22, form.sel22, form.noun22, form.descr22], form_type='inline', col_map={'q22': 'col-sm-1', 'sel22': 'col-sm-1'}) if form.q22 is defined and form.q22 is not none }}
-    {{ render_form_row([form.q23, form.sel23, form.noun23, form.descr23], form_type='inline', col_map={'q23': 'col-sm-1', 'sel23': 'col-sm-1'}) if form.q23 is defined and form.q23 is not none }}
-    {{ render_form_row([form.q24, form.sel24, form.noun24, form.descr24], form_type='inline', col_map={'q24': 'col-sm-1', 'sel24': 'col-sm-1'}) if form.q24 is defined and form.q24 is not none }}
+    {% if form.csrf_token.errors %}
+    <div class="warning">You have submitted an invalid CSRF token</div>
+    {% endif %}
+    {{ render_form_row([form.q00, form.sel00, form.noun00, form.descr00], form_type='inline', col_map={'q00':
+    'col-sm-1', 'sel00': 'col-sm-1'}) }}
+    {{ render_form_row([form.q01, form.sel01, form.noun01, form.descr01], form_type='inline', col_map={'q01':
+    'col-sm-1', 'sel01': 'col-sm-1'}) if form.q01 is defined and form.q01 is not none }}
+    {{ render_form_row([form.q02, form.sel02, form.noun02, form.descr02], form_type='inline', col_map={'q02':
+    'col-sm-1', 'sel02': 'col-sm-1'}) if form.q02 is defined and form.q02 is not none }}
+    {{ render_form_row([form.q03, form.sel03, form.noun03, form.descr03], form_type='inline', col_map={'q03':
+    'col-sm-1', 'sel03': 'col-sm-1'}) if form.q03 is defined and form.q03 is not none }}
+    {{ render_form_row([form.q04, form.sel04, form.noun04, form.descr04], form_type='inline', col_map={'q04':
+    'col-sm-1', 'sel04': 'col-sm-1'}) if form.q04 is defined and form.q04 is not none }}
+    {{ render_form_row([form.q05, form.sel05, form.noun05, form.descr05], form_type='inline', col_map={'q05':
+    'col-sm-1', 'sel05': 'col-sm-1'}) if form.q05 is defined and form.q05 is not none }}
+    {{ render_form_row([form.q06, form.sel06, form.noun06, form.descr06], form_type='inline', col_map={'q06':
+    'col-sm-1', 'sel06': 'col-sm-1'}) if form.q06 is defined and form.q06 is not none }}
+    {{ render_form_row([form.q07, form.sel07, form.noun07, form.descr07], form_type='inline', col_map={'q07':
+    'col-sm-1', 'sel07': 'col-sm-1'}) if form.q07 is defined and form.q07 is not none }}
+    {{ render_form_row([form.q08, form.sel08, form.noun08, form.descr08], form_type='inline', col_map={'q08':
+    'col-sm-1', 'sel08': 'col-sm-1'}) if form.q08 is defined and form.q08 is not none }}
+    {{ render_form_row([form.q09, form.sel09, form.noun09, form.descr09], form_type='inline', col_map={'q09':
+    'col-sm-1', 'sel09': 'col-sm-1'}) if form.q09 is defined and form.q09 is not none }}
+    {{ render_form_row([form.q10, form.sel10, form.noun10, form.descr10], form_type='inline', col_map={'q10':
+    'col-sm-1', 'sel10': 'col-sm-1'}) if form.q10 is defined and form.q10 is not none }}
+    {{ render_form_row([form.q11, form.sel11, form.noun11, form.descr11], form_type='inline', col_map={'q11':
+    'col-sm-1', 'sel11': 'col-sm-1'}) if form.q11 is defined and form.q11 is not none }}
+    {{ render_form_row([form.q12, form.sel12, form.noun12, form.descr12], form_type='inline', col_map={'q12':
+    'col-sm-1', 'sel12': 'col-sm-1'}) if form.q12 is defined and form.q12 is not none }}
+    {{ render_form_row([form.q13, form.sel13, form.noun13, form.descr13], form_type='inline', col_map={'q13':
+    'col-sm-1', 'sel13': 'col-sm-1'}) if form.q13 is defined and form.q13 is not none }}
+    {{ render_form_row([form.q14, form.sel14, form.noun14, form.descr14], form_type='inline', col_map={'q14':
+    'col-sm-1', 'sel14': 'col-sm-1'}) if form.q14 is defined and form.q14 is not none }}
+    {{ render_form_row([form.q15, form.sel06, form.noun15, form.descr15], form_type='inline', col_map={'q15':
+    'col-sm-1', 'sel15': 'col-sm-1'}) if form.q15 is defined and form.q15 is not none }}
+    {{ render_form_row([form.q16, form.sel16, form.noun16, form.descr16], form_type='inline', col_map={'q16':
+    'col-sm-1', 'sel16': 'col-sm-1'}) if form.q16 is defined and form.q16 is not none }}
+    {{ render_form_row([form.q17, form.sel17, form.noun17, form.descr17], form_type='inline', col_map={'q17':
+    'col-sm-1', 'sel17': 'col-sm-1'}) if form.q17 is defined and form.q17 is not none }}
+    {{ render_form_row([form.q18, form.sel18, form.noun18, form.descr18], form_type='inline', col_map={'q18':
+    'col-sm-1', 'sel18': 'col-sm-1'}) if form.q18 is defined and form.q18 is not none }}
+    {{ render_form_row([form.q19, form.sel19, form.noun19, form.descr19], form_type='inline', col_map={'q19':
+    'col-sm-1', 'sel19': 'col-sm-1'}) if form.q19 is defined and form.q19 is not none }}
+    {{ render_form_row([form.q20, form.sel20, form.noun20, form.descr20], form_type='inline', col_map={'q20':
+    'col-sm-1', 'sel20': 'col-sm-1'}) if form.q20 is defined and form.q20 is not none }}
+    {{ render_form_row([form.q21, form.sel21, form.noun21, form.descr21], form_type='inline', col_map={'q21':
+    'col-sm-1', 'sel21': 'col-sm-1'}) if form.q21 is defined and form.q21 is not none }}
+    {{ render_form_row([form.q22, form.sel22, form.noun22, form.descr22], form_type='inline', col_map={'q22':
+    'col-sm-1', 'sel22': 'col-sm-1'}) if form.q22 is defined and form.q22 is not none }}
+    {{ render_form_row([form.q23, form.sel23, form.noun23, form.descr23], form_type='inline', col_map={'q23':
+    'col-sm-1', 'sel23': 'col-sm-1'}) if form.q23 is defined and form.q23 is not none }}
+    {{ render_form_row([form.q24, form.sel24, form.noun24, form.descr24], form_type='inline', col_map={'q24':
+    'col-sm-1', 'sel24': 'col-sm-1'}) if form.q24 is defined and form.q24 is not none }}
     {{ render_field(form.submit, button_size='sm', button_map={'submit': 'success'}) }}
-    <input class="btn btn-primary btn-sm" type="reset" value="Reset">
+    <!--    <input class="btn btn-primary btn-sm" type="reset" value="Reset">-->
 
 </form>
 
