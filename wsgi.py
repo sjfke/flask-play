@@ -36,6 +36,9 @@ def is_valid_uuid4(value):
 
 
 application = Flask(__name__, instance_relative_config=True)
+application.config['DEBUG'] = True
+# application.config['TESTING'] = True
+
 # https://jinja.palletsprojects.com/en/3.1.x/api/
 application.jinja_options['trim_blocks'] = True
 application.jinja_options['lstrip_blocks'] = True
@@ -50,6 +53,7 @@ application.secret_key = HEX_SECRET_KEY
 # from os import urandom
 # application.secret_key = urandom(16).hex()
 # application.secret_key = 'dev'
+application.config['SESSION_TYPE'] = 'filesystem'  # different storage types such as 'redis', 'mongodb', etc.
 application.config['SESSION_COOKIE_NAME'] = 'flask-play'  # default 'session'
 
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -80,7 +84,6 @@ bootstrap = Bootstrap5(application)
 db = SQLAlchemy(application)
 csrf = CSRFProtect(application)
 babel = Babel(application)
-
 
 class ExampleForm(FlaskForm):
     """An example form that contains all the supported bootstrap style form fields."""
