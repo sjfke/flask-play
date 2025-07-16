@@ -35,7 +35,7 @@ def is_valid_uuid4(value):
 
 
 application = Flask(__name__, instance_relative_config=True)
-# flask config: https://flask.palletsprojects.com/en/2.2.x/config/
+# flask config: https://flask.palletsprojects.com/en/stable/config/
 application.config['TESTING'] = True
 
 # Enable encrypted session (cookies) so can map user login to CIF, CIF-919ae5a5-34e4-4b88-979a-5187d46d1617
@@ -47,7 +47,7 @@ application.config['SESSION_COOKIE_NAME'] = 'flask-play'
 
 # clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
 application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
-application.config["MONGO_DB"] = "flask"
+application.config["MONGO_DB"] = "gm01"
 _client = MongoClient(application.config["MONGO_URI"])
 _db = _client[application.config["MONGO_DB"]]
 
@@ -112,7 +112,7 @@ def login():
         data = request.form
         # return jsonify(data), 200
         session['username'] = request.form['username']
-        session['cif'] = '919ae5a5-34e4-4b88-979a-5187d46d1617'
+        session['cif'] = 'a5366e29-4314-4b91-b90b-1639da02c2d8'
         session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
         return redirect(url_for('index'))
     else:
@@ -128,16 +128,29 @@ def logout():
 
 @application.route('/question1')
 def question1():
-    # "name": "quizA"
-    _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-    # "name": "quizB"
-    # _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
-    # "name": "quizC"
-    # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+    _questions = [
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
+            'name': 'question_0001'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
+            'name': 'question_0002'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
+            'name': 'question_0003'
+        }
+    ]
 
-    _collection = _db.quizzes
+    _quid = _questions[0]['quid']
+
+    _collection = _db.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-    _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
         return render_template("question1.html", data=_dict["data"])  # need data array
     return jsonify(_dict), 200
@@ -150,17 +163,29 @@ def pirate():
 
 @application.route('/flexquestion')
 def flexquestion():
-    # TODO: 2022-10-12T11:11:53 remove because it does not use the data
-    # "name": "quizA"
-    _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-    # "name": "quizB"
-    # _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
-    # "name": "quizC"
-    # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+    _questions = [
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
+            'name': 'question_0001'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
+            'name': 'question_0002'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
+            'name': 'question_0003'
+        }
+    ]
+
+    _quid = _questions[0]['quid']
 
     _collection = _db.quizzes
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-    _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    _dict = _collection.find_one({'quid': _quiz}, {'_id': 0, 'data': 1})
     if _dict:
         return render_template("flexquestion.html", data=_dict["data"])  # need data array
     return jsonify(_dict), 200
@@ -173,16 +198,28 @@ def formgrid():
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        # "name": "quizA"
-        # _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-        # "name": "quizB"
-        _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
-        # "name": "quizC"
-        # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+        _questions = [
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
+                'name': 'question_0001'
+            },
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
+                'name': 'question_0002'
+            },
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
+                'name': 'question_0003'
+            }
+        ]
 
-        _collection = _db.quizzes
+        _quid = _questions[0]['quid']
+        _collection = _db.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-        _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+        _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
         if _dict:
             return render_template("formgrid.html", data=_dict["data"])  # need data array
         return jsonify(_dict), 200
@@ -344,16 +381,28 @@ def formgrid2():
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        # "name": "quizA"
-        # _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-        # "name": "quizB"
-        _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
-        # "name": "quizC"
-        # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+        _questions = [
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
+                'name': 'question_0001'
+            },
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
+                'name': 'question_0002'
+            },
+            {
+                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
+                'name': 'question_0003'
+            }
+        ]
 
-        _collection = _db.quizzes
+        _quid = _questions[1]['quid']
+        _collection = _db.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-        _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+        _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
         if _dict:
             return render_template("formgrid2.html", data=_dict["data"])  # need data array
         return jsonify(_dict), 200
