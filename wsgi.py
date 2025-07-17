@@ -156,13 +156,13 @@ def question1():
     return jsonify(_dict), 200
 
 
-@application.route('/data')
-def pirate():
+@application.route('/deutsch')
+def deutsch():
     return render_template("deutsch.json")
 
 
-@application.route('/flexquestion')
-def flexquestion():
+@application.route('/flex-question')
+def flex_question():
     _questions = [
         {
             'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
@@ -185,14 +185,14 @@ def flexquestion():
 
     _collection = _db.quizzes
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-    _dict = _collection.find_one({'quid': _quiz}, {'_id': 0, 'data': 1})
+    _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
         return render_template("flexquestion.html", data=_dict["data"])  # need data array
     return jsonify(_dict), 200
 
 
-@application.route('/formgrid', methods=['GET', 'POST'])
-def formgrid():
+@application.route('/form-grid', methods=['GET', 'POST'])
+def form_grid():
     if request.method == 'POST':
         answer = request.form
         # return data # => returns identical JSON output
@@ -374,8 +374,8 @@ def nouns_quiz():
         return jsonify(_dict), 200
 
 
-@application.route('/formgrid2', methods=['GET', 'POST'])
-def formgrid2():
+@application.route('/form-grid2', methods=['GET', 'POST'])
+def form_grid2():
     if request.method == 'POST':
         answer = request.form
         # return data # => returns identical JSON output
@@ -408,18 +408,30 @@ def formgrid2():
         return jsonify(_dict), 200
 
 
-@application.route('/radiobutton')
-def radiobutton():
-    # "name": "quizA"
-    # _quiz = "QIZ-3021178c-c430-4285-bed2-114dfe4db9df"
-    # "name": "quizB"
-    _quiz = "QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86"
-    # "name": "quizC"
-    # _quiz = "QIZ-74751363-3db2-4a82-b764-09de11b65cd6"
+@application.route('/radio-button')
+def radio_button():
+    _questions = [
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
+            'name': 'question_0001'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
+            'name': 'question_0002'
+        },
+        {
+            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
+            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
+            'name': 'question_0003'
+        }
+    ]
 
-    _collection = _db.quizzes
+    _quid = _questions[0]['quid']
+    _collection = _db.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
-    _dict = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
+    _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
         return render_template("radiobutton.html", data=_dict["data"])  # need data array
     return jsonify(_dict), 200
@@ -489,7 +501,7 @@ def get_quizzes():
     return jsonify(_answer), 200
 
 
-@application.route('/api/mongo')
+@application.route('/api/mongo-collections')
 def get_mongodb_collections():
     _answer = _db.list_collection_names()
     return jsonify(_answer), 200
@@ -578,7 +590,7 @@ def get_qzid_json(quiz_id):
     return jsonify(_answer), 200
 
 
-@application.route('/api/runnable')
+@application.route('/api/runnable-com-users')
 def runnable():
     r = requests.get('https://api.github.com/users/runnable')
     return jsonify(r.json())
