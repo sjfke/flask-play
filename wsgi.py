@@ -6,9 +6,22 @@ from flask import abort, jsonify, redirect, render_template, request, session
 from markupsafe import escape
 from pymongo import MongoClient
 
-# from flask_wtf import FlaskForm
-# from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
-# from wtforms.validators import InputRequired, Length
+from flask_wtf import FlaskForm
+from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
+from wtforms.validators import InputRequired, Length
+
+
+class CourseForm(FlaskForm):
+    title = StringField('Title', validators=[InputRequired(),
+                                             Length(min=10, max=100)])
+    description = TextAreaField('Course Description',
+                                validators=[InputRequired(),
+                                            Length(max=200)])
+    price = IntegerField('Price', validators=[InputRequired()])
+    level = RadioField('Level',
+                       choices=['Beginner', 'Intermediate', 'Advanced'],
+                       validators=[InputRequired()])
+    available = BooleanField('Available', default='checked')
 
 
 def is_valid_uuid4(value):
@@ -123,6 +136,34 @@ def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
+
+# https://www.digitalocean.com/community/tutorials/how-to-use-and-validate-web-forms-with-flask-wtf
+# https://flask.palletsprojects.com/en/stable/patterns/wtforms/
+courses_list = [{
+    'title': 'Python 101',
+    'description': 'Learn Python basics',
+    'price': 34,
+    'available': True,
+    'level': 'Beginner'
+},
+{
+    'title': 'How To Build Web Applications with Flask',
+    'description': 'How To Create Your First Web Application Using Flask and Python 3',
+    'price': 50,
+    'available': True,
+    'level': 'Beginner'
+}]
+
+
+@application.route('/courses')
+def courses():
+    return render_template('courses.html', courses_list=courses_list)
+
+
+@application.route('/add-course', methods=['GET', 'POST'])
+def add_course():
+    form = CourseForm()
+    return render_template('add-course.html', form=form)
 
 
 @application.route('/question1')
