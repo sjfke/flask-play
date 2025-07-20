@@ -2,14 +2,13 @@ import uuid
 
 import requests
 from flask import Flask, url_for
-from flask import abort
-from flask import jsonify
-from flask import redirect
-from flask import render_template
-from flask import request
-from flask import session
+from flask import abort, jsonify, redirect, render_template, request, session
 from markupsafe import escape
 from pymongo import MongoClient
+
+# from flask_wtf import FlaskForm
+# from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
+# from wtforms.validators import InputRequired, Length
 
 
 def is_valid_uuid4(value):
