@@ -250,3 +250,9 @@ EXPOSE ${PORT}
 # TODO: Set the default CMD for the image
 CMD gunicorn -b 0.0.0.0:${PORT} wsgi
 ```
+
+## MongoDB
+
+```powershell
+PS1> docker exec -it flask-play-mongo-1 mongosh --username root
+```
