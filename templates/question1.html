@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Question1{% endblock %}
-{% block head %} {{ super() }} {% endblock %}
-{% block card_title %}<h1>Question1 Page</h1>{% endblock %}
+{% block title %}Question1{% endblock title %}
+{% block head %} {{ super() }} {% endblock head %}
+{% block card_title %}<h1>Question1 Page</h1>{% endblock card_title %}
 {% block card_body %}
     <div class="container">
         <table class="table table-dark table-striped">
@@ -23,6 +23,6 @@
 
     </div>
 
-{% endblock %}
+{% endblock card_body %}
 
 
