@@ -6,22 +6,31 @@ services:
     networks:
       - flask-play
 
-  sqlite3:
-    image: keinos/sqlite3:latest
+  postgres:
+    image: postgres
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: Auth
+      # POSTGRES_INITDB_ARGS – Sends arguments to postgres_initdb and adds functionality
+      # POSTGRES_INITDB_WALDIR – Defines a specific directory for the Postgres transaction log.
+      # POSTGRES_HOST_AUTH_METHOD – Controls the auth-method for host connections to all databases, users, and addresses
+      # PGDATA – Defines another default location or subdirectory for database files
     networks:
       - flask-play
-    tty: true
+#   ports:
+#     - "5432:5432"
     volumes:
-      - sqlite3-flask-play:/root/db/
+      - postgres-flask-play:/var/lib/postgresql/data
 
   mongo:
     image: mongo
     restart: unless-stopped
     networks:
       - flask-play
-#    ports:
-#      - "27017:27017"
+#   ports:
+#     - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -51,7 +60,7 @@ networks:
     driver: bridge
 
 volumes:
-  sqlite3-flask-play:
+  postgres-flask-play:
     external: true
   mongodb-flask-play:
     external: true
