@@ -6,11 +6,22 @@ services:
     networks:
       - flask-play
 
+  sqlite3:
+    image: keinos/sqlite3:latest
+    restart: unless-stopped
+    networks:
+      - flask-play
+    tty: true
+    volumes:
+      - sqlite3-flask-play:/root/db/
+
   mongo:
     image: mongo
     restart: unless-stopped
     networks:
       - flask-play
+#    ports:
+#      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -40,6 +51,8 @@ networks:
     driver: bridge
 
 volumes:
+  sqlite3-flask-play:
+    external: true
   mongodb-flask-play:
     external: true
   dbgate-flask-play:
