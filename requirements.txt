@@ -2,9 +2,9 @@ babel==2.17.0
 blinker==1.9.0
 Bootstrap-Flask==2.5.0
 cachelib==0.13.0
-certifi==2025.7.14
+certifi==2025.8.3
 charset-normalizer==3.4.2
-click==8.2.1
+click==8.2.2
 colorama==0.4.6
 dnspython==2.7.0
 email_validator==2.2.0
@@ -25,7 +25,7 @@ pymongo==4.13.2
 pytz==2025.2
 requests==2.32.4
 setuptools==80.9.0
-SQLAlchemy==2.0.41
+SQLAlchemy==2.0.42
 typing_extensions==4.14.1
 tzdata==2025.2
 tzlocal==5.3.1
