@@ -2,6 +2,7 @@ import json
 import re
 import os
 
+import requests
 from flask import (
     Blueprint,
     render_template,
@@ -23,6 +24,46 @@ from . import (
     uuid4_utils, mongo_client, mongo_data, mongo_images
 
 )
+from .uuid4_utils import is_valid_uuid4
+
+_questions = [
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da',
+        'name': 'questionA'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c',
+        'name': 'questionB'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-05db84d8-27ac-4067-9daa-d743ff56929b',
+        'name': 'questionC'
+    }
+]
+
+_quizzes = [
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da',
+        'qzid': 'QIZ-3021178c-c430-4285-bed2-114dfe4db9df',
+        'name': 'quizA'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c',
+        'qzid': 'QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86',
+        'name': 'quizB'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-05db84d8-27ac-4067-9daa-d743ff56929b',
+        'qzid': 'QIZ-74751363-3db2-4a82-b764-09de11b65cd6',
+        'name': 'quizC'
+    }
+]
 
 main = Blueprint('main', __name__, static_folder='/static')
 
@@ -83,7 +124,6 @@ def get_flask_config():
     return jsonify(_flask_config), 200
 
 
-
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
@@ -136,24 +176,6 @@ def add_course():
 
 @main.route('/question1')
 def question1():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
 
     _collection = mongo_data.questions
@@ -171,24 +193,6 @@ def deutsch():
 
 @main.route('/flex-question')
 def flex_question():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
 
     _collection = mongo_data.questions
@@ -206,24 +210,6 @@ def form_grid():
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        _questions = [
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-                'name': 'question_0001'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-                'name': 'question_0002'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-                'name': 'question_0003'
-            }
-        ]
-
         _quid = _questions[0]['quid']
         _collection = mongo_data.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
@@ -389,24 +375,6 @@ def form_grid2():
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        _questions = [
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-                'name': 'question_0001'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-                'name': 'question_0002'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-                'name': 'question_0003'
-            }
-        ]
-
         _quid = _questions[1]['quid']
         _collection = mongo_data.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
@@ -418,24 +386,6 @@ def form_grid2():
 
 @main.route('/radio-button')
 def radio_button():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
     _collection = mongo_data.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}

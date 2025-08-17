@@ -16,7 +16,7 @@ from pymongo import MongoClient
 
 mongo_database_config = {
     "MONGO_URI": "mongodb://root:example@mongo:27017",
-    "DATA": "gm01",
+    "DATA": "gmdata",
     "IMAGES": "gmimages"
 }
 mongo_client = MongoClient(mongo_database_config["MONGO_URI"])
