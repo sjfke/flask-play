@@ -2,7 +2,7 @@ MongoDB Test Data
 =================
 PS1> docker exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017
 
-test> use flask
+test> use gmdata
 Now using flask DB (dropped prompt to make easy for cut-n-paste)
 # make sure it is empty
 show collections
