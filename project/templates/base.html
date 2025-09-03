@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-5.3.7-dist/css/bootstrap.min.css') }}"/>
     <script src="{{ url_for('static', filename='bootstrap-5.3.7-dist/css/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- https://bootstrap.themes.guide/#themes -->
     <!-- https://stackoverflow.com/questions/25034812/use-a-css-stylesheet-on-a-jinja2-template/25034903 -->
@@ -34,18 +35,34 @@
         <a class="navbar-brand" href="#"><img src="/static/flask-icon.png" width="30" height="30" alt=""></a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/deutsch">Deutsch</a></li>
-            <li class="nav-item"><a class="nav-link" href="/add-course">Add Course</a></li>
-            <li class="nav-item"><a class="nav-link" href="/courses">Courses</a></li>
             <li class="nav-item"><a class="nav-link" href="/question1">Question1</a></li>
-            <!--            <li class="nav-item"><a class="nav-link" href="/flexquestion">Flex Question</a></li> -->
+            <li class="nav-item"><a class="nav-link" href="/deutsch">Deutsch</a></li>
+            <li class="nav-item"><a class="nav-link" href="/flex-question">Flex Question</a></li>
             <li class="nav-item"><a class="nav-link" href="/form-grid">Form Grid</a></li>
+            <li class="nav-item"><a class="nav-link" href="/nouns-table-result">Nouns Result</a></li>
+            <li class="nav-item"><a class="nav-link" href="/quiz">Quiz</a></li>
             <li class="nav-item"><a class="nav-link" href="/form-grid2">Form Grid 2</a></li>
-            <!-- <li class="nav-item"><a class="nav-link" href="/radiobutton">Radiobutton</a></li> -->
-            <li class="nav-item"><a class="nav-link" href="/api/mongo-collections">Mongo Collections</a></li>
+            <li class="nav-item"><a class="nav-link" href="/radio-button">Radio</a></li>
+            <li class="nav-item"><a class="nav-link" href="/form-example">Form Example</a></li>
             <li class="nav-item"><a class="nav-link" href="/json-form">JSON-form</a></li>
-            <li class="nav-item"><a class="nav-link" href="https://flask.palletsprojects.com/en/2.1.x/" target="_blank">About
-                Flask</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/mongo-collections">Mongo Collections</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/questions">Api Questions</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/quizzes">API Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/mongo-collections">Mongo Collections</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/user/<username>">API User</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/question/<cif>/<quid>/">API Question</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/question/<quid>">API Question</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/quiz/<cif>/<quiz_id>/">API Quiz</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/quiz/<quiz_id>">API Quiz</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/runnable-com-users">Runnable Com Users</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">Courses</a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a class="nav-link" href="/add-course">Add Course</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/courses">List Courses</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 </header>
