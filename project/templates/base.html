@@ -31,39 +31,77 @@
 </head>
 <header>
     <!-- https://pythonbasics.org/flask-tutorial-routes/ -->
-    <nav class="navbar navbar-expand-md navbar-light bg-primary mb-3">
-        <a class="navbar-brand" href="#"><img src="/static/flask-icon.png" width="30" height="30" alt=""></a>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="/question1">Question1</a></li>
-            <li class="nav-item"><a class="nav-link" href="/deutsch">Deutsch</a></li>
-            <li class="nav-item"><a class="nav-link" href="/flex-question">Flex Question</a></li>
-            <li class="nav-item"><a class="nav-link" href="/form-grid">Form Grid</a></li>
-            <li class="nav-item"><a class="nav-link" href="/nouns-table-result">Nouns Result</a></li>
-            <li class="nav-item"><a class="nav-link" href="/quiz">Quiz</a></li>
-            <li class="nav-item"><a class="nav-link" href="/form-grid2">Form Grid 2</a></li>
-            <li class="nav-item"><a class="nav-link" href="/radio-button">Radio</a></li>
-            <li class="nav-item"><a class="nav-link" href="/form-example">Form Example</a></li>
-            <li class="nav-item"><a class="nav-link" href="/json-form">JSON-form</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/mongo-collections">Mongo Collections</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/questions">Api Questions</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/quizzes">API Quizzes</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/mongo-collections">Mongo Collections</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/user/<username>">API User</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/question/<cif>/<quid>/">API Question</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/question/<quid>">API Question</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/quiz/<cif>/<quiz_id>/">API Quiz</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/quiz/<quiz_id>">API Quiz</a></li>
-            <li class="nav-item"><a class="nav-link" href="/api/runnable-com-users">Runnable Com Users</a></li>
-            <li class="nav-item dropdown">
+
+    <nav class="navbar navbar-expand-sm navbar-light bg-primary">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand" href="#"><img src="/static/flask-icon.png" width="30" height="30" alt=""></a> -->
+            <ul class="navbar-nav sm-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+
+                <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">Courses</a>
+                       aria-expanded="false">Forms Examples</a>
                 <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a class="nav-link" href="/add-course">Add Course</a></li>
-                    <li class="dropdown-item"><a class="nav-link" href="/courses">List Courses</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/question1">Question1</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/flex-question">Flex Question</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/form-grid">Form Grid</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/form-grid2">Form Grid 2</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/form-example">Form Example</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/radio-button">Radio</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/quiz">Quiz</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/nouns-table-result">Nouns Result</a></li>
                 </ul>
-            </li>
-        </ul>
+
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">JSON Examples</a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a class="nav-link" href="/deutsch">Deutsch</a></li>
+                    <li class="dropdown-item"><a class="nav-link" href="/json-form">JSON-form</a></li>
+
+                </ul>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">API Examples</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a class="nav-link" href="/api/mongo-collections">Mongo
+                            Collections</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/questions">Api Questions</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/quizzes">API Quizzes</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <!-- CIF: 919ae5a5-34e4-4b88-979a-5187d46d1617 -->
+                        <!-- QID: 42cb197a-d10f-47e6-99bb-a814d4ca95da -->
+                        <!-- QIZ: 3021178c-c430-4285-bed2-114dfe4db9df -->
+                        <li class="dropdown-item"><a class="nav-link" href="/api/user/919ae5a5-34e4-4b88-979a-5187d46d1617">API User</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/question/919ae5a5-34e4-4b88-979a-5187d46d1617/42cb197a-d10f-47e6-99bb-a814d4ca95da/">API
+                            CIF-Question</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/question/42cb197a-d10f-47e6-99bb-a814d4ca95da">API Question</a></li>
+                        <!-- <li class="dropdown-item"><a class="nav-link" href="/api/quiz/<cif>/<quiz_id>/">API Quiz</a> # QIZ-3021178c-c430-4285-bed2-114dfe4db9df -->
+                        <!-- <li class="dropdown-item"><a class="nav-link" href="/api/quiz/<cif>/QIZ-3021178c-c430-4285-bed2-114dfe4db9df/">API Quiz</a> # -->
+                        <li class="dropdown-item"><a class="nav-link" href="/api/quiz/919ae5a5-34e4-4b88-979a-5187d46d1617/3021178c-c430-4285-bed2-114dfe4db9df/">API CIF-Quiz</a>
+                        </li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/quiz/3021178c-c430-4285-bed2-114dfe4db9df">API Quiz</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-item"><a class="nav-link" href="/api/runnable-com-users">Runnable Com
+                            Users</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Courses</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a class="nav-link" href="/add-course">Add Course</a></li>
+                        <li class="dropdown-item"><a class="nav-link" href="/courses">List Courses</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </header>
 <body class="bg-primary">

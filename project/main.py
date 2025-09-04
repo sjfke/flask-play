@@ -467,7 +467,7 @@ def get_mongodb_collections():
 
 # @main.route('/api/user/<username>/')
 # redirects to URL with trailing '/', search engines will index twice
-# https://flask.palletsprojects.com/en/2.1.x/quickstart/#unique-urls-redirection-behavior
+# https://flask.palletsprojects.com/en/stable/quickstart/#unique-urls-redirection-behavior
 @main.route('/api/user/<username>')
 def show_user_profile(username):
     return f'User {escape(username)}'

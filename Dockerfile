@@ -47,6 +47,8 @@ EXPOSE ${PORT}
 
 # TODO: Set the default CMD for the image
 # CMD gunicorn -b 0.0.0.0:${PORT} wsgi
+# TODO: investigate this form
+# ENTRYPOINT ["my-program", "start"] # https://docs.docker.com/reference/build-checks/json-args-recommended/
 # "Application Factory” Pattern: gunicorn --workers=2 'project:create_app()', see project/__init__.py
 CMD gunicorn -b 0.0.0.0:${PORT} 'project:create_app()'
 # CMD ["gunicorn", "-b", "0.0.0.0:$PORT", "project:create_app()"] # ENV not supported in this CMD form
