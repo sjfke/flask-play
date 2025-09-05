@@ -82,6 +82,9 @@ def get_flask_config():
     :return: Flask Configuration or None
     """
 
+    # image_store_config = app.config.get_namespace('IMAGE_STORE_')
+    _session_store_config = current_app.config.get_namespace('SESSION_')
+
     _flask_config = {
         "Builtin": {
             "DEBUG": current_app.config["DEBUG"],
@@ -121,7 +124,8 @@ def get_flask_config():
         "Description": "Manually maintained list of Flask 3.1.1 configuration values",
         "Documentation": "https://flask.palletsprojects.com/en/stable/config/#builtin-configuration-values"
     }
-    return jsonify(_flask_config), 200
+    return jsonify(_session_store_config), 200
+    # return jsonify(_flask_config), 200
 
 
 @main.route('/login', methods=['GET', 'POST'])
