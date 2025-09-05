@@ -4,7 +4,7 @@ services:
     ports:
       - "8485:8080"
     networks:
-      - flask-play
+      - net
 
   postgres:
     image: postgres
@@ -18,7 +18,7 @@ services:
       # POSTGRES_HOST_AUTH_METHOD – Controls the auth-method for host connections to all databases, users, and addresses
       # PGDATA – Defines another default location or subdirectory for database files
     networks:
-      - flask-play
+      - net
 #   ports:
 #     - "5432:5432"
     volumes:
@@ -28,7 +28,7 @@ services:
     image: mongo
     restart: unless-stopped
     networks:
-      - flask-play
+      - net
 #   ports:
 #     - "27017:27017"
     environment:
@@ -41,7 +41,7 @@ services:
     image: dbgate/dbgate
     restart: unless-stopped
     networks:
-      - flask-play
+      - net
     ports:
       - "8486:3000"
     volumes:
@@ -56,7 +56,7 @@ services:
       ENGINE_con1: mongo@dbgate-plugin-mongo
 
 networks:
-  flask-play:
+  net:
     driver: bridge
 
 volumes:

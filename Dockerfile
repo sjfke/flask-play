@@ -26,19 +26,30 @@ RUN pip install --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
 # COPY ./<builder_folder>/ /opt/app-root/
 WORKDIR /usr/src/app
 
-COPY config.py ./
-COPY static/ ./static/
-COPY templates/ ./templates/
-COPY wsgi.py ./
+#COPY config.py ./
+#COPY static/ ./static/
+#COPY templates/ ./templates/
+#COPY wsgi.py ./
+# Copies ./<builder_folder>/ /usr/src/app
+COPY gunicorn.config.py ./
+COPY project/*.py ./project/
+COPY project/static/ ./project/static/
+COPY project/templates/ ./project/templates/
 
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
 # RUN chown -R 1001:1001 /opt/app-root
 
 # This default user is created in the openshift/base-centos7 image
-USER ${UID}
+# USER ${UID}
 
 # TODO: Set the default port for applications built using this image
 EXPOSE ${PORT}
 
 # TODO: Set the default CMD for the image
-CMD gunicorn -b 0.0.0.0:${PORT} wsgi
+# CMD gunicorn -b 0.0.0.0:${PORT} wsgi
+# TODO: investigate this form
+# ENTRYPOINT ["my-program", "start"] # https://docs.docker.com/reference/build-checks/json-args-recommended/
+# "Application Factory” Pattern: gunicorn --workers=2 'project:create_app()', see project/__init__.py
+CMD gunicorn -b 0.0.0.0:${PORT} 'project:create_app()'
+# CMD ["gunicorn", "-b", "0.0.0.0:$PORT", "project:create_app()"] # ENV not supported in this CMD form
+# CMD tail -F /dev/null # docker run -it flask-auth-web /bin/bash

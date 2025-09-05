@@ -2,7 +2,7 @@ MongoDB Test Data
 =================
 PS1> docker exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017
 
-test> use flask
+test> use gmdata
 Now using flask DB (dropped prompt to make easy for cut-n-paste)
 # make sure it is empty
 show collections
@@ -85,26 +85,26 @@ db.quizzes.insertOne({
 })
 	
 db.quizzes.insertOne({
-	"cif": "CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
-	"quid": "QID-05db84d8-27ac-4067-9daa-d743ff56929b",
+    "cif": "CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
+    "quid": "QID-05db84d8-27ac-4067-9daa-d743ff56929b",
     "qzid": "QIZ-74751363-3db2-4a82-b764-09de11b65cd6",
-	"name": "quizC",
-    "data": [	
-		{"Label": "Q01", "Noun":"Maus", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Mäuse", "Desc":"Mouse"},
-		{"Label": "Q02", "Noun":"Computer", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Computers", "Desc":"Computer"},
-		{"Label": "Q03", "Noun":"Stift", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Stifte", "Desc":"Pencil"},
-		{"Label": "Q04", "Noun":"Notizbuch", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Notizbucher", "Desc":"Paper NoteBook"},
-		{"Label": "Q05", "Noun":"Kalendar", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Kalendar", "Desc":"Calendar"},
-		{"Label": "Q06", "Noun":"Bildschirm", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Bildschirme", "Desc":"Computer Monitor, Screen"},
-		{"Label": "Q07", "Noun":"Bleistift", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Bleistifte", "Desc":"Pencil"},
-		{"Label": "Q08", "Noun":"Brille", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Brillen", "Desc":"Eye Glasses"},
-		{"Label": "Q09", "Noun":"Buch", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Büchen", "Desc":"Book"},
-		{"Label": "Q10", "Noun":"Flasche", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Fläschen", "Desc":"Bottle"},
-		{"Label": "Q11", "Noun":"Feurzeug", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Feurzeuge", "Desc":"Cigarette Lighter"},
-		{"Label": "Q12", "Noun":"Fotoapparat", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Fotoapparate", "Desc":"Camera"},
-		{"Label": "Q13", "Noun":"Kette", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Ketten", "Desc":"Necklace, Chain"},
-		{"Label": "Q14", "Noun":"Kugelschreiber", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Kugelschreiber", "Desc":"Pen"},
-		{"Label": "Q15", "Noun":"Schlüssel", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Schlüssel", "Desc":"Door Key"}
+    "name": "quizC",
+    "data": [
+        {"Label": "Q01", "Noun":"Maus", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Mäuse", "Desc":"Mouse"},
+        {"Label": "Q02", "Noun":"Computer", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Computers", "Desc":"Computer"},
+        {"Label": "Q03", "Noun":"Stift", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Stifte", "Desc":"Pencil"},
+        {"Label": "Q04", "Noun":"Notizbuch", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Notizbucher", "Desc":"Paper NoteBook"},
+        {"Label": "Q05", "Noun":"Kalendar", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Kalendar", "Desc":"Calendar"},
+        {"Label": "Q06", "Noun":"Bildschirm", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Bildschirme", "Desc":"Computer Monitor, Screen"},
+        {"Label": "Q07", "Noun":"Bleistift", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Bleistifte", "Desc":"Pencil"},
+        {"Label": "Q08", "Noun":"Brille", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Brillen", "Desc":"Eye Glasses"},
+        {"Label": "Q09", "Noun":"Buch", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Büchen", "Desc":"Book"},
+        {"Label": "Q10", "Noun":"Flasche", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Fläschen", "Desc":"Bottle"},
+        {"Label": "Q11", "Noun":"Feurzeug", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Feurzeuge", "Desc":"Cigarette Lighter"},
+        {"Label": "Q12", "Noun":"Fotoapparat", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Fotoapparate", "Desc":"Camera"},
+        {"Label": "Q13", "Noun":"Kette", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Ketten", "Desc":"Necklace, Chain"},
+        {"Label": "Q14", "Noun":"Kugelschreiber", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Kugelschreiber", "Desc":"Pen"},
+        {"Label": "Q15", "Noun":"Schlüssel", "Opt1":"der", "Opt2":"die", "Opt3":"das", "Plural":"Schlüssel", "Desc":"Door Key"}
     ]
 })
 

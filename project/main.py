@@ -1,141 +1,153 @@
-import uuid
+import json
+import re
+import os
 
 import requests
-from flask import Flask, url_for
-from flask import abort, jsonify, redirect, render_template, request, session
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    abort,
+    send_from_directory,
+    current_app,
+    jsonify,
+    flash,
+)
+from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.utils import secure_filename
+from flask_login import login_required, current_user
 from markupsafe import escape
-from pymongo import MongoClient
 
-from flask_wtf import FlaskForm
-from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
-from wtforms.validators import InputRequired, Length
+from . import (
+    uuid4_utils, mongo_client, mongo_data, mongo_images
 
+)
+from .uuid4_utils import is_valid_uuid4
 
-class CourseForm(FlaskForm):
-    title = StringField('Title', validators=[InputRequired(),
-                                             Length(min=10, max=100)])
-    description = TextAreaField('Course Description',
-                                validators=[InputRequired(),
-                                            Length(max=200)])
-    price = IntegerField('Price', validators=[InputRequired()])
-    level = RadioField('Level',
-                       choices=['Beginner', 'Intermediate', 'Advanced'],
-                       validators=[InputRequired()])
-    available = BooleanField('Available', default='checked')
+_questions = [
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da',
+        'name': 'questionA'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c',
+        'name': 'questionB'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-05db84d8-27ac-4067-9daa-d743ff56929b',
+        'name': 'questionC'
+    }
+]
 
+_quizzes = [
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-42cb197a-d10f-47e6-99bb-a814d4ca95da',
+        'qzid': 'QIZ-3021178c-c430-4285-bed2-114dfe4db9df',
+        'name': 'quizA'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-ba88f889-37d3-41ec-8829-d7ea2a45c61c',
+        'qzid': 'QIZ-d1e25109-ef1d-429c-9595-0fbf820ced86',
+        'name': 'quizB'
+    },
+    {
+        'cif': 'CIF-919ae5a5-34e4-4b88-979a-5187d46d1617',
+        'quid': 'QID-05db84d8-27ac-4067-9daa-d743ff56929b',
+        'qzid': 'QIZ-74751363-3db2-4a82-b764-09de11b65cd6',
+        'name': 'quizC'
+    }
+]
 
-def is_valid_uuid4(value):
-    """
-    Check if value is a UUID version 4 string
-
-    :param value: to be checked, e.g. '74751363-3db2-4a82-b764-09de11b65cd6'
-    :type value: str
-
-    :rtype: Boolean
-    :return: True or False
-    """
-
-    try:
-        _rv = uuid.UUID(str(value))
-
-        if _rv.version == 4:
-            return True
-        else:
-            return False
-    except ValueError:
-        return False
-
-
-application = Flask(__name__, instance_relative_config=True)
-# flask config: https://flask.palletsprojects.com/en/stable/config/
-application.config['TESTING'] = True
-
-# Enable encrypted session (cookies) so can map user login to CIF, CIF-919ae5a5-34e4-4b88-979a-5187d46d1617
-# Login/password authentication will be via flask-alchemy to MariaDB which will map to CIF
-# CIF is required to get list of Questions, Quizzes and Results
-#  python -c 'import secrets; print(secrets.token_hex())'
-application.config['SECRET_KEY'] = '87ef122423ce0f61e47bddb08e44b347c5cf1fd6a85f7a34162369f4ac4ef999'
-application.config['SESSION_COOKIE_NAME'] = 'flask-play'
-
-# clean-up: https://pymongo.readthedocs.io/en/stable/examples/authentication.html
-application.config["MONGO_URI"] = "mongodb://root:example@mongo:27017"
-application.config["MONGO_DB"] = "gm01"
-_client = MongoClient(application.config["MONGO_URI"])
-_db = _client[application.config["MONGO_DB"]]
+main = Blueprint('main', __name__, static_folder='/static')
 
 
-@application.route('/')
+@main.route('/')
 def index():
     return render_template("index.html")
 
 
-@application.route('/flask-config')
-def flask_config():
+@main.route('/flask-config')
+def get_flask_config():
     """
     Manually maintained list of Flask configuration values
 
     :rtype: str
     :return: Flask Configuration or None
     """
+
+    # image_store_config = app.config.get_namespace('IMAGE_STORE_')
+    _session_store_config = current_app.config.get_namespace('SESSION_')
+
     _flask_config = {
         "Builtin": {
-            "DEBUG": application.config["DEBUG"],
-            "PROPAGATE_EXCEPTIONS": application.config["PROPAGATE_EXCEPTIONS"],
-            "TRAP_HTTP_EXCEPTIONS": application.config["TRAP_HTTP_EXCEPTIONS"],
-            "TRAP_BAD_REQUEST_ERRORS": application.config["TRAP_BAD_REQUEST_ERRORS"],
-            "SECRET_KEY": application.config["SECRET_KEY"],
-            "SESSION_COOKIE_NAME": application.config["SESSION_COOKIE_NAME"],
-            "SESSION_COOKIE_DOMAIN": application.config["SESSION_COOKIE_DOMAIN"],
-            "SESSION_COOKIE_PATH": application.config["SESSION_COOKIE_PATH"],
-            "SESSION_COOKIE_HTTPONLY": application.config["SESSION_COOKIE_HTTPONLY"],
-            "SESSION_COOKIE_SECURE": application.config["SESSION_COOKIE_SECURE"],
-            "SESSION_COOKIE_SAMESITE": application.config["SESSION_COOKIE_SAMESITE"],
-            "TESTING": application.config["TESTING"],
-            "USE_X_SENDFILE": application.config["USE_X_SENDFILE"],
-            "SEND_FILE_MAX_AGE_DEFAULT": application.config["SEND_FILE_MAX_AGE_DEFAULT"],
-            "SERVER_NAME": application.config["SERVER_NAME"],
-            "APPLICATION_ROOT": application.config["APPLICATION_ROOT"],
-            "PREFERRED_URL_SCHEME": application.config["PREFERRED_URL_SCHEME"],
-            "MAX_CONTENT_LENGTH": application.config["MAX_CONTENT_LENGTH"],
-            "TEMPLATES_AUTO_RELOAD": application.config["TEMPLATES_AUTO_RELOAD"],
-            "EXPLAIN_TEMPLATE_LOADING": application.config["EXPLAIN_TEMPLATE_LOADING"],
-            "MAX_COOKIE_SIZE": application.config["MAX_COOKIE_SIZE"]
-        },
-        "Deprecated": {
-            "ENV": application.config["ENV"],
-            "JSON_AS_ASCII": application.config["JSON_AS_ASCII"],
-            "JSON_SORT_KEYS": application.config["JSON_SORT_KEYS"],
-            "JSONIFY_MIMETYPE": application.config["JSONIFY_MIMETYPE"],
-            "JSONIFY_PRETTYPRINT_REGULAR": application.config["JSONIFY_PRETTYPRINT_REGULAR"]
+            "DEBUG": current_app.config["DEBUG"],
+            "TESTING": current_app.config["TESTING"],
+            "PROPAGATE_EXCEPTIONS": current_app.config["PROPAGATE_EXCEPTIONS"],
+            "TRAP_HTTP_EXCEPTIONS": current_app.config["TRAP_HTTP_EXCEPTIONS"],
+            "TRAP_BAD_REQUEST_ERRORS": current_app.config["TRAP_BAD_REQUEST_ERRORS"],
+            "SECRET_KEY": current_app.config["SECRET_KEY"],
+            "SECRET_KEY_FALLBACKS": current_app.config["SECRET_KEY_FALLBACKS"],
+            "SESSION_COOKIE_NAME": current_app.config["SESSION_COOKIE_NAME"],
+            "SESSION_COOKIE_DOMAIN": current_app.config["SESSION_COOKIE_DOMAIN"],
+            "SESSION_COOKIE_PATH": current_app.config["SESSION_COOKIE_PATH"],
+            "SESSION_COOKIE_HTTPONLY": current_app.config["SESSION_COOKIE_HTTPONLY"],
+            "SESSION_COOKIE_SECURE": current_app.config["SESSION_COOKIE_SECURE"],
+            "SESSION_COOKIE_PARTITIONED": current_app.config["SESSION_COOKIE_PARTITIONED"],
+            "SESSION_COOKIE_SAMESITE": current_app.config["SESSION_COOKIE_SAMESITE"],
+            "SESSION_REFRESH_EACH_REQUEST": current_app.config["SESSION_REFRESH_EACH_REQUEST"],
+            "PERMANENT_SESSION_LIFETIME": current_app.config["PERMANENT_SESSION_LIFETIME"],
+            "USE_X_SENDFILE": current_app.config["USE_X_SENDFILE"],
+            "SEND_FILE_MAX_AGE_DEFAULT": current_app.config["SEND_FILE_MAX_AGE_DEFAULT"],
+            "TRUSTED_HOSTS": current_app.config["TRUSTED_HOSTS"],
+            "SERVER_NAME": current_app.config["SERVER_NAME"],
+            "APPLICATION_ROOT": current_app.config["APPLICATION_ROOT"],
+            "PREFERRED_URL_SCHEME": current_app.config["PREFERRED_URL_SCHEME"],
+            "MAX_CONTENT_LENGTH": current_app.config["MAX_CONTENT_LENGTH"],
+            "MAX_FORM_MEMORY_SIZE": current_app.config["MAX_FORM_MEMORY_SIZE"],
+            "MAX_FORM_PARTS": current_app.config["MAX_FORM_PARTS"],
+            "TEMPLATES_AUTO_RELOAD": current_app.config["TEMPLATES_AUTO_RELOAD"],
+            "EXPLAIN_TEMPLATE_LOADING": current_app.config["EXPLAIN_TEMPLATE_LOADING"],
+            "MAX_COOKIE_SIZE": current_app.config["MAX_COOKIE_SIZE"],
+            "PROVIDE_AUTOMATIC_OPTIONS": current_app.config["PROVIDE_AUTOMATIC_OPTIONS"]
         },
         "Application": {
-            "MONGO_URI": application.config["MONGO_URI"],
-            "MONGO_DB": application.config["MONGO_DB"]
+            "MONGO_URI": current_app.config["MONGO_URI"],
+            "MONGO_DB": current_app.config["MONGO_DB"]
         },
-        "Description": "Manually maintained list of Flask configuration values"
+        "Description": "Manually maintained list of Flask 3.1.1 configuration values",
+        "Documentation": "https://flask.palletsprojects.com/en/stable/config/#builtin-configuration-values"
     }
-    return jsonify(_flask_config), 200
+    return jsonify(_session_store_config), 200
+    # return jsonify(_flask_config), 200
 
 
-@application.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
     if request.method == 'POST':
         data = request.form
         # return jsonify(data), 200
-        session['username'] = request.form['username']
-        session['cif'] = 'a5366e29-4314-4b91-b90b-1639da02c2d8'
-        session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
+        current_user.session['username'] = request.form['username']
+        current_user.session['cif'] = 'a5366e29-4314-4b91-b90b-1639da02c2d8'
+        current_user.session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
         return redirect(url_for('index'))
     else:
         return render_template("login.html")
 
 
-@application.route('/logout')
+@main.route('/logout')
 def logout():
     # remove the username from the session if it's there
-    session.pop('username', None)
+    current_user.session.pop('username', None)
     return redirect(url_for('index'))
+
 
 # https://www.digitalocean.com/community/tutorials/how-to-use-and-validate-web-forms-with-flask-wtf
 # https://flask.palletsprojects.com/en/stable/patterns/wtforms/
@@ -146,49 +158,31 @@ courses_list = [{
     'available': True,
     'level': 'Beginner'
 },
-{
-    'title': 'How To Build Web Applications with Flask',
-    'description': 'How To Create Your First Web Application Using Flask and Python 3',
-    'price': 50,
-    'available': True,
-    'level': 'Beginner'
-}]
+    {
+        'title': 'How To Build Web Applications with Flask',
+        'description': 'How To Create Your First Web Application Using Flask and Python 3',
+        'price': 50,
+        'available': True,
+        'level': 'Beginner'
+    }]
 
 
-@application.route('/courses')
+@main.route('/courses')
 def courses():
     return render_template('courses.html', courses_list=courses_list)
 
 
-@application.route('/add-course', methods=['GET', 'POST'])
+@main.route('/add-course', methods=['GET', 'POST'])
 def add_course():
     form = CourseForm()
     return render_template('add-course.html', form=form)
 
 
-@application.route('/question1')
+@main.route('/question1')
 def question1():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
 
-    _collection = _db.questions
+    _collection = mongo_data.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
@@ -196,34 +190,16 @@ def question1():
     return jsonify(_dict), 200
 
 
-@application.route('/deutsch')
+@main.route('/deutsch')
 def deutsch():
     return render_template("deutsch.json")
 
 
-@application.route('/flex-question')
+@main.route('/flex-question')
 def flex_question():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
 
-    _collection = _db.quizzes
+    _collection = mongo_data.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
@@ -231,33 +207,15 @@ def flex_question():
     return jsonify(_dict), 200
 
 
-@application.route('/form-grid', methods=['GET', 'POST'])
+@main.route('/form-grid', methods=['GET', 'POST'])
 def form_grid():
     if request.method == 'POST':
         answer = request.form
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        _questions = [
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-                'name': 'question_0001'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-                'name': 'question_0002'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-                'name': 'question_0003'
-            }
-        ]
-
         _quid = _questions[0]['quid']
-        _collection = _db.questions
+        _collection = mongo_data.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
         if _dict:
@@ -265,12 +223,12 @@ def form_grid():
         return jsonify(_dict), 200
 
 
-@application.route('/nouns-table-result')
+@main.route('/nouns-table-result')
 def nouns_table_result():
     return render_template("nouns-result.html")
 
 
-@application.route('/quiz', methods=['GET', 'POST'])
+@main.route('/quiz', methods=['GET', 'POST'])
 def nouns_quiz():
     if request.method == 'POST':
         _request = request.form
@@ -298,14 +256,14 @@ def nouns_quiz():
             #     return jsonify(_request), 200    # raw
 
             # Extract 'Ans' and 'Plural' for each 'Noun' from 'quid'
-            _question_ans = _db.questions.find_one({'quid': _request_values['quid']},
-                                                   {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1,
-                                                    'data': {'Label': 1, 'Noun': 1, 'Ans': 1, 'Plural': 1}})
+            _question_ans = mongo_data.questions.find_one({'quid': _request_values['quid']},
+                                                          {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1,
+                                                           'data': {'Label': 1, 'Noun': 1, 'Ans': 1, 'Plural': 1}})
             _question_ans_data = _question_ans['data']
 
             # Extract _quiz ('qzid') corresponding to _request_values['gzid']
-            _quiz = _db.quizzes.find_one({'qzid': _request_values['qzid']},
-                                         {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1, 'data': 1})
+            _quiz = mongo_data.quizzes.find_one({'qzid': _request_values['qzid']},
+                                                {'_id': 0, 'cif': 1, 'quid': 1, 'qzid': 1, 'name': 1, 'data': 1})
 
             # Add extra fields to _quiz with default values
             for _x in _quiz['data']:
@@ -388,7 +346,7 @@ def nouns_quiz():
 
         _quiz_id = _request_values_id.replace('QIZ-', '')
 
-        _collection = _db.quizzes
+        _collection = mongo_data.quizzes
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         # db.quizzes.find({qzid:'QIZ-3021178c-c430-4285-bed2-114dfe4db9df'},{_id:0,data:1})
         _dict = _collection.find_one({'qzid': _request_values_id}, {'_id': 0, 'data': 1})
@@ -414,33 +372,15 @@ def nouns_quiz():
         return jsonify(_dict), 200
 
 
-@application.route('/form-grid2', methods=['GET', 'POST'])
+@main.route('/form-grid2', methods=['GET', 'POST'])
 def form_grid2():
     if request.method == 'POST':
         answer = request.form
         # return data # => returns identical JSON output
         return jsonify(answer), 200
     else:
-        _questions = [
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-                'name': 'question_0001'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-                'name': 'question_0002'
-            },
-            {
-                'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-                'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-                'name': 'question_0003'
-            }
-        ]
-
         _quid = _questions[1]['quid']
-        _collection = _db.questions
+        _collection = mongo_data.questions
         # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
         _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
         if _dict:
@@ -448,28 +388,10 @@ def form_grid2():
         return jsonify(_dict), 200
 
 
-@application.route('/radio-button')
+@main.route('/radio-button')
 def radio_button():
-    _questions = [
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-13a1e117-becf-472e-b49c-bb7ceddd7384',
-            'name': 'question_0001'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-1fb20856-3a0e-47a6-ab2f-44373a36371d',
-            'name': 'question_0002'
-        },
-        {
-            'cif': 'CIF-a5366e29-4314-4b91-b90b-1639da02c2d8',
-            'quid': 'QID-e8e2b3f7-aec7-49ce-808e-80e42b778324',
-            'name': 'question_0003'
-        }
-    ]
-
     _quid = _questions[0]['quid']
-    _collection = _db.questions
+    _collection = mongo_data.questions
     # db.collection.find_one() returns a Dict: {"data": [{...},{...},{...}]}
     _dict = _collection.find_one({'quid': _quid}, {'_id': 0, 'data': 1})
     if _dict:
@@ -478,7 +400,7 @@ def radio_button():
 
 
 # allow both GET and POST requests
-@application.route('/form-example', methods=['GET', 'POST'])
+@main.route('/form-example', methods=['GET', 'POST'])
 def form_example():
     # handle the POST request
     if request.method == 'POST':
@@ -498,7 +420,7 @@ def form_example():
 
 
 # GET requests will be blocked
-@application.route('/json-echo', methods=['POST'])
+@main.route('/json-echo', methods=['POST'])
 def json_echo():
     if not request.is_json:
         return jsonify({"msg": "Missing JSON in request"}), 400
@@ -507,7 +429,7 @@ def json_echo():
     return jsonify(data), 200
 
 
-@application.route('/json-form', methods=['GET', 'POST'])
+@main.route('/json-form', methods=['GET', 'POST'])
 def json_form():
     if request.method == 'POST':
         data = request.form
@@ -521,9 +443,9 @@ def json_form():
 # flask> db.questions.find({},{_id:0,cif:1,quid:1,name:1})
 # https://pymongo.readthedocs.io/en/stable/api/pymongo/cursor.html
 # https://www.mongodb.com/docs/manual/tutorial/query-documents/
-@application.route('/api/questions')
+@main.route('/api/questions')
 def get_questions():
-    _collection = _db.questions
+    _collection = mongo_data.questions
     _answer = []
     for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'quid': 1, 'name': 1}):
         _answer.append(doc)
@@ -531,9 +453,9 @@ def get_questions():
     return jsonify(_answer), 200
 
 
-@application.route('/api/quizzes')
+@main.route('/api/quizzes')
 def get_quizzes():
-    _collection = _db.quizzes
+    _collection = mongo_data.quizzes
     _answer = []
     for doc in _collection.find({}, {'_id': 0, 'cif': 1, 'qzid': 1, 'quid': 1, 'name': 1}):
         _answer.append(doc)
@@ -541,22 +463,22 @@ def get_quizzes():
     return jsonify(_answer), 200
 
 
-@application.route('/api/mongo-collections')
+@main.route('/api/mongo-collections')
 def get_mongodb_collections():
-    _answer = _db.list_collection_names()
+    _answer = mongo_data.list_collection_names()
     return jsonify(_answer), 200
 
 
-# @application.route('/api/user/<username>/')
+# @main.route('/api/user/<username>/')
 # redirects to URL with trailing '/', search engines will index twice
-# https://flask.palletsprojects.com/en/2.1.x/quickstart/#unique-urls-redirection-behavior
-@application.route('/api/user/<username>')
+# https://flask.palletsprojects.com/en/stable/quickstart/#unique-urls-redirection-behavior
+@main.route('/api/user/<username>')
 def show_user_profile(username):
     return f'User {escape(username)}'
 
 
 # Needs trailing '/' to accept because URL is not unique
-@application.route('/api/question/<cif>/<quid>/')
+@main.route('/api/question/<cif>/<quid>/')
 def get_cif_quid_json(cif, quid):
     # "cif": "CIF-919ae5a5-34e4-4b88-979a-5187d46d1617",
     # "quid": "QID-05db84d8-27ac-4067-9daa-d743ff56929b",
@@ -573,12 +495,12 @@ def get_cif_quid_json(cif, quid):
         return jsonify(_json_error), 404
 
     _question_id = 'QID-' + _quid
-    _collection = _db.questions
+    _collection = mongo_data.questions
     _answer = _collection.find_one({'quid': _question_id}, {'_id': 0, 'data': 1})
     return jsonify(_answer), 200
 
 
-@application.route('/api/question/<quid>')
+@main.route('/api/question/<quid>')
 def get_quid_json(quid):
     # QID-05db84d8-27ac-4067-9daa-d743ff56929b - questions/05db84d8-27ac-4067-9daa-d743ff56929b
     _quid = escape(quid)
@@ -588,13 +510,13 @@ def get_quid_json(quid):
         return jsonify(_json_error), 404
 
     _question_id = 'QID-' + _quid
-    _collection = _db.questions
+    _collection = mongo_data.questions
     _answer = _collection.find_one({'quid': _question_id}, {'_id': 0, 'data': 1})
     return jsonify(_answer), 200
 
 
 # Needs trailing '/' to accept because URL is not unique
-@application.route('/api/quiz/<cif>/<quiz_id>/')
+@main.route('/api/quiz/<cif>/<quiz_id>/')
 def get_cif_qzid_json(cif, quiz_id):
     # /quiz: CIF=919ae5a5-34e4-4b88-979a-5187d46d1617 / QZID=74751363-3db2-4a82-b764-09de11b65cd6
     # QIZ-74751363-3db2-4a82-b764-09de11b65cd6 ('QIZ-' + QZID)
@@ -611,12 +533,12 @@ def get_cif_qzid_json(cif, quiz_id):
 
     _cif = 'CIF-' + _cif_id
     _quiz = 'QIZ-' + _quiz_id
-    _collection = _db.quizzes
+    _collection = mongo_data.quizzes
     _answer = _collection.find_one({'cif': _cif, 'qzid': _quiz}, {'_id': 0, 'data': 1})
     return jsonify(_answer), 200
 
 
-@application.route('/api/quiz/<quiz_id>')
+@main.route('/api/quiz/<quiz_id>')
 def get_qzid_json(quiz_id):
     _quiz_id = escape(quiz_id)
 
@@ -625,30 +547,26 @@ def get_qzid_json(quiz_id):
         return jsonify(_json_error), 404
 
     _quiz = 'QIZ-' + _quiz_id
-    _collection = _db.quizzes
+    _collection = mongo_data.quizzes
     _answer = _collection.find_one({'qzid': _quiz}, {'_id': 0, 'data': 1})
     return jsonify(_answer), 200
 
 
-@application.route('/api/runnable-com-users')
+@main.route('/api/runnable-com-users')
 def runnable():
     r = requests.get('https://api.github.com/users/runnable')
     return jsonify(r.json())
 
 
-@application.route('/isready')
-@application.route('/isReady')
-@application.route('/IsReady')
+@main.route('/isready')
+@main.route('/isReady')
+@main.route('/IsReady')
 def is_ready():
     return 'isReady'
 
 
-@application.route('/isalive')
-@application.route('/isAlive')
-@application.route('/IsAlive')
+@main.route('/isalive')
+@main.route('/isAlive')
+@main.route('/IsAlive')
 def is_alive():
     return 'isAlive'
-
-
-if __name__ == "__main__":
-    application.run()
