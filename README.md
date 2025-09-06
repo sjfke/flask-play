@@ -9,6 +9,16 @@ With *Windows 10 Pro* you can choose to use a
 ## Podman Build Instructions
 
 ```shell
+# Create podman volumes
+PS C:\Users\sjfke> podman volume create postgres-flask-play
+PS C:\Users\sjfke> podman volume create mongodb-flask-play
+PS C:\Users\sjfke> podman volume create mongoconfigdb-flask-play
+
+# Once compose.yaml is created, see references (ii, iii)
+PS C:\Users\sjfke> podman compose -f .\compose.yaml up -d mongo # start MongoDB container
+PS C:\Users\sjfke> podman exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
+# Add contents as described in 'tests\momgodb-test-data.txt'
+
 # Define variables
 PS C:\Users\sjfke> $name = "crazy-frog"
 PS C:\Users\sjfke> $image = "localhost/flask-play"
@@ -22,20 +32,20 @@ PS C:\Users\sjfke> podman run --name $name -p 8080:8080 -d $image
 PS C:\Users\sjfke> podman logs $name
 PS C:\Users\sjfke> podman exec -it $name sh
 PS C:\Users\sjfke> podman kube generate $name -f .\flask-pod.yaml # generate pod manifest
-PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:8485
 PS C:\Users\sjfke> podman rm --force $name
 
 # Run, test, delete container using podman play kube
 PS C:\Users\sjfke> podman play kube --start .\flask-pod.yaml
 PS C:\Users\sjfke> $container = "$name-pod-$name"
 PS C:\Users\sjfke> podman exec -it $container bash
-PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:8485
 PS C:\Users\sjfke> podman play kube --down .\flask-pod.yaml
 
 # Development, test (wash repeat cycle)
 PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
 PS C:\Users\sjfke> podman play kube --replace .\flask-pod.yaml
-PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:8485
 
 # Image Maintenance
 PS C:\Users\sjfke> podman image prune
@@ -56,24 +66,34 @@ PS C:\Users\sjfke> docker image ls $image
 PS C:\Users\sjfke> docker run --name $name -p 8080:8080 -d $image
 PS C:\Users\sjfke> docker exec -it $name sh
 PS C:\Users\sjfke> docker logs $name
-PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:8485
 PS C:\Users\sjfke> docker rm --force $name
 ```
 
 ## Docker Compose
 
 ```shell
+# Create docker volumes
+PS C:\Users\sjfke> docker volume create postgres-flask-play
+PS C:\Users\sjfke> docker volume create mongodb-flask-play
+PS C:\Users\sjfke> docker volume create mongoconfigdb-flask-play
+
 # Once compose.yaml is created, see references (ii, iii)
+PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d mongo # start MongoDB container
+PS C:\Users\sjfke> docker exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
+# Add contents as described in 'tests\momgodb-test-data.txt'
+
+# Start the whole application
 PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d # builds flask-play-web image
-PS C:\Users\sjfke> start http://localhost:8080
-PS C:\Users\sjfke> start http://localhost:3000           # admin/admin
+PS C:\Users\sjfke> start http://localhost:8485
+PS C:\Users\sjfke> start http://localhost:8486           # admin/admin
 PS C:\Users\sjfke> docker compose -f .\compose.yaml down 
 
 # Development, test (wash repeat cycle)
 PS C:\Users\sjfke> docker compose -f .\compose.yaml down web
 PS C:\Users\sjfke> docker compose build web
 PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d web
-PS C:\Users\sjfke> start http://localhost:8080
+PS C:\Users\sjfke> start http://localhost:8485
 ```
 
 1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)

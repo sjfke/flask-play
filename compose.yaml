@@ -36,6 +36,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongodb-flask-play:/data/db
+      - mongoconfigdb-flask-play:/data/configdb
 
   dbgate:
     image: dbgate/dbgate
@@ -63,6 +64,8 @@ volumes:
   postgres-flask-play:
     external: true
   mongodb-flask-play:
+    external: true
+  mongoconfigdb-flask-play:
     external: true
   dbgate-flask-play:
     external: true
