@@ -6,68 +6,59 @@ Building the docker image uses [Docker for Windows](https://docs.docker.com/desk
 With *Windows 10 Pro* you can choose to use a
 [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
-## Podman Build Instructions
+The documentation shows 
+
+* running ``podman`` and ``podman-desktop`` on ``Linux`` but it is also possible on ``Windows``.
+* running ``docker`` and ``docker-desktop`` on ``Windows`` but it is also possible on ``Linux``.
+
+## Podman Compose Build Instructions
+
+Uses the same ``compose.yaml`` written for the ``docker`` approach. 
 
 ```shell
 # Create podman volumes
-PS C:\Users\sjfke> podman volume create postgres-flask-play
-PS C:\Users\sjfke> podman volume create mongodb-flask-play
-PS C:\Users\sjfke> podman volume create mongoconfigdb-flask-play
+sjfke@morpheus$ podman volume create postgres-flask-play
+sjfke@morpheus$ podman volume create mongodb-flask-play
+sjfke@morpheus$ podman volume create mongoconfigdb-flask-play
 
-# Once compose.yaml is created, see references (ii, iii)
-PS C:\Users\sjfke> podman compose -f .\compose.yaml up -d mongo # start MongoDB container
-PS C:\Users\sjfke> podman exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
+# Using compose.yaml file
+sjfke@morpheus$ podman compose -f ./compose.yaml up -d mongo # start MongoDB container
+sjfke@morpheus$ podman exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
+# Add contents as described in 'tests\momgodb-test-data.txt'
+
+# Using compose.yaml file
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml
+sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:example@localhost:27017 # mongosh
 # Add contents as described in 'tests\momgodb-test-data.txt'
 
 # Define variables
-PS C:\Users\sjfke> $name = "crazy-frog"
-PS C:\Users\sjfke> $image = "localhost/flask-play"
+sjfke@morpheus$ export CONTAINER_NAME="crazy-frog"
+sjfke@morpheus$ export IMAGE_NAME= "localhost/flask-play"
 
 # Build image
-PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
-PS C:\Users\sjfke> podman image ls $image
+sjfke@morpheus$ podman build --tag $image --no-cache --squash -f ./Dockerfile
+sjfke@morpheus$ podman image ls $image
 
 # Run, test, delete container
-PS C:\Users\sjfke> podman run --name $name -p 8080:8080 -d $image
-PS C:\Users\sjfke> podman logs $name
-PS C:\Users\sjfke> podman exec -it $name sh
-PS C:\Users\sjfke> podman kube generate $name -f .\flask-pod.yaml # generate pod manifest
-PS C:\Users\sjfke> start http://localhost:8485
-PS C:\Users\sjfke> podman rm --force $name
+sjfke@morpheus$ podman run --name $name -p 8080:8080 -d $image
+sjfke@morpheus$ podman logs ${CONTAINER_NAME}
+sjfke@morpheus$ podman exec -it ${CONTAINER_NAME} sh
+sjfke@morpheus$ podman kube generate ${CONTAINER_NAME} -f ./pods/flask-play-web-1.yaml # generate pod manifest
+sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
+sjfke@morpheus$ podman rm --force $name
 
 # Run, test, delete container using podman play kube
-PS C:\Users\sjfke> podman play kube --start .\flask-pod.yaml
-PS C:\Users\sjfke> $container = "$name-pod-$name"
-PS C:\Users\sjfke> podman exec -it $container bash
-PS C:\Users\sjfke> start http://localhost:8485
-PS C:\Users\sjfke> podman play kube --down .\flask-pod.yaml
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-web-1.yaml
+sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
+sjfke@morpheus$ podman play kube --down ./pods/flask-play-web-1.yaml
 
 # Development, test (wash repeat cycle)
-PS C:\Users\sjfke> podman build --tag $image --no-cache --squash -f .\Dockerfile
-PS C:\Users\sjfke> podman play kube --replace .\flask-pod.yaml
-PS C:\Users\sjfke> start http://localhost:8485
+sjfke@morpheus$ podman build --tag $image --no-cache --squash -f ./Dockerfile
+sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web-1.yaml
+sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 
 # Image Maintenance
-PS C:\Users\sjfke> podman image prune
-```
-
-## Docker Build instructions
-
-```shell
-# Define variables
-PS C:\Users\sjfke> $name = "crazy-frog"
-PS C:\Users\sjfke> $image = "localhost/flask-play"
-
-# Build image
-PS C:\Users\sjfke> docker build --squash -t $image -f .\Dockerfile $PWD
-PS C:\Users\sjfke> docker image ls $image
-
-# Run, test, delete container
-PS C:\Users\sjfke> docker run --name $name -p 8080:8080 -d $image
-PS C:\Users\sjfke> docker exec -it $name sh
-PS C:\Users\sjfke> docker logs $name
-PS C:\Users\sjfke> start http://localhost:8485
-PS C:\Users\sjfke> docker rm --force $name
+sjfke@morpheus$ podman image prune
 ```
 
 ## Docker Compose
@@ -99,6 +90,25 @@ PS C:\Users\sjfke> start http://localhost:8485
 1. [Docker: Overview of Docker Compose](https://docs.docker.com/compose/)
 2. [Docker: Compose specification](https://docs.docker.com/compose/compose-file)
 3. [Docker: Compose specification - ports](https://docs.docker.com/compose/compose-file/#ports)
+
+## Docker Build instructions
+
+```shell
+# Define variables
+PS C:\Users\sjfke> $name = "crazy-frog"
+PS C:\Users\sjfke> $image = "localhost/flask-play"
+
+# Build image
+PS C:\Users\sjfke> docker build --squash -t $image -f .\Dockerfile $PWD
+PS C:\Users\sjfke> docker image ls $image
+
+# Run, test, delete container
+PS C:\Users\sjfke> docker run --name $name -p 8080:8080 -d $image
+PS C:\Users\sjfke> docker exec -it $name sh
+PS C:\Users\sjfke> docker logs $name
+PS C:\Users\sjfke> start http://localhost:8485
+PS C:\Users\sjfke> docker rm --force $name
+```
 
 ## Docker Image Maintenance
 
