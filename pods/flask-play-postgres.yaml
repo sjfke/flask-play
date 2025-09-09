@@ -1,0 +1,35 @@
+# Save the output of this file and use kubectl create -f to import it into Kubernetes.
+#
+# Created with podman-5.6.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-09-07T11:46:00Z"
+  labels:
+    app: postgres
+  name: postgres
+spec:
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_PASSWORD
+      value: example
+    - name: POSTGRES_DB
+      value: Auth
+    - name: POSTGRES_USER
+      value: root
+    image: docker.io/library/postgres:latest
+    name: postgres
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgres-flask-play-pvc
+  volumes:
+  - name: postgres-flask-play-pvc
+    persistentVolumeClaim:
+      claimName: postgres-flask-play

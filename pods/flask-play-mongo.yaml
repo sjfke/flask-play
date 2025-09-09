@@ -1,0 +1,38 @@
+# Save the output of this file and use kubectl create -f to import it into Kubernetes.
+#
+# Created with podman-5.6.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-09-07T11:44:35Z"
+  labels:
+    app: mongo
+  name: mongo
+spec:
+  containers:
+  - args:
+    - mongod
+    env:
+    - name: MONGO_INITDB_ROOT_PASSWORD
+      value: example
+    - name: MONGO_INITDB_ROOT_USERNAME
+      value: root
+    image: docker.io/library/mongo:latest
+    name: mongo
+    volumeMounts:
+    - mountPath: /data/configdb
+      name: mongoconfigdb-flask-play-pvc
+    - mountPath: /data/db
+      name: mongodb-flask-play-pvc
+  volumes:
+  - name: mongoconfigdb-flask-play-pvc
+    persistentVolumeClaim:
+      claimName: mongoconfigdb-flask-play
+  - name: mongodb-flask-play-pvc
+    persistentVolumeClaim:
+      claimName: mongodb-flask-play

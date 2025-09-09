@@ -1,0 +1,46 @@
+# Save the output of this file and use kubectl create -f to import it into Kubernetes.
+#
+# Created with podman-5.6.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-09-07T11:45:15Z"
+  labels:
+    app: dbgate
+  name: dbgate
+spec:
+  containers:
+  - args:
+    - /home/dbgate-docker/entrypoint.sh
+    env:
+    - name: LOGIN_PASSWORD_admin
+      value: admin
+    - name: CONNECTIONS
+      value: con1
+    - name: LABEL_con1
+      value: MongoDB
+    - name: URL_con1
+      value: mongodb://root:example@mongo:27017/
+    - name: ENGINE_con1
+      value: mongo@dbgate-plugin-mongo
+    - name: BASIC_AUTH
+      value: "true"
+    - name: LOGINS
+      value: admin
+    image: docker.io/dbgate/dbgate:latest
+    name: dbgate
+    ports:
+    - containerPort: 3000
+      hostPort: 8486
+    volumeMounts:
+    - mountPath: /root/.dbgate
+      name: dbgate-flask-play-pvc
+  volumes:
+  - name: dbgate-flask-play-pvc
+    persistentVolumeClaim:
+      claimName: dbgate-flask-play
