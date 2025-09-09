@@ -11,15 +11,20 @@ The documentation shows
 * running ``podman`` and ``podman-desktop`` on ``Linux`` but it is also possible on ``Windows``.
 * running ``docker`` and ``docker-desktop`` on ``Windows`` but it is also possible on ``Linux``.
 
-## Podman Compose Build Instructions
-
-Uses the same ``compose.yaml`` written for the ``docker`` approach. 
+## Podman Prep Instructions
 
 ```shell
 # Create podman volumes
 sjfke@morpheus$ podman volume create postgres-flask-play
 sjfke@morpheus$ podman volume create mongodb-flask-play
 sjfke@morpheus$ podman volume create mongoconfigdb-flask-play
+
+```
+### Podman Compose Instructions
+
+Uses the same ``compose.yaml`` written for the ``docker`` approach. 
+
+```shell
 
 # Using compose.yaml file
 sjfke@morpheus$ podman compose -f ./compose.yaml up -d mongo # start MongoDB container
@@ -47,19 +52,42 @@ sjfke@morpheus$ podman kube generate ${CONTAINER_NAME} -f ./pods/flask-play-web-
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 sjfke@morpheus$ podman rm --force $name
 
+# Image Maintenance
+sjfke@morpheus$ podman image prune
+```
+
+### Podman Play Kube Instructions
+
+```shell
+# Preparation
+sjfke@morpheus$ podman network create flask-play_net
+
+# Create DataBase secrets (TODO)
+# sjfke@morpheus$ podman secret create --env=true my_secret MYSECRET
+
+# Using Play Kube Pod files 
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml --net flask-play_net
+sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:example@localhost:27017 # mongosh
+# Add contents as described in 'tests\momgodb-test-data.txt'
+
 # Run, test, delete container using podman play kube
-sjfke@morpheus$ podman play kube --start ./pods/flask-play-web-1.yaml
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-dbgate.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-web.yaml --net flask-play_net
+
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 sjfke@morpheus$ podman play kube --down ./pods/flask-play-web-1.yaml
 
 # Development, test (wash repeat cycle)
 sjfke@morpheus$ podman build --tag $image --no-cache --squash -f ./Dockerfile
-sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web-1.yaml
+sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web.yaml --net flask-play_net
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
-
-# Image Maintenance
-sjfke@morpheus$ podman image prune
 ```
+
+
+
+
 
 ## Docker Compose
 

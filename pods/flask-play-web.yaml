@@ -6,8 +6,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-09-07T11:45:38Z"
   labels:
-    app: web
-  name: web
+    app: flask-play-web
+  name: flask-play-web
 spec:
   containers:
   - image: docker.io/library/flask-play-web:latest

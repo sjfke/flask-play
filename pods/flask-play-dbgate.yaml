@@ -11,8 +11,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-09-07T11:45:15Z"
   labels:
-    app: dbgate
-  name: dbgate
+    app: flask-play-dbgate
+  name: flask-play-dbgate
 spec:
   containers:
   - args:
