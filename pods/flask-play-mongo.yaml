@@ -23,7 +23,7 @@ spec:
     - name: MONGO_INITDB_ROOT_USERNAME
       value: root
     image: docker.io/library/mongo:latest
-    name: flask-play-mongo
+    name: mongo
     volumeMounts:
     - mountPath: /data/configdb
       name: mongoconfigdb-flask-play-pvc

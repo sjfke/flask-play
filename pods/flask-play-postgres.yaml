@@ -25,7 +25,7 @@ spec:
     - name: POSTGRES_USER
       value: root
     image: docker.io/library/postgres:latest
-    name: flask-play-postgres
+    name: postgres
     volumeMounts:
     - mountPath: /var/lib/postgresql/data
       name: postgres-flask-play-pvc

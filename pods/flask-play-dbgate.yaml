@@ -33,7 +33,7 @@ spec:
     - name: LOGINS
       value: admin
     image: docker.io/dbgate/dbgate:latest
-    name: flask-play-dbgate
+    name: dbgate
     ports:
     - containerPort: 3000
       hostPort: 8486

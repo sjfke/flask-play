@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
   - image: docker.io/library/flask-play-web:latest
-    name: flask-play-web
+    name: web
     ports:
     - containerPort: 8080
       hostPort: 8485
