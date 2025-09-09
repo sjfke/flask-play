@@ -11,8 +11,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-09-07T11:46:00Z"
   labels:
-    app: postgres
-  name: postgres
+    app: flask-play-postgres
+  name: flask-play-postgres
 spec:
   containers:
   - args:
@@ -25,7 +25,7 @@ spec:
     - name: POSTGRES_USER
       value: root
     image: docker.io/library/postgres:latest
-    name: postgres
+    name: flask-play-postgres
     volumeMounts:
     - mountPath: /var/lib/postgresql/data
       name: postgres-flask-play-pvc

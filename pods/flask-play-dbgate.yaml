@@ -11,8 +11,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-09-07T11:45:15Z"
   labels:
-    app: dbgate
-  name: dbgate
+    app: flask-play-dbgate
+  name: flask-play-dbgate
 spec:
   containers:
   - args:
@@ -33,7 +33,7 @@ spec:
     - name: LOGINS
       value: admin
     image: docker.io/dbgate/dbgate:latest
-    name: dbgate
+    name: flask-play-dbgate
     ports:
     - containerPort: 3000
       hostPort: 8486
