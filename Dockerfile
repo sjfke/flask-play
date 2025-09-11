@@ -20,7 +20,7 @@ LABEL io.k8s.name="Flask" \
 # $ pipenv run pip freeze > requirements.txt # generates requirements.txt
 WORKDIR /tmp
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
+RUN pip install --root-user-action=ignore --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
 
 # TODO (optional): Copy the builder files into /opt/app-root
 # COPY ./<builder_folder>/ /opt/app-root/
