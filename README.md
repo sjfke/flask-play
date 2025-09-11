@@ -77,10 +77,11 @@ sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net f
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-web.yaml --net flask-play_net
 
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
-sjfke@morpheus$ podman play kube --down ./pods/flask-play-web-1.yaml
+sjfke@morpheus$ podman play kube --down ./pods/flask-play-web.yaml
 
 # Development, test (wash repeat cycle)
-sjfke@morpheus$ podman build --tag $image --no-cache --squash -f ./Dockerfile
+sjfke@morpheus$ export IMAGE="docker.io/library/flask-play-web"
+sjfke@morpheus$ podman build --tag ${IMAGE} --no-cache --squash -f ./Dockerfile
 sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web.yaml --net flask-play_net
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 ```
