@@ -83,7 +83,8 @@ def get_flask_config():
     """
 
     # image_store_config = app.config.get_namespace('IMAGE_STORE_')
-    _session_store_config = current_app.config.get_namespace('SESSION_')
+    _session_settings = current_app.config.get_namespace('SESSION_')
+    _session_config = {f"SESSION_{key}".upper(): value for key, value in _session_settings.items()}
 
     _flask_config = {
         "Builtin": {
@@ -124,7 +125,7 @@ def get_flask_config():
         "Description": "Manually maintained list of Flask 3.1.1 configuration values",
         "Documentation": "https://flask.palletsprojects.com/en/stable/config/#builtin-configuration-values"
     }
-    return jsonify(_session_store_config), 200
+    return jsonify(_session_config), 200
     # return jsonify(_flask_config), 200
 
 
