@@ -82,6 +82,8 @@ def get_flask_config():
     :return: Flask Configuration or None
     """
 
+    # https://flask-docs-ja.readthedocs.io/en/latest/api/#flask.Config.get_namespace
+    # https://flask.palletsprojects.com/en/stable/config/
     _config = {}
     # bad 'PERMANENT_'
     for _setting in ['PROPAGATE_', 'TRAP_', 'SECRET_', 'SESSION_', 'MAX_', 'TRAP_', 'SEND_', 'TRUSTED_', 'SERVER_',
@@ -90,52 +92,7 @@ def get_flask_config():
         for key, value in _settings.items():
             _config[f"{_setting}{key}".upper()] = value
 
-
-# _session_settings = current_app.config.get_namespace('SESSION_')
-# _session_config = {f"SESSION_{key}".upper(): value for key, value in _session_settings.items()}
-
-# _flask_config = {
-#     "Builtin": {
-#         "DEBUG": current_app.config["DEBUG"],
-#         "TESTING": current_app.config["TESTING"],
-#         "PROPAGATE_EXCEPTIONS": current_app.config["PROPAGATE_EXCEPTIONS"],
-#         "TRAP_HTTP_EXCEPTIONS": current_app.config["TRAP_HTTP_EXCEPTIONS"],
-#         "TRAP_BAD_REQUEST_ERRORS": current_app.config["TRAP_BAD_REQUEST_ERRORS"],
-#         "SECRET_KEY": current_app.config["SECRET_KEY"],
-#         "SECRET_KEY_FALLBACKS": current_app.config["SECRET_KEY_FALLBACKS"],
-#         "SESSION_COOKIE_NAME": current_app.config["SESSION_COOKIE_NAME"],
-#         "SESSION_COOKIE_DOMAIN": current_app.config["SESSION_COOKIE_DOMAIN"],
-#         "SESSION_COOKIE_PATH": current_app.config["SESSION_COOKIE_PATH"],
-#         "SESSION_COOKIE_HTTPONLY": current_app.config["SESSION_COOKIE_HTTPONLY"],
-#         "SESSION_COOKIE_SECURE": current_app.config["SESSION_COOKIE_SECURE"],
-#         "SESSION_COOKIE_PARTITIONED": current_app.config["SESSION_COOKIE_PARTITIONED"],
-#         "SESSION_COOKIE_SAMESITE": current_app.config["SESSION_COOKIE_SAMESITE"],
-#         "SESSION_REFRESH_EACH_REQUEST": current_app.config["SESSION_REFRESH_EACH_REQUEST"],
-#         "PERMANENT_SESSION_LIFETIME": current_app.config["PERMANENT_SESSION_LIFETIME"],
-#         "USE_X_SENDFILE": current_app.config["USE_X_SENDFILE"],
-#         "SEND_FILE_MAX_AGE_DEFAULT": current_app.config["SEND_FILE_MAX_AGE_DEFAULT"],
-#         "TRUSTED_HOSTS": current_app.config["TRUSTED_HOSTS"],
-#         "SERVER_NAME": current_app.config["SERVER_NAME"],
-#         "APPLICATION_ROOT": current_app.config["APPLICATION_ROOT"],
-#         "PREFERRED_URL_SCHEME": current_app.config["PREFERRED_URL_SCHEME"],
-#         "MAX_CONTENT_LENGTH": current_app.config["MAX_CONTENT_LENGTH"],
-#         "MAX_FORM_MEMORY_SIZE": current_app.config["MAX_FORM_MEMORY_SIZE"],
-#         "MAX_FORM_PARTS": current_app.config["MAX_FORM_PARTS"],
-#         "TEMPLATES_AUTO_RELOAD": current_app.config["TEMPLATES_AUTO_RELOAD"],
-#         "EXPLAIN_TEMPLATE_LOADING": current_app.config["EXPLAIN_TEMPLATE_LOADING"],
-#         "MAX_COOKIE_SIZE": current_app.config["MAX_COOKIE_SIZE"],
-#         "PROVIDE_AUTOMATIC_OPTIONS": current_app.config["PROVIDE_AUTOMATIC_OPTIONS"]
-#     },
-#     "Application": {
-#         "MONGO_URI": current_app.config["MONGO_URI"],
-#         "MONGO_DB": current_app.config["MONGO_DB"]
-#     },
-#     "Description": "Manually maintained list of Flask 3.1.1 configuration values",
-#     "Documentation": "https://flask.palletsprojects.com/en/stable/config/#builtin-configuration-values"
-# }
     return jsonify(_config), 200
-# return jsonify(_session_config), 200
-# return jsonify(_flask_config), 200
 
 
 @main.route('/login', methods=['GET', 'POST'])
