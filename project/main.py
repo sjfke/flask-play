@@ -72,27 +72,6 @@ def index():
     return render_template("index.html")
 
 
-@main.route('/flask-config')
-def get_flask_config():
-    """
-    Manually maintained list of Flask configuration values
-
-    :rtype: str
-    :return: Flask Configuration or None
-    """
-
-    # https://flask-docs-ja.readthedocs.io/en/latest/api/#flask.Config.get_namespace
-    # https://flask.palletsprojects.com/en/stable/config/
-    _config = {}
-    # bad 'PERMANENT_'
-    for _setting in ['PROPAGATE_', 'TRAP_', 'SECRET_', 'SESSION_', 'MAX_', 'TRAP_', 'SEND_', 'TRUSTED_', 'SERVER_',
-                     'APPLICATION_', 'PREFERRED_', 'TEMPLATES_', 'EXPLAIN_', 'PROVIDE_', 'USE_', 'MONGO_']:
-        _settings = current_app.config.get_namespace(_setting)
-        for key, value in _settings.items():
-            _config[f"{_setting}{key}".upper()] = value
-
-    return jsonify(_config), 200
-
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -106,7 +85,6 @@ def login():
         return redirect(url_for('index'))
     else:
         return render_template("login.html")
-
 
 @main.route('/logout')
 def logout():

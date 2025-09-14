@@ -48,4 +48,8 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
+    # blueprint for the flask diagnostics
+    from .diagnostics import diagnostics as diagnostics_blueprint
+    app.register_blueprint(diagnostics_blueprint)
+
     return app
