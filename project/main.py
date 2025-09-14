@@ -22,7 +22,6 @@ from markupsafe import escape
 
 from . import (
     uuid4_utils, mongo_client, mongo_data, mongo_images
-
 )
 from .uuid4_utils import is_valid_uuid4
 
