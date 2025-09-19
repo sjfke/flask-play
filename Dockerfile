@@ -26,12 +26,9 @@ RUN pip install --root-user-action=ignore --no-cache-dir -r requirements.txt && 
 # COPY ./<builder_folder>/ /opt/app-root/
 WORKDIR /usr/src/app
 
-#COPY config.py ./
-#COPY static/ ./static/
-#COPY templates/ ./templates/
-#COPY wsgi.py ./
 # Copies ./<builder_folder>/ /usr/src/app
 COPY gunicorn.config.py ./
+COPY create-postgresql-tables.py drop-postgresql-tables.py ./
 COPY project/*.py ./project/
 COPY project/static/ ./project/static/
 COPY project/templates/ ./project/templates/
