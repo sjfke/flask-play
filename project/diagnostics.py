@@ -21,7 +21,7 @@ def get_flask_config():
     _config = {}
     # bad 'PERMANENT_'
     for _setting in ['PROPAGATE_', 'TRAP_', 'SECRET_', 'SESSION_', 'MAX_', 'TRAP_', 'SEND_', 'TRUSTED_', 'SERVER_',
-                     'APPLICATION_', 'PREFERRED_', 'TEMPLATES_', 'EXPLAIN_', 'PROVIDE_', 'USE_', 'MONGO_']:
+                     'APPLICATION_', 'PREFERRED_', 'TEMPLATES_', 'EXPLAIN_', 'PROVIDE_', 'USE_', 'MONGO_', 'SQLALCHEMY_']:
         _settings = current_app.config.get_namespace(_setting)
         for key, value in _settings.items():
             _config[f"{_setting}{key}".upper()] = value

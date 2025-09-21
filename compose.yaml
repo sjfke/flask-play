@@ -12,7 +12,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: example
-      POSTGRES_DB: Auth
+      POSTGRES_DB: auth
       # POSTGRES_INITDB_ARGS – Sends arguments to postgres_initdb and adds functionality
       # POSTGRES_INITDB_WALDIR – Defines a specific directory for the Postgres transaction log.
       # POSTGRES_HOST_AUTH_METHOD – Controls the auth-method for host connections to all databases, users, and addresses
