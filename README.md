@@ -86,10 +86,6 @@ sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web.yaml --net flas
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 ```
 
-
-
-
-
 ## Docker Compose
 
 ```shell

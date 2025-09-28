@@ -23,6 +23,7 @@ from markupsafe import escape
 from . import (
     uuid4_utils, mongo_client, mongo_data, mongo_images
 )
+from .auth import auth
 from .uuid4_utils import is_valid_uuid4
 
 _questions = [
@@ -73,24 +74,24 @@ def index():
 
 
 
-@main.route('/login', methods=['GET', 'POST'])
-def login():
-    # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
-    if request.method == 'POST':
-        data = request.form
-        # return jsonify(data), 200
-        current_user.session['username'] = request.form['username']
-        current_user.session['cif'] = 'a5366e29-4314-4b91-b90b-1639da02c2d8'
-        current_user.session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
-        return redirect(url_for('index'))
-    else:
-        return render_template("login.html")
+# @auth.route('/login', methods=['GET', 'POST'])
+# def login():
+#     # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
+#     if request.method == 'POST':
+#         data = request.form
+#         # return jsonify(data), 200
+#         current_user.session['username'] = request.form['username']
+#         current_user.session['cif'] = 'a5366e29-4314-4b91-b90b-1639da02c2d8'
+#         current_user.session['theme'] = 'hootstrap'  # 'hootstrap', 'fresca', 'herbie'
+#         return redirect(url_for('index'))
+#     else:
+#         return render_template("login.html")
 
-@main.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    current_user.session.pop('username', None)
-    return redirect(url_for('index'))
+# @main.route('/logout')
+# def logout():
+#     # remove the username from the session if it's there
+#     current_user.session.pop('username', None)
+#     return redirect(url_for('index'))
 
 
 # https://www.digitalocean.com/community/tutorials/how-to-use-and-validate-web-forms-with-flask-wtf

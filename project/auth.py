@@ -39,7 +39,6 @@ def signup():
 
 @auth.post('/signup')
 def signup_post():
-
     _SPECIAL_CHARACTERS = "$@_()%*/[]{}^<>!#"
 
     def criteria_check(password_str):
@@ -93,13 +92,10 @@ def signup_post():
     # later from request.form: const tzid = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-    new_user = User(
-        email=email,
-        name=name,
-        password=generate_password_hash(password, method='scrypt'),
-        cif=cif,
-        timezone=_timezone,
-    )
+
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='scrypt'), cif=cif,
+                    timezone=_timezone,
+                    )
 
     # add the new user to the database
     db.session.add(new_user)
