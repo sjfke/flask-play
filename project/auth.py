@@ -17,7 +17,6 @@ def login_post():
     # login code goes here
     email = request.form.get('email')
     password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
 
     user = User.query.filter_by(email=email).first()
 
@@ -28,7 +27,7 @@ def login_post():
         return redirect(url_for('auth.login'))  # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
-    login_user(user, remember=remember)
+    login_user(user)
     return redirect(url_for('main.get_quizzes'))
 
 
