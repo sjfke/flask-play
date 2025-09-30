@@ -10,7 +10,7 @@ services:
       - net
 
   flask:
-    build: .
+    build: flask
     ports:
       - "8486:8080"
     networks:

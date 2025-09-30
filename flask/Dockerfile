@@ -19,7 +19,7 @@ LABEL io.k8s.name="Flask" \
 # Project uses 'pipenv' (Pipfile, Pipfile.lock), Docker needs requirements.txt
 # $ pipenv run pip freeze > requirements.txt # generates requirements.txt
 WORKDIR /tmp
-COPY requirements.txt ./
+COPY ../requirements.txt ./
 RUN pip install --root-user-action=ignore --no-cache-dir -r requirements.txt && rm /tmp/requirements.txt
 
 # TODO (optional): Copy the builder files into /opt/app-root
@@ -29,9 +29,9 @@ WORKDIR /usr/src/app
 # Copies ./<builder_folder>/ /usr/src/app
 COPY gunicorn.config.py ./
 COPY create-postgresql-tables.py drop-postgresql-tables.py ./
-COPY project/*.py ./project/
-COPY project/static/ ./project/static/
-COPY project/templates/ ./project/templates/
+COPY flask/project/*.py ./project/
+COPY project/static ./project/static/
+COPY project/templates ./project/templates/
 
 # TODO: Drop the root user and make the content of /opt/app-root owned by user 1001
 # RUN chown -R 1001:1001 /opt/app-root
