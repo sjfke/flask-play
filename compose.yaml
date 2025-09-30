@@ -1,8 +1,8 @@
 services:
-  web:
+  flask:
     build: .
     ports:
-      - "8485:8080"
+      - "8486:8080"
     networks:
       - net
 
@@ -44,7 +44,7 @@ services:
     networks:
       - net
     ports:
-      - "8486:3000"
+      - "8487:3000"
     volumes:
       - dbgate-flask-play:/root/.dbgate
     environment:
