@@ -12,15 +12,15 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: example
-      POSTGRES_DB: Auth
+      POSTGRES_DB: auth
       # POSTGRES_INITDB_ARGS – Sends arguments to postgres_initdb and adds functionality
       # POSTGRES_INITDB_WALDIR – Defines a specific directory for the Postgres transaction log.
       # POSTGRES_HOST_AUTH_METHOD – Controls the auth-method for host connections to all databases, users, and addresses
       # PGDATA – Defines another default location or subdirectory for database files
     networks:
       - net
-#   ports:
-#     - "5432:5432"
+    ports:
+      - "5432:5432"
     volumes:
       - postgres-flask-play:/var/lib/postgresql/data
 
@@ -29,8 +29,8 @@ services:
     restart: unless-stopped
     networks:
       - net
-#   ports:
-#     - "27017:27017"
+    #   ports:
+    #     - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -51,10 +51,16 @@ services:
       BASIC_AUTH: true
       LOGINS: admin
       LOGIN_PASSWORD_admin: admin
-      CONNECTIONS: con1
+      CONNECTIONS: con1,con2
       LABEL_con1: MongoDB
       URL_con1: mongodb://root:example@mongo:27017/
       ENGINE_con1: mongo@dbgate-plugin-mongo
+      LABEL_con2: Postgres
+      SERVER_con2: postgres
+      USER_con2: root
+      PASSWORD_con2: example
+      PORT_con2: 5432
+      ENGINE_con2: postgres@dbgate-plugin-postgres
 
 networks:
   net:

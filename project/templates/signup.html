@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock title %}
+{% block head %} {{ super() }} {% endblock head %}
+{% block card_title %}<h1>Signup</h1>{% endblock card_title %}
+{% block card_body %}
+<div class="container">
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <h6 class="card-header">Account creation failed</h6>
+        <div class="card-body">
+            <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!--<form action="http://localhost:8081/json-form" target="_blank" method="post">-->
+        <form method="POST" action="/signup">
+            <div class="form-group">
+                <div class="form-row">
+                    <fieldset>
+                        <label for="name">Username</label>
+                        <input type="text" name="name" id="name"/>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email"/>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password"/>
+                    </fieldset>
+                </div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    {% endblock card_body%}
+</div>

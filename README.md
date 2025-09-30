@@ -86,10 +86,6 @@ sjfke@morpheus$ podman play kube --replace ./pods/flask-play-web.yaml --net flas
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 ```
 
-
-
-
-
 ## Docker Compose
 
 ```shell
@@ -149,6 +145,63 @@ PS C:\Users\sjfke> $d = docker images -f 'dangling=true' -q; docker rmi $d # Pow
 ```
 
 * [DigitalOcean: How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
+
+## Postgresql modifications
+
+Create the ``auth`` database
+
+```bash
+$ podman exec -it flask-play-posgres-1 /bin/bash
+root@79685c6f4e96:/# createdb auth
+root@79685c6f4e96:/# exit
+```
+[22.2. Creating a Database](https://www.postgresql.org/docs/current/manage-ag-createdb.html#MANAGE-AG-CREATEDB)
+
+Need to grant ``podman flask-play_net network`` access to create the tables and use the ``auth`` database.
+
+```bash
+$ podman network inspect flask-play_net | grep subnet -A 5 | head -n 8
+          "subnets": [
+               {
+                    "subnet": "10.89.0.0/24",
+                    "gateway": "10.89.0.1"
+               }
+          ],
+          "ipv6_enabled": false,
+          "internal": false,
+```
+
+Update postgresql 'pg_hba.conf' file
+
+```bash
+$ podman cp flask-play-postgres-1:/var/lib/postgresql/data/pg_hba.conf .
+$ gedit pg_hba.conf       
+$ cat /tmp/pg_hba.conf 
+# ...
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# Podman flask-play_net IPv4 local connections:
+host    all             all             10.89.0.4/24            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+# Allow replication connections from localhost, by a user with the
+# replication privilege.
+local   replication     all                                     trust
+host    replication     all             127.0.0.1/32            trust
+host    replication     all             ::1/128                 trust
+
+$ podman cp pg_hba.conf flask-play-postgres-1:/var/lib/postgresql/data/pg_hba.conf
+$ podman restart flask-play-postgres-1
+```
+To create the tables, for the ``auth`` database.
+
+```bash
+$ podman exec -it flask-play-web-1 /bin/ash
+/usr/src/app # python create-postgresql-tables.py 
+/usr/src/app # exit
+```
 
 ## Flask, Jinja and Python References
 
