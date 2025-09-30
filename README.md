@@ -232,6 +232,13 @@ $ podman exec -it flask-play-web-1 /bin/ash
 * [dockerhub: dbgate/dbgate](https://hub.docker.com/r/dbgate/dbgate/)
 * [Securing Mongo Express web administrative interfaces](https://www.helpnetsecurity.com/2019/04/26/securing-mongo-express-web-administrative-interfaces/)
 
+## Useful References
+
+* [How To Add Authentication to Your App with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+* [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
+* [Docker Official build of Nginx](https://hub.docker.com/_/nginx)
+* [How To Configure Nginx as a Reverse Proxy on Ubuntu 22.04](https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-as-a-reverse-proxy-on-ubuntu-22-04)
+
 ## Bootstrap References
 
 * [GetBootstrap: Migrating to v5](https://getbootstrap.com/docs/5.0/migration/)
