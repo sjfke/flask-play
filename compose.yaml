@@ -4,7 +4,7 @@ services:
     environment:
       - FLASK_SERVER_ADDR=flask:8080
     ports:
-      - "8085:8080"
+      - "8485:8080"
     command: /app/start.sh
     networks:
       - net
