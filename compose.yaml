@@ -17,7 +17,7 @@ services:
       - net
 
   postgres:
-    image: postgres
+    image: postgres:18-alpine3.22
     restart: unless-stopped
     environment:
       POSTGRES_USER: root
@@ -35,7 +35,7 @@ services:
       - postgres-flask-play:/var/lib/postgresql/data
 
   mongo:
-    image: mongo
+    image: mongo:8-noble
     restart: unless-stopped
     networks:
       - net

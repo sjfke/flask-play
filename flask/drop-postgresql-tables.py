@@ -1,4 +1,4 @@
-from flask.project import db, create_app
+from project import db, create_app
 
 app=create_app()
 with app.app_context():
