@@ -81,8 +81,13 @@ sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net f
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-flask.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-nginx.yaml --net flask-play_net
 
+# Build
 sjfke@morpheus$ podman play kube --build ./pods/flask-play-flask.yaml
 sjfke@morpheus$ podman play kube --build ./pods/flask-play-nginx.yaml
+
+# Reload, Restart
+sjfke@morpheus$ podman play kube --reload ./pods/flask-play-flask.yaml
+sjfke@morpheus$ podman play kube --reload ./pods/flask-play-nginx.yaml
 
 # Start all pods
 sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
