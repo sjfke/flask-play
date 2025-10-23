@@ -7,8 +7,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-10-05T12:55:32Z"
   labels:
-    app: flask
-  name: flask
+    app: flask-play-flask-1
+  name: flask-play-flask-1
 spec:
   containers:
   - image: docker.io/library/flask-play-flask:latest

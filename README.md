@@ -74,11 +74,25 @@ sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:ex
 # Add contents as described in 'tests\momgodb-test-data.txt'
 
 # Run, test, delete container using podman play kube
+# NOTE: 'flask-play-flask' needs to be started before 'flask-play-nginx'
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-dbgate.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-flask.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-nginx.yaml --net flask-play_net
+
+sjfke@morpheus$ podman play kube --build ./pods/flask-play-flask.yaml
+sjfke@morpheus$ podman play kube --build ./pods/flask-play-nginx.yaml
+
+# Start all pods
+sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
+  podman pod ps | grep -q flask-play-${pod}  || podman play kube --start ./pods/flask-play-${pod}.yaml --net flask-play_net
+done
+
+# Stop and delete all pods
+sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
+  podman pod ps | grep -q flask-play-${pod}  && podman play kube --down ./pods/flask-play-${pod}.yaml
+done
 
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 sjfke@morpheus$ podman play kube --down ./pods/flask-play-web.yaml

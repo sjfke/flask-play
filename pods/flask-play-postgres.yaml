@@ -12,8 +12,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-10-05T12:56:48Z"
   labels:
-    app: postgres
-  name: postgres
+    app: flask-play-postgres-1
+  name: flask-play-postgres-1
 spec:
   containers:
   - args:

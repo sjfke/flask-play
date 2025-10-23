@@ -8,7 +8,7 @@ metadata:
   creationTimestamp: "2025-10-05T12:52:23Z"
   labels:
     app: flask-play-nginx-1-pod
-  name: nginx
+  name: flask-play-nginx-1-pod
 spec:
   containers:
   - args:
