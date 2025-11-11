@@ -60,7 +60,10 @@ sjfke@morpheus$ podman image prune
 
 ```shell
 # Preparation
+sjfke@morpheus$ sudo dnf install jq   # ensure 'jq' is installed
 sjfke@morpheus$ podman network create flask-play_net
+sjfke@morpheus$ podman inspect flask-play_net | jq '.[].subnets.[].subnet'
+"10.89.0.0/24"
 
 # Create DataBase secrets (TODO)
 # sjfke@morpheus$ podman secret create --env=true my_secret MYSECRET
@@ -74,7 +77,8 @@ sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:ex
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-dbgate.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net flask-play_net
-sjfke@morpheus$ podman play kube --start ./pods/flask-play-web.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-flask.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-nginx.yaml --net flask-play_net
 
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 sjfke@morpheus$ podman play kube --down ./pods/flask-play-web.yaml
@@ -232,9 +236,15 @@ $ podman exec -it flask-play-web-1 /bin/ash
 * [dockerhub: dbgate/dbgate](https://hub.docker.com/r/dbgate/dbgate/)
 * [Securing Mongo Express web administrative interfaces](https://www.helpnetsecurity.com/2019/04/26/securing-mongo-express-web-administrative-interfaces/)
 
+## Nginx References
+
+* [Nginx proxy_pass to https](https://stackoverflow.com/questions/51858725/nginx-proxy-pass-to-https)
+* [Enforce Lower Case URLs (NGINX)](https://www.rewriteguide.com/nginx-enforce-lower-case-urls/)
+
 ## Useful References
 
 * [How To Add Authentication to Your App with Flask-Login](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+* [Pip - Caching](https://pip.pypa.io/en/stable/topics/caching/)
 * [Docker Official build of Nginx](https://hub.docker.com/_/nginx)
 * [NGINX Reverse Proxy -> WSGI -> Python/Flask Backend](https://github.com/docker/awesome-compose/tree/master/nginx-wsgi-flask)
 * [How To Serve Flask Applications with Gunicorn and Nginx on Ubuntu 20.04](https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-20-04)
