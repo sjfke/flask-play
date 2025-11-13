@@ -12,8 +12,8 @@ kind: Pod
 metadata:
   creationTimestamp: "2025-10-05T12:56:27Z"
   labels:
-    app: mongo
-  name: mongo
+    app: flask-play-mongo-1
+  name: flask-play-mongo-1
 spec:
   containers:
   - args:
