@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user
-from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db
+from .models import User
 
 auth = Blueprint('auth', __name__, static_folder='static')
 
@@ -17,7 +18,7 @@ def login_post():
     # login code goes here
     email = request.form.get('email')
     password = request.form.get('password')
-
+    remember = True if request.form.get('remember') else False
     user = User.query.filter_by(email=email).first()
 
     # check if the user actually exists
@@ -27,8 +28,8 @@ def login_post():
         return redirect(url_for('auth.login'))  # if the user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
-    login_user(user)
-    return redirect(url_for('main.get_quizzes'))
+    login_user(user, remember=remember)
+    return redirect(url_for('main.get_profile'))
 
 
 @auth.get('/signup')

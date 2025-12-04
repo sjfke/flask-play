@@ -1,19 +1,19 @@
-import uuid
+# import uuid
 
-import requests
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+from pymongo import MongoClient
+
+# import requests
 from flask import Flask, url_for
 from flask import abort, jsonify, redirect, render_template, request, session
-from markupsafe import escape
-from pymongo import MongoClient
 
-from flask_wtf import FlaskForm
-from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
-from wtforms.validators import InputRequired, Length
-
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-
-from pymongo import MongoClient
+# from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+# from markupsafe import escape
+# from pymongo import MongoClient
+# from flask_wtf import FlaskForm
+# from wtforms import (StringField, TextAreaField, IntegerField, BooleanField, RadioField)
+# from wtforms.validators import InputRequired, Length
 
 mongo_database_config = {
     "MONGO_URI": "mongodb://root:example@mongo:27017",
@@ -36,7 +36,7 @@ def create_app():
     # Login/password authentication will be via flask-alchemy to MariaDB which will map to CIF
     # CIF is required to get list of Questions, Quizzes and Results
     #  python -c 'import secrets; print(secrets.token_hex())'
-    app.config['SECRET_KEY'] = '87ef122423ce0f61e47bddb08e44b347c5cf1fd6a85f7a34162369f4ac4ef999'
+    app.config['SECRET_KEY'] = '04816d50aa194cdfc066a450a96c30fc59ef538e4c7bd32b710a15f06cba58ff'
     app.config['SESSION_COOKIE_NAME'] = 'flask-play'
 
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://root:example@authdb/auth?charset=utf8mb4'

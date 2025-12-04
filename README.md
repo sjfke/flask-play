@@ -81,11 +81,16 @@ sjfke@morpheus$ podman play kube --start ./pods/flask-play-postgres.yaml --net f
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-flask.yaml --net flask-play_net
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-nginx.yaml --net flask-play_net
 
-# Build
+# Start all pods
+sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
+  podman play kube --start ./pods/flask-play-${pod}.yaml
+done
+
+# Build Pod
 sjfke@morpheus$ podman play kube --build ./pods/flask-play-flask.yaml
 sjfke@morpheus$ podman play kube --build ./pods/flask-play-nginx.yaml
 
-# Reload, Restart
+# Reload, Restart Pod
 sjfke@morpheus$ podman play kube --reload ./pods/flask-play-flask.yaml
 sjfke@morpheus$ podman play kube --reload ./pods/flask-play-nginx.yaml
 
@@ -99,14 +104,20 @@ sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
   podman pod ps | grep -q flask-play-${pod}  && podman play kube --down ./pods/flask-play-${pod}.yaml
 done
 
-sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
+sjfke@morpheus$ /usr/bin/firefox http://localhost:8485             # nginx proxy
+sjfke@morpheus$ /usr/bin/firefox http://localhost:8486             # flask
 sjfke@morpheus$ podman play kube --down ./pods/flask-play-web.yaml
 
 # Development, test (wash repeat cycle)
-sjfke@morpheus$ export IMAGE="docker.io/library/flask-play-flask"
-sjfke@morpheus$ export CONTAINER=$( basename $IMAGE)
-sjfke@morpheus$ podman build --tag ${IMAGE} --no-cache --squash -f ./flask/Dockerfile
-sjfke@morpheus$ podman play kube --replace ./pods/${CONTAINER}.yaml --net flask-play_net
+# setup
+sjfke@morpheus$ export FLASK_IMAGE="docker.io/library/flask-play-flask"
+sjfke@morpheus$ export FLASK_CONTAINER=$(basename $FLASK_IMAGE)
+sjfke@morpheus$ export NGINX_IMAGE="docker.io/library/flask-play-nginx"
+sjfke@morpheus$ export NGINX_CONTAINER=$(basename $NGINX_IMAGE)
+# wash repeat
+sjfke@morpheus$ podman build --tag ${FLASK_IMAGE} --no-cache --squash -f ./flask/Dockerfile
+sjfke@morpheus$ podman play kube --replace ./pods/${FLASK_CONTAINER}.yaml --net flask-play_net
+sjfke@morpheus$ podman play kube --replace ./pods/${NGINX_CONTAINER}.yaml --net flask-play_net
 sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 ```
 

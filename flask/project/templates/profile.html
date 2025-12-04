@@ -1,0 +1,78 @@
+{# templates/profile.html #}
+{% extends "base.html" %}
+{% block title %}Profile Page{% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block card_title %}<h1>Profile Page</h1>{% endblock %}
+{% block card_body %}
+<div class="container">
+    {% if session.username %}
+        <ul>
+            <li>Username: {{ session.username }} </li>
+            <li>CIF: {{ session.cif }} </li>
+            <li>Theme: {{ session.theme }} </li>
+            <li><a class="btn btn-dark" href="/logout">logout</a></li>
+        </ul>
+    {% endif %}
+
+    <table class="table table-success table-striped">
+        <tbody>
+        <tr>
+            <th scope="row">Photo</th>
+            {% if photo %}
+            <td><img src="{{ photo }}" class="img-thumbnail" alt="Photo" style="width: 30px"/></td>
+            {% else %}
+            <td><img src="{{ url_for('static', filename='default-photo.png') }}" class="img-thumbnail"
+                     alt="Photo" style="width: 30px"/></td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th scope="row">Avatar</th>
+            {% if avatar %}
+            <td><img src="{{ avatar }}" class="img-thumbnail" alt="Avatar" style="width: 30px"/></td>
+            {% else %}
+            <td><img src="{{ url_for('static', filename='default-avatar.png') }}" class="img-thumbnail"
+                     alt="Avatar" style="width: 30px"/></td>
+
+            {% endif %}
+        </tr>
+        <tr>
+            <th scope="row">Email</th>
+            <td>{{ email }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Name</th>
+            <td>{{ name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">CIF</th>
+            <td>{{ cif }}</td>
+        </tr>
+        <tr>
+            <th scope="row">TimeZone</th>
+            <td>{{ timezone }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Theme</th>
+            <td>{{ theme }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Questions</th>
+            <td>{{ question_count }}/{{ question_max }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Quizzes</th>
+            <td>{{ quiz_count }}/{{ quiz_max }}</td>
+        </tr>
+        <tr>
+            <th scope="col">Questions</th>
+            <td><a class="link-info" href="{{ url_for('main.get_questions') }}">Questions</a></td>
+        </tr>
+        <tr>
+            <th scope="col">Quizzes</th>
+            <td><a class="link-info" href="{{ url_for('main.get_quizzes') }}">Quizzes</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+{% endblock card_body %}

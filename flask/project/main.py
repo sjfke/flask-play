@@ -1,8 +1,9 @@
-import json
-import re
-import os
-
 import requests
+# from werkzeug.exceptions import RequestEntityTooLarge
+# from werkzeug.utils import secure_filename
+from flask_login import login_required, current_user
+from markupsafe import escape
+
 from flask import (
     Blueprint,
     render_template,
@@ -11,19 +12,14 @@ from flask import (
     url_for,
     abort,
     send_from_directory,
+    session,
     current_app,
     jsonify,
     flash,
 )
-from werkzeug.exceptions import RequestEntityTooLarge
-from werkzeug.utils import secure_filename
-from flask_login import login_required, current_user
-from markupsafe import escape
-
 from . import (
-    uuid4_utils, mongo_client, mongo_data, mongo_images
+    mongo_data
 )
-from .auth import auth
 from .uuid4_utils import is_valid_uuid4
 
 _questions = [
@@ -73,7 +69,6 @@ def index():
     return render_template("index.html")
 
 
-
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
 #     # https://flask.palletsprojects.com/en/2.2.x/config/#SECRET_KEY
@@ -110,6 +105,44 @@ courses_list = [{
         'available': True,
         'level': 'Beginner'
     }]
+
+
+@main.get('/profile')
+@login_required
+def get_profile():
+    # http://localhost:8481/api/mongodb-b64-image/CIF-a5366e29-4314-4b91-b90b-1639da02c2d8?kind=image&metadata=N&all=N
+
+    _cif = current_user.cif
+    _avatar = None
+    _avatar_src = None
+    # _avatar = api_webservice.get_mongodb_b64_image(cif=_cif, payload={'kind': 'avatar', 'metadata': 'N', 'all': 'N'})
+    if _avatar:
+        _image_type = _avatar[0]['extension']
+        _b64_encoded_image = _avatar[0]['data']
+        _avatar_src = f"data:image/{_image_type};base64,{_b64_encoded_image}"
+
+    _photo = None
+    _photo_src = None
+    # _photo = api_webservice.get_mongodb_b64_image(cif=_cif, payload={'kind': 'photo', 'metadata': 'N', 'all': 'N'})
+    if _photo:
+        _image_type = _photo[0]['extension']
+        _b64_encoded_image = _photo[0]['data']
+        _photo_src = f"data:image/{_image_type};base64,{_b64_encoded_image}"
+
+    context = {
+        "email": current_user.email,
+        "name": current_user.name,
+        "cif": current_user.cif,
+        "timezone": current_user.timezone,
+        "theme": current_user.theme,
+        "question_count": current_user.question_count,
+        "question_max": current_user.question_max,
+        "quiz_count": current_user.quiz_count,
+        "quiz_max": current_user.quiz_max,
+        "photo": _photo_src,  # current_user.photo,
+        "avatar": _avatar_src,  # current_user.avatar
+    }
+    return render_template('profile.html', **context)
 
 
 @main.route('/courses')
