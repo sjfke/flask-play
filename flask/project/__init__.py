@@ -1,4 +1,5 @@
 # import uuid
+from datetime import timedelta
 
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
@@ -30,6 +31,7 @@ db = SQLAlchemy()  # init SQLAlchemy so we can use it later in our models
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
     # flask config: https://flask.palletsprojects.com/en/stable/config/
+    # https://flask.palletsprojects.com/en/stable/config/#builtin-configuration-values
     app.config['TESTING'] = True
 
     # Enable encrypted session (cookies) so can map user login to CIF, CIF-919ae5a5-34e4-4b88-979a-5187d46d1617
@@ -38,6 +40,12 @@ def create_app():
     #  python -c 'import secrets; print(secrets.token_hex())'
     app.config['SECRET_KEY'] = '04816d50aa194cdfc066a450a96c30fc59ef538e4c7bd32b710a15f06cba58ff'
     app.config['SESSION_COOKIE_NAME'] = 'flask-play'
+    # app.config['SESSION_COOKIE_SECURE'] = True # HTTPS only
+    app.config['SESSION_COOKIE_HTTPONLY'] = True # No JavaScript access
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['SESSION_PERMANENT'] = False
+    app.config['SESSION_USE_SIGNER'] = True
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'mariadb+pymysql://root:example@authdb/auth?charset=utf8mb4'
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg://root:example@postgres/auth'
