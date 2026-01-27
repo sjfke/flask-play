@@ -1,9 +1,9 @@
 # Build and Run a Flask Docker container
 
 Building the docker image uses [Docker for Windows](https://docs.docker.com/desktop/windows/install/) on
-*Windows 10 Home edition* where only ```WSL 2``` is available.
+*Windows 11 Home edition* where only ```WSL 2``` is available.
 
-With *Windows 10 Pro* you can choose to use a
+With *Windows 11 Pro* you can choose to use a
 [Hyper-V backend](https://allthings.how/how-to-install-docker-on-windows-10/) or ```WSL 2```.
 
 The documentation shows 
@@ -18,7 +18,7 @@ The documentation shows
 sjfke@morpheus$ podman volume create postgres-flask-play
 sjfke@morpheus$ podman volume create mongodb-flask-play
 sjfke@morpheus$ podman volume create mongoconfigdb-flask-play
-
+sjfke@morpheus$ podman volume create dbgate-flask-play 
 ```
 ### Podman Compose Instructions
 
@@ -29,12 +29,21 @@ Uses the same ``compose.yaml`` written for the ``docker`` approach.
 # Using compose.yaml file
 sjfke@morpheus$ podman compose -f ./compose.yaml up -d mongo # start MongoDB container
 sjfke@morpheus$ podman exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
-# Add contents as described in 'tests\momgodb-test-data.txt'
+# Populate MongoDB
+# Add contents as described in 'tests\mongodb-test-data.txt'
+sjfke@morpheus$ podman compose -f .\compose.yaml down mongo
+
+# Create Postgres auth DB
+sjfke@morpheus$ podman compose up -d flask
+sjfke@morpheus$ podman exec -it flask-play-flask-1 ash
+/usr/src/app # python create-postgresql-tables.py
+/usr/src/app # exit
+sjfke@morpheus$ podman compose down flask
 
 # Using compose.yaml file
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml
 sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:example@localhost:27017 # mongosh
-# Add contents as described in 'tests\momgodb-test-data.txt'
+# Add contents as described in 'tests\mongodb-test-data.txt'
 
 # Define variables
 sjfke@morpheus$ export CONTAINER_NAME="crazy-frog"
@@ -71,7 +80,16 @@ sjfke@morpheus$ podman inspect flask-play_net | jq '.[].subnets.[].subnet'
 # Using Play Kube Pod files 
 sjfke@morpheus$ podman play kube --start ./pods/flask-play-mongo.yaml --net flask-play_net
 sjfke@morpheus$ podman exec -it flask-play-mongo-1-pod mongosh mongodb://root:example@localhost:27017 # mongosh
-# Add contents as described in 'tests\momgodb-test-data.txt'
+# Populate MongoDB
+# Add contents as described in 'tests\mongodb-test-data.txt'
+sjfke@morpheus$ podman play kube --down ./pods/flask-play-mongo.yaml
+
+# Create Postgres auth DB
+sjfke@morpheus$ podman play kube --start ./pods/flask-play-flask.yaml --net flask-play_net
+sjfke@morpheus$ podman exec -it flask-play-flask-1 ash
+/usr/src/app # python create-postgresql-tables.py
+/usr/src/app # exit
+sjfke@morpheus$ podman play kube --down ./pods/flask-play-flask.yaml
 
 # Run, test, delete container using podman play kube
 # NOTE: 'flask-play-flask' needs to be started before 'flask-play-nginx'
@@ -117,11 +135,21 @@ sjfke@morpheus$ /usr/bin/firefox http://localhost:8485
 PS C:\Users\sjfke> docker volume create postgres-flask-play
 PS C:\Users\sjfke> docker volume create mongodb-flask-play
 PS C:\Users\sjfke> docker volume create mongoconfigdb-flask-play
+PS C:\Users\sjfke> docker volume create dbgate-flask-play 
 
 # Once compose.yaml is created, see references (ii, iii)
+# Populate MongoDB
 PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d mongo # start MongoDB container
 PS C:\Users\sjfke> docker exec -it flask-play-mongo-1 mongosh mongodb://root:example@localhost:27017 # mongosh
 # Add contents as described in 'tests\momgodb-test-data.txt'
+PS C:\Users\sjfke> docker compose -f .\compose.yaml down mongo
+
+# Populate Postgres DB
+PS C:\Users\sjfke> docker compose up -d flask
+PS C:\Users\sjfke> docker exec -it flask-play-flask-1 ash
+/usr/src/app # python create-postgresql-tables.py
+/usr/src/app # exit
+PS C:\Users\sjfke> docker compose down flask
 
 # Start the whole application
 PS C:\Users\sjfke> docker compose -f .\compose.yaml up -d # builds flask-play-web image
