@@ -5,15 +5,7 @@
 {% block card_title %}<h1>Profile Page</h1>{% endblock %}
 {% block card_body %}
 <div class="container">
-    {% if session.username %}
-        <ul>
-            <li>Username: {{ session.username }} </li>
-            <li>CIF: {{ session.cif }} </li>
-            <li>Theme: {{ session.theme }} </li>
-            <li><a class="btn btn-dark" href="/logout">logout</a></li>
-        </ul>
-    {% endif %}
-
+    <a class="btn btn-dark" href="/logout">Logout</a> or <a class="btn btn-dark" href="/update">Update your profile</a>
     <table class="table table-success table-striped">
         <tbody>
         <tr>

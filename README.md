@@ -96,7 +96,7 @@ sjfke@morpheus$ podman play kube --reload ./pods/flask-play-nginx.yaml
 
 # Start all pods
 sjfke@morpheus$ for pod in 'postgres' 'mongo' 'dbgate' 'flask' 'nginx'; do
-  podman pod ps | grep -q flask-play-${pod}  || podman play kube --start ./pods/flask-play-${pod}.yaml --net flask-play_net
+  podman play kube --start ./pods/flask-play-${pod}.yaml --net flask-play_net
 done
 
 # Stop and delete all pods

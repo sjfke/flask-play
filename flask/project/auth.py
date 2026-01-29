@@ -104,6 +104,20 @@ def signup_post():
     return redirect(url_for('auth.login'))
 
 
+@auth.get('/update')
+@login_required
+def get_update():
+    flash('get_update: Not Yet Implemented')
+    return redirect(url_for('main.index'))
+
+
+@auth.post('/update')
+@login_required
+def post_update():
+    flash('post_update: Not Yet Implemented')
+    return redirect(url_for('main.index'))
+
+
 @auth.get('/logout')
 @login_required
 def logout():
