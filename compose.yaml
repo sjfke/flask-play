@@ -1,13 +1,30 @@
 services:
-  nginx:
-    build: nginx
-    environment:
-      - FLASK_SERVER_ADDR=flask:8080
-    ports:
-      - "8485:8080"
-    command: /app/start.sh
-    networks:
-      - net
+#  nginx:
+#    build: nginx
+#    environment:
+#      - FLASK_SERVER_ADDR=flask:8080
+#    ports:
+#      - "8485:8080"
+#    command: /app/start.sh
+#    networks:
+#      - net
+#  traefik:
+#    image: traefik:v3.6.7
+#    container_name: traefik
+#    restart: unless-stopped
+#    command:
+#      - "--log.level=DEBUG"
+#      - "--api.insecure=true"
+#      - "--api.dashboard=true"
+#      - "--accesslog=true"
+#      - "--providers.docker=true"
+#      - "--entrypoints.web.address=:8485"
+#    ports:
+#      - "8485:8485"
+#    networks:
+#      - net
+#    volumes:
+#      - \\.\pipe\docker_engine:/var/run/docker.sock
 
   flask:
     build: flask
